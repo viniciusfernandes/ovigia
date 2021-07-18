@@ -110,7 +110,10 @@ export default props => {
 
       <View style={[{ flexDirection: 'row', marginTop: 10 }]}>
         <Text style={[styles.label, { color: '#BF5818', marginTop: 30 }]}>Não tem conta?</Text>
-        <Text style={[styles.label, { color: 'white', marginTop: 30 }]}>CADASTRE-SE!</Text>
+        <TouchableOpacity>
+          <Text style={[styles.label, { color: 'white', marginTop: 30 }]}>CADASTRE-SE!</Text>
+        </TouchableOpacity>
+
       </View>
 
     </>
