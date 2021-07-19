@@ -4,6 +4,7 @@ import {
     Text, TextInput, TouchableOpacity, View,
     Image, Dimensions
 } from 'react-native';
+import LabelInput from './LabelInput';
 
 const laranja = '#F38223'
 const width = Dimensions.get('window').width
@@ -117,12 +118,9 @@ export default props => {
                     <Text style={styles.label}>São Paulo/SP</Text>
                 </View>
                 <View style={{ marginTop: 20 }}>
-                    <Text style={styles.titulo}>Senha</Text>
-                    <TextInput value="abc1234asdf1234" style={styles.input} />
-                    <Text style={[styles.titulo, { marginTop: 20 }]}>Celular</Text>
-                    <TextInput value="abc1234asdf1234" style={styles.input} />
-                    <Text style={[styles.titulo, { marginTop: 20 }]}>Senha</Text>
-                    <TextInput value="abc1234asdf1234" style={styles.input} />
+                    <LabelInput titulo={'E-mail'} />
+                    <LabelInput titulo={'Celular'} />
+                    <LabelInput titulo={'Senha'} />
                 </View>
                 <TouchableOpacity style={{
                     flexDirection: 'row', justifyContent: 'center', marginTop: 50, marginLeft: 30,
