@@ -8,6 +8,7 @@ import {
 const laranja = '#F38223'
 const width = Dimensions.get('window').width
 const diameter = 150
+const radius = diameter / 2
 const init = (width - diameter) / 2
 const styles = StyleSheet.create({
 
@@ -32,21 +33,27 @@ const styles = StyleSheet.create({
         fontSize: 25,
     },
     input: {
-        borderColor: laranja,
-        height: 60,
+        backgroundColor: 'white',
+        height: 40,
         marginLeft: 30,
         marginRight: 30,
-        borderRadius: 30,
-        elevation: 5
+        paddingLeft: 20,
+        borderRadius: 20,
+        elevation: 3
     },
     label: {
         color: '#C3C9C9',
-        fontSize: 15,
+        fontSize: 20,
         marginBottom: 0,
         marginLeft: 20,
         marginRight: 20,
         fontWeight: 'bold',
         textAlign: 'center'
+    },
+    titulo: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginLeft: 30
     },
     botao: {
         alignContent: 'center',
@@ -61,7 +68,8 @@ const styles = StyleSheet.create({
     logo: {
         width: 100,
         height: 100,
-    }, socialLogo: {
+    },
+    socialLogo: {
         width: 40,
         height: 40,
     },
@@ -72,11 +80,15 @@ export default props => {
         <>
             <View style={styles.formulario}>
                 <View style={{
-                    position: 'absolute', left: init, top: -diameter / 2, backgroundColor: 'red',
-                    width: 150, height: 150, backgroundColor: 'red', borderRadius: 75
+                    position: 'absolute', left: init, top: -radius,
+                    width: diameter, height: diameter,
+                    backgroundColor: 'white',
+                    border: 10,
+                    borderColor: 'black',
+                    borderRadius: radius,
                 }}>
                     <Image
-                        style={{ width: 150, height: 150, backgroundColor: 'red', borderRadius: 75 }}
+                        style={{ width: diameter, height: diameter, borderRadius: radius }}
                         source={{
                             uri: 'https://scontent.fcgh3-1.fna.fbcdn.net/v/t1.6435-1/p320x320/207600281_4194372680609413_4216023978283777792_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=7206a8&_nc_eui2=AeFqf-Mt9YCd9L7XHu9zD3_G9Mq99Rd1S370yr31F3VLfurd-412xZFK6gr5jcikopNyIeakuGcYh6sSHJtqlxKw&_nc_ohc=I4OSTiJPDjMAX97LmKc&_nc_ht=scontent.fcgh3-1.fna&oh=d5793c23da9b2c5b25cf677da8cd94a4&oe=60FA5568',
                         }}
@@ -96,17 +108,25 @@ export default props => {
                     </View>
 
                 </View>
-                <View  >
+                <View>
 
                     <Text style={styles.nome}>Vinicius Fernandes</Text>
                     <Text style={styles.label}>São Paulo/SP</Text>
                 </View>
+                <View style={{ marginTop: 20 }}>
+                    <Text style={styles.titulo}>Senha</Text>
+                    <TextInput value="abc1234asdf1234" style={styles.input} />
+                    <Text style={[styles.titulo, { marginTop: 20 }]}>Celular</Text>
+                    <TextInput value="abc1234asdf1234" style={styles.input} />
+                    <Text style={[styles.titulo, { marginTop: 20 }]}>Senha</Text>
+                    <TextInput value="abc1234asdf1234" style={styles.input} />
+                </View>
+                <TouchableOpacity style={{ justifyContent: 'center' }}>
+                    <Text style={[styles.label, { backgroundColor: laranja, borderRadius: 20, color: 'white', marginTop: 50, width: width / 2, height: 40, alignContent: 'center' }]}>Salvar</Text>
+                </TouchableOpacity>
 
             </View>
-            <View  >
-                <Text style={styles.label}>Senha</Text>
-                <TextInput value="abc1234asdf1234" style={styles.input} />
-            </View>
+
         </>
     )
 }
