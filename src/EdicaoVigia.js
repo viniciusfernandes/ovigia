@@ -8,7 +8,10 @@ import {
 const laranja = '#F38223'
 const width = Dimensions.get('window').width
 const diameter = 150
-const radius = diameter / 2
+const borda = 5
+const diameterMenor = diameter - 2 * borda
+const radius = diameter / 2 + borda
+const radiusMenor = radius - borda
 const init = (width - diameter) / 2
 const styles = StyleSheet.create({
 
@@ -83,12 +86,12 @@ export default props => {
                     position: 'absolute', left: init, top: -radius,
                     width: diameter, height: diameter,
                     backgroundColor: 'white',
-                    border: 10,
-                    borderColor: 'black',
+                    borderWidth: borda,
+                    borderColor: 'white',
                     borderRadius: radius,
                 }}>
                     <Image
-                        style={{ width: diameter, height: diameter, borderRadius: radius }}
+                        style={{ width: diameterMenor, height: diameterMenor, borderRadius: radiusMenor }}
                         source={{
                             uri: 'https://scontent.fcgh3-1.fna.fbcdn.net/v/t1.6435-1/p320x320/207600281_4194372680609413_4216023978283777792_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=7206a8&_nc_eui2=AeFqf-Mt9YCd9L7XHu9zD3_G9Mq99Rd1S370yr31F3VLfurd-412xZFK6gr5jcikopNyIeakuGcYh6sSHJtqlxKw&_nc_ohc=I4OSTiJPDjMAX97LmKc&_nc_ht=scontent.fcgh3-1.fna&oh=d5793c23da9b2c5b25cf677da8cd94a4&oe=60FA5568',
                         }}
@@ -97,14 +100,14 @@ export default props => {
                         position: 'absolute', width: 50, height: 50,
                         backgroundColor: 'white', borderRadius: 25, left: 100, top: 100
                     }}>
-
-                        <Image
-                            style={{ width: 50, height: 50, borderRadius: 25 }}
-                            source={{
-                                uri: 'https://icons.iconarchive.com/icons/webalys/kameleon.pics/96/Camera-Front-icon.png',
-                            }}
-                        />
-
+                        <TouchableOpacity >
+                            <Image
+                                style={{ width: 50, height: 50, borderRadius: 25 }}
+                                source={{
+                                    uri: 'https://icons.iconarchive.com/icons/webalys/kameleon.pics/96/Camera-Front-icon.png',
+                                }}
+                            />
+                        </TouchableOpacity>
                     </View>
 
                 </View>
@@ -121,8 +124,14 @@ export default props => {
                     <Text style={[styles.titulo, { marginTop: 20 }]}>Senha</Text>
                     <TextInput value="abc1234asdf1234" style={styles.input} />
                 </View>
-                <TouchableOpacity style={{ justifyContent: 'center' }}>
-                    <Text style={[styles.label, { backgroundColor: laranja, borderRadius: 20, color: 'white', marginTop: 50, width: width / 2, height: 40, alignContent: 'center' }]}>Salvar</Text>
+                <TouchableOpacity style={{
+                    flexDirection: 'row', justifyContent: 'center', marginTop: 50, marginLeft: 30,
+                    marginRight: 30,
+                }}>
+                    <Text style={[styles.label, {
+                        backgroundColor: laranja, borderRadius: 20, color: 'white', width: width / 2, height: 40,
+                        paddingTop: 5, textAlign: 'center', elevation: 5
+                    }]}>Salvar</Text>
                 </TouchableOpacity>
 
             </View>
