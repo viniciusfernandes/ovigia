@@ -4,8 +4,7 @@ import {
   Text, TextInput, TouchableOpacity, View,
   Image
 } from 'react-native';
-
-const laranja = '#F38223'
+import matisse from './style/matisse';
 
 const styles = StyleSheet.create({
   destaque: {
@@ -21,12 +20,12 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: '#fff',
     borderRadius: 30,
-    elevation: 30,
+    elevation: 5,
 
 
   },
   input: {
-    borderBottomColor: laranja,
+    borderBottomColor: matisse.laranja,
     borderBottomWidth: 2,
     height: 40,
     marginLeft: 20,
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   label: {
-    color: '#C3C9C9',
+    color: matisse.cinzaClaro,
     fontSize: 15,
     marginBottom: 0,
     marginLeft: 20,
@@ -109,7 +108,7 @@ export default props => {
       </View>
 
       <View style={[{ flexDirection: 'row', marginTop: 10 }]}>
-        <Text style={[styles.label, { color: '#BF5818', marginTop: 30 }]}>Não tem conta?</Text>
+        <Text style={[styles.label, { color: matisse.laranjaEscuro, marginTop: 30 }]}>Não tem conta?</Text>
         <TouchableOpacity>
           <Text style={[styles.label, { color: 'white', marginTop: 30 }]}>CADASTRE-SE!</Text>
         </TouchableOpacity>

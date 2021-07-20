@@ -7,9 +7,9 @@ import {
 import EdicaoView from './EdicaoView';
 import LabelInput from './LabelInput';
 import Perfil from './Perfil';
+import matisse from './style/matisse';
 
-const laranja = '#F38223'
-const width = Dimensions.get('window').width
+ const width = Dimensions.get('window').width
 const styles = StyleSheet.create({
     nome: {
         textAlign: 'center',
@@ -41,7 +41,7 @@ export default props => {
                 marginRight: 30,
             }}>
                 <Text style={[styles.label, {
-                    backgroundColor: laranja, borderRadius: 20, color: 'white', width: width / 2, height: 40,
+                    backgroundColor: matisse.laranja, borderRadius: 20, color: 'white', width: width / 2, height: 40,
                     paddingTop: 5, textAlign: 'center', elevation: 5
                 }]}>Salvar</Text>
             </TouchableOpacity>
