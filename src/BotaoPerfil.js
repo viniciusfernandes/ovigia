@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Text, StyleSheet, View } from 'react-native'
+import { Image, Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 
 const laranja = '#F38223'
 
@@ -32,13 +32,13 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 20,
         width: '5%',
     },
-    titulo:{
+    titulo: {
         fontWeight: 'bold',
         fontSize: 20,
         marginLeft: 5,
         marginTop: 20,
     },
-    mensagem:{
+    mensagem: {
         color: '#C3C9C9',
         marginLeft: 5,
     }
@@ -46,20 +46,22 @@ const styles = StyleSheet.create({
 
 export default props => {
     return (
-        <View style={styles.container}>
-            <View style={styles.icon}>
-            <Image style={{width: '55%', height: '55%', position: 'absolute', left: '25%',top: '25%'}}  source={{
-                uri: props.imagem,
-            }}/>
-            </View>
-            <View style={styles.description}>
-                <Text style={styles.titulo}>{props.titulo}</Text>
-                <Text style={styles.mensagem}>{props.mensagem}</Text>
+        <TouchableOpacity>
+            <View style={styles.container}>
+                <View style={styles.icon}>
+                    <Image style={{ width: '55%', height: '55%', position: 'absolute', left: '25%', top: '25%' }} source={{
+                        uri: props.imagem,
+                    }} />
+                </View>
+                <View style={styles.description}>
+                    <Text style={styles.titulo}>{props.titulo}</Text>
+                    <Text style={styles.mensagem}>{props.mensagem}</Text>
 
-            </View>
-            <View style={styles.rightBar} >
+                </View>
+                <View style={styles.rightBar} >
 
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
