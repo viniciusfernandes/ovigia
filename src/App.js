@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
-import BotaoPerfil from './BotaoPerfil'
-import EdicaoVigia from './EdicaoVigia'
-import Login from './Login'
-import matisse from './style/matisse'
-
+ import matisse from './style/matisse' 
+import Login from './components/views/login/Login'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -24,6 +21,7 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <Login />
+       
       </View>
     )
   }

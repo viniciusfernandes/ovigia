@@ -4,7 +4,7 @@ import {
   Text, TextInput, TouchableOpacity, View,
   Image
 } from 'react-native';
-import matisse from './style/matisse';
+import matisse from '../../../style/matisse';
 
 const styles = StyleSheet.create({
   destaque: {
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 })
 
 
-export default props => {
+export default Login = props => {
 
 
   return (
