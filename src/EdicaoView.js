@@ -5,6 +5,7 @@ import {
     Image, Dimensions
 } from 'react-native';
 import LabelInput from './LabelInput';
+import matisse from './style/matisse';
 
 const laranja = '#F38223'
 const width = Dimensions.get('window').width
