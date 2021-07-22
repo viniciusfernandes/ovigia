@@ -108,7 +108,7 @@ function getIcon(focused, screenName) {
 }
 
 
-export default function App() {
+export default () => {
     return (
         <NavigationContainer >
             <Tab.Navigator

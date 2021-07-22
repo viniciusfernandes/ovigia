@@ -5,7 +5,10 @@ import ImageBox from './ImageBox'
 
 
 const styles = StyleSheet.create({
-    contect: {
+    content: {
+        width: '75%'
+    },
+    contentWithBar: {
         width: '70%'
     },
     rightBar: {
@@ -17,10 +20,20 @@ const styles = StyleSheet.create({
 })
 
 export default props => {
+    let content = null;
+    if (props.showBar === undefined) {
+        content = <>
+            <View style={styles.content}>{props.children}</View>
+        </>
+    } else {
+        content = <>
+            <View style={styles.contentWithBar}>{props.children}</View>
+            <View style={styles.rightBar} />
+        </>
+    }
     return (
         <ImageBox>
-            <View style={ styles.contect}>{props.children}</View>
-            <View style={styles.rightBar} />
+            {content}
         </ImageBox>
     )
 }
