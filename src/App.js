@@ -8,8 +8,7 @@ import Chamado from './screens/vigia/Chamado'
 export default class App extends Component {
   render() {
     return (
-      // <Navegacao />
-     <Chamado/>
+      <Navegacao />
     )
   }
 }

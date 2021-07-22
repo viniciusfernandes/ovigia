@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     textPequeno: {
-        fontSize: 15,
+        fontSize: 17,
         marginLeft: 20,
         marginTop: 30
     },
@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
 export default props => {
     function obterChamados() {
         return [
+            { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
+            { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
             { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
             { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
             { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
@@ -68,7 +70,6 @@ export default props => {
             <Text style={[styles.header, styles.textPequeno]}>Chamados em aberto</Text>
             {gerarTextChamados()}
 
-            <Navegacao />
         </Container>
     )
 }
