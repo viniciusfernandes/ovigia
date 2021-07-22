@@ -82,10 +82,10 @@ const styles = StyleSheet.create({
 
 export default props => {
     return (
-
-        <View style={styles.formulario}>
-            {props.children}
+        <View style={styles.container}>
+            <View style={styles.formulario}>
+                {props.children}
+            </View>
         </View>
-
     )
 }

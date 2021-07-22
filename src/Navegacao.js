@@ -1,12 +1,18 @@
 import * as React from 'react';
-import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import matisse from './style/matisse';
 import EdicaoVigia from './EdicaoVigia'
+import Chamado from './screens/vigia/Chamado';
+import PerfilVigia from './PerfilVigia';
 function HomeScreen() {
     return (
+
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
             <Text>Home!</Text>
         </View>
     );
@@ -15,11 +21,10 @@ function HomeScreen() {
 function SettingsScreen() {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
             <Image
                 style={styles.logo}
-                source={{
-                    uri: 'https://icons.iconarchive.com/icons/custom-icon-design/mono-general-3/128/home-icon.png',
-                }}
+                source={require('../images/Button-Next-icon.png')}
             />
         </View>
     );
@@ -82,15 +87,45 @@ const styles = StyleSheet.create({
     },
 })
 
+const Icons = {
+    home: { icon: '../images/Financeiro.png', focusIcon: '../images/Financeiro.png' }
+}
+
+function getIcon(focused, screenName) {
+    let icon = null
+    let styleIcon = { width: 30, height: 30 }
+    if ('home' === screenName) {
+        return <Image style={styleIcon} source={require('../images/Home.png')} />
+    } else if ('financeiro' === screenName) {
+        return <Image style={styleIcon} source={require('../images/Financeiro.png')} />
+    } else if ('clientes' === screenName) {
+        return <Image style={styleIcon} source={require('../images/Clientes.png')} />
+    } else if ('ronda' === screenName) {
+        return <Image style={styleIcon} source={require('../images/Ronda.png')} />
+    } else if ('chamados' === screenName) {
+        return <Image style={styleIcon} source={require('../images/Chamados.png')} />
+    }
+}
+
 
 export default function App() {
     return (
         <NavigationContainer >
-            <Tab.Navigator tabBarOptions={{ labelStyle: { fontSize: 20 } }}>
-                <Tab.Screen name="EdicaoVigia" component={EdicaoVigia} />
-                <Tab.Screen name="Settings" component={SettingsScreen} />
-                <Tab.Screen name="xxx" component={HomeScreen} />
-                <Tab.Screen name="www" component={SettingsScreen} />
+            <Tab.Navigator
+                screenOptions={({ route }) => ({
+                    tabBarIcon: ({ focused, color, size }) => {
+
+                        return getIcon(focused, route.name)
+                    },
+                })}
+
+                tabBarOptions={{ showLabel: false }}>
+
+                <Tab.Screen name="home" component={PerfilVigia} />
+                <Tab.Screen name="financeiro" component={SettingsScreen} />
+                <Tab.Screen name="clientes" component={HomeScreen} />
+                <Tab.Screen name="ronda" component={SettingsScreen} />
+                <Tab.Screen name="chamados" component={SettingsScreen} />
             </Tab.Navigator>
         </NavigationContainer>
     );

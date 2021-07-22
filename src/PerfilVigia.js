@@ -5,6 +5,7 @@ import {
     Dimensions
 } from 'react-native';
 import BotaoPerfil from './BotaoPerfil';
+import ImageBoxRightBar from './components/ImageBoxRightBar';
 import EdicaoView from './EdicaoView';
 import LabelInput from './LabelInput';
 import Perfil from './Perfil';
@@ -32,7 +33,7 @@ export default props => {
     return (
         <EdicaoView>
             <Perfil />
-            <BotaoPerfil
+            <ImageBoxRightBar
                 imagem={'https://icons.iconarchive.com/icons/blackvariant/button-ui-microsoft-office-apps/96/Microsoft-Sync-icon.png'}
                 titulo={'Dados Pessoais'}
                 mensagem={'Altera a qualquer momento os seus dados'} />

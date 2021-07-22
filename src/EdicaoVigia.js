@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 
 export default props => {
     return (
-        <EdicaoView>
+        <EdicaoView >
             <Perfil />
             <View style={{ marginTop: 20 }}>
                 <LabelInput titulo={'E-mail'} />
