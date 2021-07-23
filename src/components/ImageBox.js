@@ -22,6 +22,14 @@ const styles = StyleSheet.create({
         width: '25%',
         padding: 0
     },
+    imagem: {
+        borderRadius: 30,
+        width: '55%',
+        height: '55%',
+        position: 'absolute',
+        left: '25%',
+        top: '25%'
+    },
     content: {
         height: '100%',
         width: '75%',
@@ -30,14 +38,13 @@ const styles = StyleSheet.create({
 
 export default props => {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => console.warn('CAGUEI...!')}>
             <View style={styles.container}>
                 <View style={styles.icon}>
-                    <Image style={{ width: '55%', height: '55%', position: 'absolute', left: '25%', top: '25%' }} source={{
-                        uri: props.imagem,
-                    }} />
+                    <Image style={styles.imagem}
+                        source={require('../../images/perfil-vinicius.jpg')} />
                 </View>
-              
+
                 {props.children}
             </View>
         </TouchableOpacity>

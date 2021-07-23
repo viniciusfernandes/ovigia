@@ -8,6 +8,7 @@ import matisse from './style/matisse';
 import EdicaoVigia from './EdicaoVigia'
 import Chamado from './screens/vigia/Chamado';
 import PerfilVigia from './PerfilVigia';
+import ResumoRonda from './screens/vigia/ResumoRonda';
 function HomeScreen() {
     return (
 
@@ -121,11 +122,11 @@ export default () => {
 
                 tabBarOptions={{ showLabel: false }}>
 
-                <Tab.Screen name="home" component={Chamado} />
+                <Tab.Screen name="home" component={ResumoRonda} />
                 <Tab.Screen name="financeiro" component={SettingsScreen} />
                 <Tab.Screen name="clientes" component={HomeScreen} />
-                <Tab.Screen name="ronda" component={SettingsScreen} />
-                <Tab.Screen name="chamados" component={SettingsScreen} />
+                <Tab.Screen name="ronda" component={ResumoRonda} />
+                <Tab.Screen name="chamados" component={Chamado} />
             </Tab.Navigator>
         </NavigationContainer>
     );
