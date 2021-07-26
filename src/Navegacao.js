@@ -120,7 +120,8 @@ export default () => {
 
                 tabBarOptions={{ showLabel: false }}>
 
-                <Tab.Screen name="home" component={PerfilVigia} />
+                {/* <Tab.Screen name="home" component={PerfilVigia} /> */}
+                <Tab.Screen name="home" component={Chamados} />
                 <Tab.Screen name="financeiro" component={SettingsScreen} />
                 <Tab.Screen name="clientes" component={HomeScreen} />
                 <Tab.Screen name="ronda" component={ResumoRonda} />

@@ -6,7 +6,7 @@ import matisse from '../../style/matisse'
 
 const styles = StyleSheet.create({
     header: {
-        marginLeft: 10,
+        marginLeft: '5%',
         color: 'white',
         fontSize: 25,
         fontWeight: 'bold'
@@ -14,37 +14,37 @@ const styles = StyleSheet.create({
     textPequeno: {
         color: 'white',
         fontSize: 17,
-        marginLeft: 20,
-        marginTop: 30
+        marginLeft: '5%',
+        marginTop: '5%'
     },
     mapa: {
         backgroundColor: 'white',
         borderRadius: 20,
-        height: 250,
-        marginTop: 30,
-        marginLeft: 20,
-        marginRight: 20,
+        height: '35%',
+        marginTop: '5%',
+        marginLeft: '10%',
+        marginRight: '10%',
     },
-    horizontalBoxes: {
+    boxLine: {
         borderRadius: 5,
         flexDirection: 'row',
-        height: 50,
+        height: '15%',
         justifyContent: 'space-between',
-        marginLeft: 80,
-        marginRight: 80,
-        marginTop: 10
+        marginLeft: '15%',
+        marginRight: '15%',
+        marginTop: '5%'
     },
     box: {
         backgroundColor: 'white',
         borderRadius: 10,
         elevation: 15,
-        width: 80,
-        height: 80,
+        width: '30%',
+        height: '100%',
     },
     boxTitulo: {
         color: matisse.laranja,
         textAlign: 'center',
-        marginTop: 10
+        marginTop: '10%'
     },
     boxValor: {
         color: matisse.laranja,
@@ -67,7 +67,7 @@ function gerarBox(titulo, valor) {
 export default props => {
     return (
         <Container>
-            <Text style={[styles.header, { marginTop: 50 }]}>Ronda Concluída!</Text>
+            <Text style={[styles.header, { marginTop: '5%' }]}>Ronda Concluída!</Text>
             <Text style={styles.header}>Veja o seu resumo.</Text>
 
             <View style={styles.mapa}>
@@ -75,12 +75,12 @@ export default props => {
             </View>
             <Text style={styles.textPequeno}>Resumo</Text>
 
-            <View style={styles.horizontalBoxes}>
+            <View style={styles.boxLine}>
                 {gerarBox('Residência', 20)}
                 {gerarBox('Kilômetros', '15')}
             </View>
 
-            <View style={[styles.horizontalBoxes, { marginTop: 60 }]}>
+            <View style={[styles.boxLine, { marginTop: '5%' }]}>
                 {gerarBox('Tempo (h)', 20)}
                 {gerarBox('Chamados', 11)}
             </View>

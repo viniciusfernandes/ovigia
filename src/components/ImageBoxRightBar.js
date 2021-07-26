@@ -22,16 +22,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         elevation: 5,
         flexDirection: 'row',
-        marginLeft: 20,
-        marginRight: 20,
-        marginTop: 20,
+        marginLeft: '5%',
+        marginRight: '5%',
+        marginTop: '5%',
         height: 90
 
     },
     icon: {
         borderTopLeftRadius: 20,
         borderBottomLeftRadius: 20,
-        height: 90,
+        height: '100%',
         width: '25%',
         padding: 0
     },

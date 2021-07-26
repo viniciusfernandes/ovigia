@@ -7,15 +7,15 @@ import matisse from '../../style/matisse'
 
 const styles = StyleSheet.create({
     header: {
-        marginLeft: 10,
+        marginLeft: '5%',
         color: 'white',
         fontSize: 25,
         fontWeight: 'bold'
     },
     textPequeno: {
         fontSize: 17,
-        marginLeft: 20,
-        marginTop: 30
+        marginLeft: '5%',
+        marginTop: '6%'
     },
     dataHora: {
         backgroundColor: matisse.laranja,
@@ -72,7 +72,7 @@ export default props => {
 
     return (
         <Container>
-            <Text style={[styles.header, { marginTop: 50 }]}>Acompanhe</Text>
+            <Text style={[styles.header, { marginTop: '15%' }]}>Acompanhe</Text>
             <Text style={styles.header}>todos os chamados</Text>
             <Text style={[styles.header, styles.textPequeno]}>Chamados em aberto</Text>
             {gerarTextChamados()}
