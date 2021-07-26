@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import matisse from './style/matisse';
-import EdicaoVigia from './EdicaoVigia'
-import Chamado from './screens/vigia/Chamado';
 import PerfilVigia from './PerfilVigia';
 import ResumoRonda from './screens/vigia/ResumoRonda';
+import Chamados from './screens/vigia/Chamados';
 function HomeScreen() {
     return (
 
@@ -122,11 +120,11 @@ export default () => {
 
                 tabBarOptions={{ showLabel: false }}>
 
-                <Tab.Screen name="home" component={ResumoRonda} />
+                <Tab.Screen name="home" component={PerfilVigia} />
                 <Tab.Screen name="financeiro" component={SettingsScreen} />
                 <Tab.Screen name="clientes" component={HomeScreen} />
                 <Tab.Screen name="ronda" component={ResumoRonda} />
-                <Tab.Screen name="chamados" component={Chamado} />
+                <Tab.Screen name="chamados" component={Chamados} />
             </Tab.Navigator>
         </NavigationContainer>
     );

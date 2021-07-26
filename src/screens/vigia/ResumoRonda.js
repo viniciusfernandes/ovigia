@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     textPequeno: {
         color: 'white',
         fontSize: 17,
-        // fontWeight: 'bold',
         marginLeft: 20,
         marginTop: 30
     },

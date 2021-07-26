@@ -46,10 +46,14 @@ export default props => {
     function gerarTextChamados() {
         let textsChamados = []
         let chamados = obterChamados()
-        chamados.forEach(chamado => {
-            let box =
+        var box = null
+        var chamado = null
+        for (var i = 0; i < chamados.length; i++) {
+            chamado = chamados[i]
+            box =
                 <ImageBoxRightBar
-                    image={'../../../images/perfil-vinicius.jpg'}>
+                    key={'chamado' + i}
+                    imagem={'../../images/perfil-vinicius.jpg'}>
                     <Text style={{ marginTop: 10, width: '100%', fontSize: 15, fontWeight: 'bold' }}>{chamado.nome}</Text>
                     <Text style={{ width: '100%' }}>{chamado.logradouro}</Text>
                     <View style={{ flexDirection: 'row', marginTop: 10 }}>
@@ -58,8 +62,11 @@ export default props => {
                     </View>
 
                 </ImageBoxRightBar>
+
             textsChamados.push(box)
-        })
+
+        }
+
         return textsChamados
     }
 
