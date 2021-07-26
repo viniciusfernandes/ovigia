@@ -1,19 +1,20 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import Container from '../../components/Container'
 import matisse from '../../style/matisse'
+import Medidas from '../../constantes/medidas/Medidas'
 
-const styles = StyleSheet.create({
+const isTablet = Medidas.isTablet
+let styles = StyleSheet.create({
     header: {
         marginLeft: '5%',
         color: 'white',
-        fontSize: 25,
+        fontSize: isTablet ? 35 : 25,
         fontWeight: 'bold'
     },
     textPequeno: {
         color: 'white',
-        fontSize: 17,
+        fontSize: isTablet ? 30 : 17,
         marginLeft: '5%',
         marginTop: '5%'
     },
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginLeft: '15%',
         marginRight: '15%',
-        marginTop: '5%'
+        marginTop: '2%'
     },
     box: {
         backgroundColor: 'white',
@@ -43,12 +44,13 @@ const styles = StyleSheet.create({
     },
     boxTitulo: {
         color: matisse.laranja,
+        fontSize: isTablet ? 25 : 10,
         textAlign: 'center',
         marginTop: '10%'
     },
     boxValor: {
         color: matisse.laranja,
-        fontSize: 30,
+        fontSize: isTablet ? 45 : 30,
         textAlign: 'center'
     }
 
@@ -67,7 +69,7 @@ function gerarBox(titulo, valor) {
 export default props => {
     return (
         <Container>
-            <Text style={[styles.header, { marginTop: '5%' }]}>Ronda Concluída!</Text>
+            <Text style={[styles.header, { marginTop: '2%' }]}>Ronda Concluída!</Text>
             <Text style={styles.header}>Veja o seu resumo.</Text>
 
             <View style={styles.mapa}>
