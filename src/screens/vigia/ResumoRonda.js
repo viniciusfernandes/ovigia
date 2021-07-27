@@ -40,7 +40,7 @@ let styles = StyleSheet.create({
         borderRadius: 10,
         elevation: 15,
         width: '30%',
-        height: '100%',
+        height: '80%',
     },
     boxTitulo: {
         color: matisse.laranja,

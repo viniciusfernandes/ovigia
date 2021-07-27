@@ -48,21 +48,23 @@ const styles = StyleSheet.create({
 export default props => {
     let content = null;
     if (props.showBar === undefined) {
-        content = <>
-            <View style={styles.content}>{props.children}</View>
-        </>
+        content =
+            <>
+                <View style={styles.content}>{props.children}</View>
+            </>
     } else {
-        content = <>
-            <View style={styles.contentWithBar}>{props.children}</View>
-            <View style={styles.rightBar} />
-        </>
+        content =
+            <>
+                <View style={styles.contentWithBar}>{props.children}</View>
+                <View style={styles.rightBar} />
+            </>
     }
+    const imagem = props.imagem
     return (
         <TouchableOpacity key={props.key}>
             <View style={styles.container}>
                 <View style={styles.icon}>
-                    <Image style={styles.imagem}
-                        source={require('../../images/perfil-vinicius.jpg')} />
+                    <Image style={styles.imagem} source={{uri: props.imagem}} />
                 </View>
                 {content}
             </View>

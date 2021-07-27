@@ -4,29 +4,33 @@ import {
     Text, TouchableOpacity, View,
     Image, Dimensions
 } from 'react-native';
+import Medidas from './constantes/medidas/Medidas';
+import matisse from './style/matisse';
 
-const laranja = '#F38223'
-const width = Dimensions.get('window').width
 const diameter = 150
 const borda = 5
 const diameterMenor = diameter - 2 * borda
 const radius = diameter / 2 + borda
 const radiusMenor = radius - borda
-const init = (width - diameter) / 2
+const init = (Medidas.larguraMaxima - diameter) / 2
+
+const isTablet = Medidas.isTablet
+
+
 const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: laranja,
+        backgroundColor: matisse.laranja,
     },
     nome: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
+        fontSize: isTablet ? 35 : 25,
     },
     cidade: {
         color: '#C3C9C9',
-        fontSize: 20,
+        fontSize: isTablet ? 30 : 20,
         marginBottom: 0,
         marginLeft: 20,
         marginRight: 20,
