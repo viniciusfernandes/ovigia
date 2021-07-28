@@ -4,24 +4,29 @@ import {
   Text, TextInput, TouchableOpacity, View,
   Image
 } from 'react-native';
-import matisse from '../../../style/matisse';
+import Container from '../../components/Container';
+import matisse from '../../style/matisse';
 
 const styles = StyleSheet.create({
-  destaque: {
+  bemVindo: {
     fontSize: 25,
-    marginLeft: 20,
+    marginLeft: '5%',
     marginRight: 20,
     marginTop: 25,
     fontWeight: 'bold',
     marginBottom: 10,
-    width: 300
-  },
-  container: {
-    margin: 10,
-    backgroundColor: '#fff',
-    borderRadius: 30,
-    elevation: 5,
 
+  },
+  formulario: {
+    backgroundColor: 'white',
+    elevation: 5,
+    borderRadius: 30,
+    width: '80%'
+  },
+  esqueciSenha: {
+    fontWeight: 'bold',
+    marginBottom: '5%',
+    textAlign: 'center',
 
   },
   input: {
@@ -41,81 +46,108 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   botao: {
-    alignContent: 'center',
     borderRadius: 25,
-    width: 200,
-    marginTop: 50,
-    padding: 10,
-    paddingTop: 10,
-    backgroundColor: '#fff',
-    elevation: 25,
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: '5%',
+    padding: '2%',
+    paddingTop: '2%',
+    backgroundColor: 'white',
+    elevation: 5,
+    textAlign: 'center',
+  },
+  botaoContainer: {
+    marginTop: '5%',
+    width: '50%'
   },
   logo: {
-    width: 100,
-    height: 100,
-  }, socialLogo: {
+    marginBottom: '5%',
+    marginTop: '10%',
+    height: '20%',
+    width: '35%',
+
+  },
+  mensagemEntrarCom: {
+    color: 'white',
+    marginTop: '5%'
+  },
+  socialMidiaLogo: {
     width: 40,
     height: 40,
   },
+  socialMediasContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: '2%',
+    width: '40%'
+  },
+  naoTemConta: {
+    color: matisse.laranjaEscuro,
+  },
+  cadastre: {
+    color: 'white'
+  },
+  botoesCadastroContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: '8%'
+  }
 })
 
 
-export default Login = props => {
-
-
+export default props => {
   return (
-    <>
-      <View style={[styles.container, { height: 100, marginTop: 25, marginBottom: 50 }]}>
-        <Image
-          style={styles.logo}
-          source={{
-            uri: 'https://icons.iconarchive.com/icons/custom-icon-design/mono-general-3/128/home-icon.png',
-          }}
-        />
-      </View>
-      <View style={styles.container}>
+    <Container>
 
-        <Text style={styles.destaque}>Bem-Vindo!</Text>
+      <Image
+        style={styles.logo}
+        source={{
+          uri: 'https://icons.iconarchive.com/icons/custom-icon-design/mono-general-3/128/home-icon.png',
+        }}
+      />
+
+      <View style={styles.formulario}>
+
+        <Text style={styles.bemVindo}>Bem-Vindo!</Text>
         <Text style={styles.label}>E-mail</Text>
         <TextInput style={styles.input}>vinicius@gmail.com</TextInput>
         <Text style={styles.label}>Senha</Text>
         <TextInput secureTextEntry={true} value="abc1234asdf1234" style={[styles.input, { marginBottom: 20 }]} />
-        <TouchableOpacity><Text style={{ textAlign: 'center', marginBottom: 15 }}>Esqueci minha senha</Text></TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.esqueciSenha}>Esqueci minha senha</Text>
+        </TouchableOpacity>
 
       </View>
-      <TouchableOpacity style={styles.botao}><Text style={{
-        textAlign: 'center', fontSize: 20, fontWeight: 'bold'
-      }}>Entrar</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.botaoContainer}  >
+        <Text style={styles.botao}>Entrar
+        </Text>
+      </TouchableOpacity>
 
-      <Text style={[styles.label, { color: 'white', marginTop: 40 }]}>Entrar com as redes</Text>
-      <View style={[{ flexDirection: 'row', marginTop: 10 }]}>
+      <Text style={[styles.label, styles.mensagemEntrarCom]}>Entrar com as redes</Text>
+      <View style={styles.socialMediasContainer}>
         <TouchableOpacity>
           <Image
-            style={[styles.socialLogo, { marginRight: 20 }]}
-            source={{
-              uri: 'https://icons.iconarchive.com/icons/sicons/basic-round-social/96/facebook-icon.png',
-            }}
+            style={styles.socialMidiaLogo}
+            source={require('../../../images/face_azul_75.png')}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.socialLogo}
-            source={{
-              uri: 'https://icons.iconarchive.com/icons/martz90/circle/96/google-plus-icon.png',
-            }}
+            style={styles.socialMidiaLogo}
+            source={require('../../../images/google_vermelho_75.png')}
           />
         </TouchableOpacity>
       </View>
 
-      <View style={[{ flexDirection: 'row', marginTop: 10 }]}>
-        <Text style={[styles.label, { color: matisse.laranjaEscuro, marginTop: 30 }]}>Não tem conta?</Text>
+      <View style={styles.botoesCadastroContainer}>
+        <Text style={[styles.label, styles.naoTemConta]}>Não tem conta?</Text>
         <TouchableOpacity>
-          <Text style={[styles.label, { color: 'white', marginTop: 30 }]}>CADASTRE-SE!</Text>
+          <Text style={[styles.label, styles.cadastre]}>CADASTRE-SE!</Text>
         </TouchableOpacity>
 
       </View>
 
-    </>
+    </Container>
 
   )
 }

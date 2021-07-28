@@ -53,9 +53,7 @@ export default props => {
             }}>
                 <Image
                     style={{ width: diameterMenor, height: diameterMenor, borderRadius: radiusMenor }}
-                    source={{
-                        uri: 'https://scontent.fcgh3-1.fna.fbcdn.net/v/t1.6435-1/p320x320/207600281_4194372680609413_4216023978283777792_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=7206a8&_nc_eui2=AeFqf-Mt9YCd9L7XHu9zD3_G9Mq99Rd1S370yr31F3VLfurd-412xZFK6gr5jcikopNyIeakuGcYh6sSHJtqlxKw&_nc_ohc=I4OSTiJPDjMAX97LmKc&_nc_ht=scontent.fcgh3-1.fna&oh=d5793c23da9b2c5b25cf677da8cd94a4&oe=60FA5568',
-                    }}
+                    source={ require('../images/perfil-vinicius.jpg')}
                 />
                 <View style={{
                     position: 'absolute', width: 50, height: 50,
@@ -64,9 +62,7 @@ export default props => {
                     <TouchableOpacity >
                         <Image
                             style={{ width: 50, height: 50, borderRadius: 25 }}
-                            source={{
-                                uri: 'https://icons.iconarchive.com/icons/webalys/kameleon.pics/96/Camera-Front-icon.png',
-                            }}
+                            source={require('../images/camera_laranja_75.png')}
                         />
                     </TouchableOpacity>
                 </View>

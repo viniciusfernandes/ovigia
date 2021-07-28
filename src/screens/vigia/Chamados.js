@@ -53,7 +53,7 @@ export default props => {
             box =
                 <ImageBoxRightBar
                     key={'chamado' + i}
-                    imagem={'../../images/perfil-vinicius.jpg'}>
+                    imagem={require('../../../images/perfil-vinicius.jpg')}>
                     <Text style={{ marginTop: 10, width: '100%', fontSize: 15, fontWeight: 'bold' }}>{chamado.nome}</Text>
                     <Text style={{ width: '100%' }}>{chamado.logradouro}</Text>
                     <View style={{ flexDirection: 'row', marginTop: 10 }}>

@@ -6,7 +6,8 @@ import matisse from '../style/matisse'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: matisse.laranja
+        backgroundColor: matisse.laranja,
+        alignItems: 'center'
     }
 })
 export default props => {

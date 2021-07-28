@@ -29,16 +29,14 @@ const styles = StyleSheet.create({
 
     },
     icon: {
-        borderTopLeftRadius: 20,
-        borderBottomLeftRadius: 20,
         height: '100%',
         width: '25%',
         padding: 0
     },
     imagem: {
-        borderRadius: 30,
-        width: '55%',
-        height: '55%',
+        borderRadius: 10,
+        width: '50%',
+        height: '50%',
         position: 'absolute',
         left: '25%',
         top: '25%'
@@ -59,12 +57,11 @@ export default props => {
                 <View style={styles.rightBar} />
             </>
     }
-    const imagem = props.imagem
     return (
         <TouchableOpacity key={props.key}>
             <View style={styles.container}>
                 <View style={styles.icon}>
-                    <Image style={styles.imagem} source={{uri: props.imagem}} />
+                    <Image style={styles.imagem}  source={props.imagem} />
                 </View>
                 {content}
             </View>
