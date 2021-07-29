@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import matisse from './style/matisse';
-import PerfilVigia from './PerfilVigia';
+import PerfilVigia from './screens/vigia/PerfilVigia';
 import ResumoRonda from './screens/vigia/ResumoRonda';
 import Chamados from './screens/vigia/Chamados';
 function HomeScreen() {

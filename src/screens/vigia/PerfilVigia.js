@@ -1,10 +1,9 @@
 import React from 'react';
-import ImageBoxRightBar from './components/ImageBoxRightBar';
-import EdicaoView from './EdicaoView';
-import Perfil from './Perfil';
+import ImageBoxRightBar from '../../components/ImageBoxRightBar';
+import EdicaoView from '../../EdicaoView';
 import { StyleSheet, Text, View } from 'react-native';
-import Medidas from './constantes/medidas/Medidas'
-import matisse from './style/matisse'
+import Medidas from '../../constantes/medidas/Medidas'
+import ImagemPerfil from '../ImagemPerfil';
 
 const isTablet = Medidas.isTablet
 const styles = StyleSheet.create({
@@ -31,23 +30,22 @@ const styles = StyleSheet.create({
 export default props => {
     return (
         <EdicaoView>
-            <Perfil />
-            {/* <ImageBoxRightBar showBar imagem={'https://icons.iconarchive.com/icons/blackvariant/button-ui-microsoft-office-apps/96/Microsoft-Sync-icon.png'}> */}
-            <ImageBoxRightBar showBar imagem={require('../images/ciclo_laranja_75.png')}> 
+            <ImagemPerfil />
+            <ImageBoxRightBar showBar imagem={require('../../../images/ciclo_laranja_75.png')}> 
                 <View style={styles.boxContext}>
                     <Text style={styles.titulo}>Dados Pessoais</Text>
                     <Text style={styles.mensagem}>Altere os seus dados</Text>
                 </View>
             </ImageBoxRightBar>
 
-            <ImageBoxRightBar showBar imagem={require('../images/sino_inteiro_laranja_75.png')}>
+            <ImageBoxRightBar showBar imagem={require('../../../images/sino_inteiro_laranja_75.png')}>
                 <View style={styles.boxContext}>
                     <Text style={styles.titulo}>Notificações</Text>
                     <Text style={styles.mensagem}>Veja todos os avisos rapidamente</Text>
                 </View>
             </ImageBoxRightBar>
 
-            <ImageBoxRightBar showBar imagem={require('../images/sair_laranja_75.png')}>
+            <ImageBoxRightBar showBar imagem={require('../../../images/sair_laranja_75.png')}>
                 <View style={styles.boxContext}>
                     <Text style={styles.titulo}>Sair</Text>
                     <Text style={styles.mensagem}>Entre e saia em qualquer momento</Text>

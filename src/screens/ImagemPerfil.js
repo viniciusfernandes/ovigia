@@ -2,10 +2,10 @@ import React from 'react';
 import {
     StyleSheet,
     Text, TouchableOpacity, View,
-    Image, Dimensions
+    Image
 } from 'react-native';
-import Medidas from './constantes/medidas/Medidas';
-import matisse from './style/matisse';
+import Medidas from '../constantes/medidas/Medidas';
+import matisse from '../style/matisse';
 
 const diameter = 150
 const borda = 5
@@ -32,40 +32,47 @@ const styles = StyleSheet.create({
         color: '#C3C9C9',
         fontSize: isTablet ? 30 : 20,
         marginBottom: 0,
-        marginLeft: 20,
-        marginRight: 20,
         fontWeight: 'bold',
         textAlign: 'center'
     },
-
+    imagemContainer: {
+        position: 'absolute', left: init, top: -radius,
+        width: diameter, height: diameter,
+        backgroundColor: 'white',
+        borderWidth: borda,
+        borderColor: 'white',
+        borderRadius: radius,
+    },
+    imagem: {
+        width: 50,
+        height: 50,
+        borderRadius: 25
+    },
+    cameraContainer: {
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        backgroundColor: 'white',
+        borderRadius: 25,
+        left: 100,
+        top: 100
+    }
 })
 
 export default props => {
     return (
         <>
-            <View style={{
-                position: 'absolute', left: init, top: -radius,
-                width: diameter, height: diameter,
-                backgroundColor: 'white',
-                borderWidth: borda,
-                borderColor: 'white',
-                borderRadius: radius,
-            }}>
+            <View style={styles.imagemContainer}>
                 <Image
                     style={{ width: diameterMenor, height: diameterMenor, borderRadius: radiusMenor }}
-                    source={ require('../images/perfil-vinicius.jpg')}
+                    source={require('../../images/perfil-vinicius.jpg')}
                 />
-                <View style={{
-                    position: 'absolute', width: 50, height: 50,
-                    backgroundColor: 'white', borderRadius: 25, left: 100, top: 100
-                }}>
-                    <TouchableOpacity >
-                        <Image
-                            style={{ width: 50, height: 50, borderRadius: 25 }}
-                            source={require('../images/camera_laranja_75.png')}
-                        />
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity style={styles.cameraContainer} >
+                    <Image
+                        style={styles.imagem}
+                        source={require('../../images/camera_laranja_75.png')}
+                    />
+                </TouchableOpacity>
 
             </View>
             <View>

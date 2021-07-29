@@ -24,10 +24,12 @@ const styles = StyleSheet.create({
 })
 
 export default props => {
+    let labelStyle = props.style !== undefined ? props.style.label : {}
+    let inputStyle = props.style !== undefined ? props.style.input : {}
     return (
         <>
-            <Text style={styles.titulo}>{props.titulo}</Text>
-            <TextInput value={'xxxxxxxxx'} style={styles.input} />
+            <Text style={[styles.titulo, labelStyle]}>{props.titulo}</Text>
+            <TextInput value={'xxxxxxxxx'} style={[styles.input, inputStyle]} />
         </>
     )
 }
