@@ -6,33 +6,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import matisse from './style/matisse';
 import PerfilVigia from './screens/vigia/PerfilVigia';
 import ResumoRonda from './screens/vigia/ResumoRonda';
-import Chamados from './screens/vigia/Chamados';
-function HomeScreen() {
-    return (
-
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-
-            <Text>Home!</Text>
-        </View>
-    );
-}
-
-function SettingsScreen() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-
-            <Image
-                style={styles.logo}
-                source={require('../images/Button-Next-icon.png')}
-            />
-        </View>
-    );
-}
+import AxisExample from './screens/vigia/AxisExample';
+import EdicaoVigia from './screens/vigia/EdicaoVigia';
 
 const Tab = createBottomTabNavigator();
-
-
-
 const styles = StyleSheet.create({
     destaque: {
         fontSize: 25,
@@ -80,10 +57,13 @@ const styles = StyleSheet.create({
     logo: {
         width: 100,
         height: 100,
-    }, socialLogo: {
-        width: 40,
-        height: 40,
     },
+
+    icon: {
+        width: 30,
+        height: 30
+    }
+
 })
 
 const Icons = {
@@ -92,17 +72,16 @@ const Icons = {
 
 function getIcon(focused, screenName) {
     let icon = null
-    let styleIcon = { width: 30, height: 30 }
     if ('home' === screenName) {
-        return <Image style={styleIcon} source={require('../images/Home.png')} />
+        return require('../images/Home.png')
     } else if ('financeiro' === screenName) {
-        return <Image style={styleIcon} source={require('../images/Financeiro.png')} />
+        return require('../images/Financeiro.png')
     } else if ('clientes' === screenName) {
-        return <Image style={styleIcon} source={require('../images/Clientes.png')} />
+        return require('../images/Clientes.png')
     } else if ('ronda' === screenName) {
-        return <Image style={styleIcon} source={require('../images/Ronda.png')} />
+        return require('../images/Ronda.png')
     } else if ('chamados' === screenName) {
-        return <Image style={styleIcon} source={require('../images/Chamados.png')} />
+        return require('../images/Chamados.png')
     }
 }
 
@@ -114,17 +93,16 @@ export default () => {
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
 
-                        return getIcon(focused, route.name)
+                        return <Image style={styles.icon} source={getIcon(focused, route.name)} />
                     },
                 })}
 
                 tabBarOptions={{ showLabel: false }}>
 
-                <Tab.Screen name="home" component={PerfilVigia} />
-                <Tab.Screen name="financeiro" component={SettingsScreen} />
-                <Tab.Screen name="clientes" component={HomeScreen} />
+                <Tab.Screen name="home" component={EdicaoVigia} />
+                <Tab.Screen name="financeiro" component={PerfilVigia} />
+                <Tab.Screen name="clientes" component={PerfilVigia} />
                 <Tab.Screen name="ronda" component={ResumoRonda} />
-                <Tab.Screen name="chamados" component={Chamados} />
             </Tab.Navigator>
         </NavigationContainer>
     );

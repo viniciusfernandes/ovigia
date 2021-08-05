@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     StyleSheet,
     Text, TextInput
@@ -7,18 +7,17 @@ import {
 const styles = StyleSheet.create({
     input: {
         backgroundColor: 'white',
-        height: 40,
-        marginLeft: 30,
-        marginRight: 30,
+        height: '10%',
         paddingLeft: 20,
         borderRadius: 20,
-        elevation: 3
+        elevation: 3,
+        width: '80%'
     },
     titulo: {
         fontSize: 15,
         fontWeight: 'bold',
-        marginLeft: 30,
-        marginTop: 20
+        marginTop: 20,
+        width: '80%'
     },
 
 })
@@ -29,7 +28,7 @@ export default props => {
     return (
         <>
             <Text style={[styles.titulo, labelStyle]}>{props.titulo}</Text>
-            <TextInput value={'xxxxxxxxx'} style={[styles.input, inputStyle]} />
+            <TextInput value={props.valor} style={[styles.input, inputStyle]} onChangeText={props.onChangeText} />
         </>
     )
 }

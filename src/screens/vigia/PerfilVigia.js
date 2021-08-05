@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageBoxRightBar from '../../components/ImageBoxRightBar';
-import EdicaoView from '../../EdicaoView';
+import EdicaoPerfil from '../EdicaoPerfil';
 import { StyleSheet, Text, View } from 'react-native';
 import Medidas from '../../constantes/medidas/Medidas'
 import ImagemPerfil from '../ImagemPerfil';
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 
 export default props => {
     return (
-        <EdicaoView>
+        <EdicaoPerfil>
             <ImagemPerfil />
             <ImageBoxRightBar showBar imagem={require('../../../images/ciclo_laranja_75.png')}> 
                 <View style={styles.boxContext}>
@@ -51,6 +51,6 @@ export default props => {
                     <Text style={styles.mensagem}>Entre e saia em qualquer momento</Text>
                 </View>
             </ImageBoxRightBar>
-        </EdicaoView>
+        </EdicaoPerfil>
     )
 }

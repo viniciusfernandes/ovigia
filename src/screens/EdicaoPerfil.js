@@ -2,23 +2,13 @@ import React from 'react';
 import {
     StyleSheet,
     View,
-    Dimensions
 } from 'react-native';
 
-const laranja = '#F38223'
-const width = Dimensions.get('window').width
-const diameter = 150
-const borda = 5
-const diameterMenor = diameter - 2 * borda
-const radius = diameter / 2 + borda
-const radiusMenor = radius - borda
-const init = (width - diameter) / 2
+import Container from '../components/Container'
+import Medidas from '../constantes/medidas/Medidas';
+
 const styles = StyleSheet.create({
 
-    container: {
-        flex: 1,
-        backgroundColor: laranja,
-    },
     formulario: {
         backgroundColor: 'white',
         borderTopLeftRadius: 30,
@@ -27,17 +17,17 @@ const styles = StyleSheet.create({
         marginTop: '50%',
         paddingTop: '20%',
         elevation: 5,
-        width: width,
-        alignContent: 'center'
+        width: Medidas.larguraMaxima,
+        alignItems: 'center'
     },
 })
 
 export default props => {
     return (
-        <View style={styles.container}>
+        <Container >
             <View style={styles.formulario}>
                 {props.children}
             </View>
-        </View>
+        </Container>
     )
 }
