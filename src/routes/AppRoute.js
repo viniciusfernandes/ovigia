@@ -1,13 +1,12 @@
-import * as React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useContext } from 'react';
+import { Image, StyleSheet, } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import matisse from './style/matisse';
-import PerfilVigia from './screens/vigia/PerfilVigia';
-import ResumoRonda from './screens/vigia/ResumoRonda';
-import AxisExample from './screens/vigia/AxisExample';
-import EdicaoVigia from './screens/vigia/EdicaoVigia';
+import matisse from '../style/matisse';
+import PerfilVigia from '../screens/vigia/PerfilVigia'
+import ResumoRonda from '../screens/vigia/ResumoRonda';
+import EdicaoVigia from '../screens/vigia/EdicaoVigia';
+import AuthContext from '../contexts/AuthContext';
 
 const Tab = createBottomTabNavigator();
 const styles = StyleSheet.create({
@@ -66,44 +65,42 @@ const styles = StyleSheet.create({
 
 })
 
-const Icons = {
-    home: { icon: '../images/Financeiro.png', focusIcon: '../images/Financeiro.png' }
-}
-
 function getIcon(focused, screenName) {
-    let icon = null
     if ('home' === screenName) {
-        return require('../images/Home.png')
+        return require('../../images/Home.png')
     } else if ('financeiro' === screenName) {
-        return require('../images/Financeiro.png')
+        return require('../../images/Financeiro.png')
     } else if ('clientes' === screenName) {
-        return require('../images/Clientes.png')
+        return require('../../images/Clientes.png')
     } else if ('ronda' === screenName) {
-        return require('../images/Ronda.png')
-    } else if ('chamados' === screenName) {
-        return require('../images/Chamados.png')
+        return require('../../images/Ronda.png')
+    } else if ('chamados' === screenName || 'login' === screenName) {
+        return require('../../images/Chamados.png')
     }
 }
 
-
 export default () => {
+    const { authenticated } = useContext(AuthContext)
+    console.warn(authenticated)
     return (
-        <NavigationContainer >
+        <>
             <Tab.Navigator
+                initialRouteName={'login'}
                 screenOptions={({ route }) => ({
                     tabBarIcon: ({ focused, color, size }) => {
-
                         return <Image style={styles.icon} source={getIcon(focused, route.name)} />
                     },
                 })}
 
                 tabBarOptions={{ showLabel: false }}>
 
+
                 <Tab.Screen name="home" component={EdicaoVigia} />
                 <Tab.Screen name="financeiro" component={PerfilVigia} />
                 <Tab.Screen name="clientes" component={PerfilVigia} />
                 <Tab.Screen name="ronda" component={ResumoRonda} />
             </Tab.Navigator>
-        </NavigationContainer>
+
+        </>
     );
 }

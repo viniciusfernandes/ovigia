@@ -1,16 +1,14 @@
-import React, { Component } from 'react'
-import { Text, View } from 'react-native'
-import Navegacao from './Navegacao'
-import EdicaoVigia from './screens/vigia/EdicaoVigia'
-export default class App extends Component {
-  render() {
-    return (
-      // <Login />
-      // <Teste />
-      // <PerfilVigia/>
-      // <EdicaoVigia/>
-        <Navegacao/>
-       
-    )
-  }
+import React, { useState } from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import AppRoute from './routes/AppRoute'
+import AuthContext from './contexts/AuthContext'
+export default () => {
+  const [signed, setSigned] = useState({ signed: false })
+  return (
+    <NavigationContainer >
+      <AuthContext.Provider value={signed}>
+        <AppRoute />
+      </AuthContext.Provider>
+    </NavigationContainer>
+  )
 }
