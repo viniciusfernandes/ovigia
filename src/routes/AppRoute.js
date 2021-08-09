@@ -6,9 +6,7 @@ import matisse from '../style/matisse';
 import PerfilVigia from '../screens/vigia/PerfilVigia'
 import ResumoRonda from '../screens/vigia/ResumoRonda';
 import EdicaoVigia from '../screens/vigia/EdicaoVigia';
-import AuthContext from '../contexts/AuthContext';
 
-const Tab = createBottomTabNavigator();
 const styles = StyleSheet.create({
     destaque: {
         fontSize: 25,
@@ -79,28 +77,26 @@ function getIcon(focused, screenName) {
     }
 }
 
+const Tab = createBottomTabNavigator();
+const Screen = Tab.Screen
+const Navigator = Tab.Navigator
+
 export default () => {
-    const { authenticated } = useContext(AuthContext)
-    console.warn(authenticated)
+
     return (
-        <>
-            <Tab.Navigator
-                initialRouteName={'login'}
-                screenOptions={({ route }) => ({
-                    tabBarIcon: ({ focused, color, size }) => {
-                        return <Image style={styles.icon} source={getIcon(focused, route.name)} />
-                    },
-                })}
+        <Navigator
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    return <Image style={styles.icon} source={getIcon(focused, route.name)} />
+                },
+            })}
 
-                tabBarOptions={{ showLabel: false }}>
+            tabBarOptions={{ showLabel: false }}>
 
-
-                <Tab.Screen name="home" component={EdicaoVigia} />
-                <Tab.Screen name="financeiro" component={PerfilVigia} />
-                <Tab.Screen name="clientes" component={PerfilVigia} />
-                <Tab.Screen name="ronda" component={ResumoRonda} />
-            </Tab.Navigator>
-
-        </>
+            <Screen name="edicaoVigia" component={EdicaoVigia} />
+            <Screen name="financeiro" component={PerfilVigia} />
+            <Screen name="clientes" component={PerfilVigia} />
+            <Screen name="ronda" component={ResumoRonda} />
+        </Navigator>
     );
 }
