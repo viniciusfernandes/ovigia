@@ -4,14 +4,11 @@ import {
   Image
 } from 'react-native';
 import Container from '../../components/Container';
-import { RoutesMap } from '../../routes/RoutesMap';
 import styles from './styles/login.styles'
 import { signIn } from '../../services/auth/auth.service';
 
-const edicaoVigia = RoutesMap.edicaoVigia
-
 export default props => {
-  const [credencial, setCredencial] = useState({ email: 'vinicius@gmail.com', password: '1234' })
+  const [credencial, setCredencial] = useState({ email: 'sss@hotmail.com', password: '1234' })
   return (
     <Container>
 
@@ -30,7 +27,7 @@ export default props => {
         <Text style={styles.label}>Senha</Text>
         <TextInput secureTextEntry={true} style={[styles.input, { marginBottom: 20 }]}
           onChangeText={password => setCredencial({ ...credencial, password })} />
-        
+
         <TouchableOpacity>
           <Text style={styles.esqueciSenha}>Esqueci minha senha</Text>
         </TouchableOpacity>

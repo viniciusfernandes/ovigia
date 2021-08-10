@@ -12,13 +12,7 @@ export function GET(resource, onGet, onError) {
         .then(response => {
             onGet(response.data.value !== undefined ? response.data.value : {})
         })
-        .catch(error => {
-            if (onError !== undefined) {
-                onError(error)
-            } else {
-                console.error(error)
-            }
-        });
+        .catch(error => handleError(error, onError));
 }
 
 export function POST(resource, body, onPost, onError) {
@@ -26,13 +20,7 @@ export function POST(resource, body, onPost, onError) {
         .then(response => {
             onPost(response.data.value !== undefined ? response.data.value : {})
         })
-        .catch(error => {
-            if (onError !== undefined) {
-                onError(error)
-            } else {
-                console.error(error)
-            }
-        });
+        .catch(error => handleError(error, onError));
 }
 
 export function DELETE(resource, onDelete, onError) {
@@ -40,11 +28,12 @@ export function DELETE(resource, onDelete, onError) {
         .then(response => {
             onDelete(response.data.value !== undefined ? response.data.value : {})
         })
-        .catch(error => {
-            if (onError !== undefined) {
-                onError(error)
-            } else {
-                console.error(error)
-            }
-        });
+        .catch(error => handleError(error, onError));
+}
+
+function handleError(error, onError) {
+    if (onError !== undefined) {
+        onError(error)
+    }
+    console.error(error)
 }

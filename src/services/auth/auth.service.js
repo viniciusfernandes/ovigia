@@ -1,5 +1,5 @@
 import { GET, POST } from '../api'
 
 export const signIn = (credencial) => {
-    POST('/auth/signin', credencial, response => console.info('authentication: ' + response.data))
+    POST('/auth/signin', credencial, data => console.info('authentication: ' + data))
 }

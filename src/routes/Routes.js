@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { useContext } from 'react';
-import AuthContext from '../contexts/AuthContext';
+import React from 'react';
 import AppRoute from './AppRoute';
 import AuthRoute from './AuthRoute';
 
