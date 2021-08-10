@@ -1,16 +1,18 @@
-import React, { useContext } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 
-import Login from '../screens/login/LoginScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import { RoutesMap } from './RoutesMap';
+import LoginScreen from '../screens/login/LoginScreen';
 
 const Stack = createBottomTabNavigator()
 const Screen = Stack.Screen
 const Navigator = Stack.Navigator
 export default () => {
+    const login = RoutesMap.login
     return (
         <Navigator>
-            <Screen name="login" component={Login} options={{ tabBarVisible: false }} />
+            <Screen name="login" component={LoginScreen} options={{ tabBarVisible: false }} />
         </Navigator>
     );
 }

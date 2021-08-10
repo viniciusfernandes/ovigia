@@ -1,69 +1,13 @@
 import React, { useState } from 'react';
 import {
-    StyleSheet,
-    Text, TouchableOpacity, View,
-    Dimensions,
-    TextInput,
-    Button
+    Text, TouchableOpacity,
 } from 'react-native';
 import EdicaoPerfil from '../EdicaoPerfil';
 import LabelInput from '../../components/LabelInput'
 import ImagemPerfil from '../../screens/ImagemPerfil';
-import matisse from '../../style/matisse';
-import { obterVigia, criarVigia } from '../../services/vigia/vigiaServices';
+import { criarVigia } from '../../services/vigia/vigia.services';
 
-const width = Dimensions.get('window').width
-const styles = StyleSheet.create({
-    nome: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 25,
-    },
-    label: {
-        color: '#C3C9C9',
-        fontSize: 20,
-        marginBottom: 0,
-        marginLeft: 20,
-        marginRight: 20,
-        fontWeight: 'bold',
-        textAlign: 'center'
-    },
-    botaoSalvar: {
-        borderRadius: 20,
-        color: 'red',
-        backgroundColor: matisse.laranja,
-        color: 'white',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: '15%',
-        elevation: 3,
-        width: '40%',
-
-    },
-    botaoSalvarText: {
-
-        color: 'white',
-        height: 40,
-        paddingTop: 5,
-        textAlign: 'center',
-        width: width / 2,
-    },
-    input: {
-        backgroundColor: 'white',
-        height: 40,
-        marginLeft: 30,
-        marginRight: 30,
-        paddingLeft: 20,
-        borderRadius: 20,
-        elevation: 1
-    },
-    titulo: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        marginLeft: 30,
-        marginTop: 20
-    },
-})
+import styles from './styles/edicao.vigia.styles'
 
 export default props => {
     const [vigia, setVigia] = useState({

@@ -1,68 +1,11 @@
-import React, { useContext } from 'react';
-import { Image, StyleSheet, } from 'react-native';
+import React from 'react';
+import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import matisse from '../style/matisse';
 import PerfilVigia from '../screens/vigia/PerfilVigia'
 import ResumoRonda from '../screens/vigia/ResumoRonda';
 import EdicaoVigia from '../screens/vigia/EdicaoVigia';
-
-const styles = StyleSheet.create({
-    destaque: {
-        fontSize: 25,
-        marginLeft: 20,
-        marginRight: 20,
-        marginTop: 25,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        width: 300
-    },
-    container: {
-        margin: 10,
-        backgroundColor: '#fff',
-        borderRadius: 30,
-        elevation: 5,
-
-
-    },
-    input: {
-        borderBottomColor: matisse.laranja,
-        borderBottomWidth: 2,
-        height: 40,
-        marginLeft: 20,
-        marginRight: 20,
-        paddingBottom: 0,
-    },
-    label: {
-        color: matisse.cinzaClaro,
-        fontSize: 15,
-        marginBottom: 0,
-        marginLeft: 20,
-        marginRight: 20,
-        fontWeight: 'bold',
-    },
-    botao: {
-        alignContent: 'center',
-        borderRadius: 25,
-        width: 200,
-        marginTop: 50,
-        padding: 10,
-        paddingTop: 10,
-        backgroundColor: '#fff',
-        elevation: 25,
-    },
-    logo: {
-        width: 100,
-        height: 100,
-    },
-
-    icon: {
-        width: 30,
-        height: 30
-    }
-
-})
-
+import styles from './styles/app.routes.styles'
 function getIcon(focused, screenName) {
     if ('home' === screenName) {
         return require('../../images/Home.png')
@@ -80,7 +23,6 @@ function getIcon(focused, screenName) {
 const Tab = createBottomTabNavigator();
 const Screen = Tab.Screen
 const Navigator = Tab.Navigator
-
 export default () => {
 
     return (
@@ -92,7 +34,6 @@ export default () => {
             })}
 
             tabBarOptions={{ showLabel: false }}>
-
             <Screen name="edicaoVigia" component={EdicaoVigia} />
             <Screen name="financeiro" component={PerfilVigia} />
             <Screen name="clientes" component={PerfilVigia} />
