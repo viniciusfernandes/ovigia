@@ -10,12 +10,7 @@ import { criarVigia } from '../../services/vigia/vigia.services';
 import styles from './styles/edicao.vigia.styles'
 
 export default props => {
-    const [vigia, setVigia] = useState({
-        nome: 'renato alberto',
-        email: 'renato.alberto@gmail.com',
-        telefone: '54254235423',
-        senha: '1234'
-    })
+    const [vigia, setVigia] = useState({})
 
     return (
         <EdicaoPerfil >
@@ -25,13 +20,7 @@ export default props => {
             <LabelInput titulo={'Celular'} valor={vigia.telefone} />
             <LabelInput titulo={'Senha'} valor={vigia.senha} />
             <TouchableOpacity style={styles.botaoSalvar}
-                onPress={() => {
-                    criarVigia(vigia, (data) => {
-                        console.log('id vigia: ' + data)
-                        setVigia({})
-                    })
-                }
-                }>
+                onPress={() => criarVigia(vigia, (data) => setVigia({}))}>
                 <Text style={[styles.label, styles.botaoSalvarText]}>Salvar</Text>
             </TouchableOpacity>
 

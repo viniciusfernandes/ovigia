@@ -7,26 +7,26 @@ const api = axios.create({
     }
 })
 
-export function GET(resource, onGet, onError) {
+export function GET(resource, onSuccess, onError) {
     api.get(resource)
         .then(response => {
-            onGet(response.data.value !== undefined ? response.data.value : {})
+            onSuccess(response.data.value !== undefined ? response.data.value : {})
         })
         .catch(error => handleError(error, onError));
 }
 
-export function POST(resource, body, onPost, onError) {
+export function POST(resource, body, onSuccess, onError) {
     api.post(resource, body)
         .then(response => {
-            onPost(response.data.value !== undefined ? response.data.value : {})
+            onSuccess(response.data.value !== undefined ? response.data.value : {})
         })
         .catch(error => handleError(error, onError));
 }
 
-export function DELETE(resource, onDelete, onError) {
+export function DELETE(resource, onSuccess, onError) {
     api.delete(resource, body)
         .then(response => {
-            onDelete(response.data.value !== undefined ? response.data.value : {})
+            onSuccess(response.data.value !== undefined ? response.data.value : {})
         })
         .catch(error => handleError(error, onError));
 }

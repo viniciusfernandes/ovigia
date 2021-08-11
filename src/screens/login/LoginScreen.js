@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Text, TextInput, TouchableOpacity, View,
   Image
@@ -6,9 +6,11 @@ import {
 import Container from '../../components/Container';
 import styles from './styles/login.styles'
 import { signIn } from '../../services/auth/auth.service';
+import AuthContext from '../../contexts/AuthContext';
 
 export default props => {
   const [credencial, setCredencial] = useState({ email: 'sss@hotmail.com', password: '1234' })
+  const { signIn } = useContext(AuthContext)
   return (
     <Container>
 
@@ -23,9 +25,14 @@ export default props => {
 
         <Text style={styles.bemVindo}>Bem-Vindo!</Text>
         <Text style={styles.label}>E-mail</Text>
-        <TextInput style={styles.input} onChangeText={email => setCredencial({ ...credencial, email })} />
+        <TextInput style={styles.input}
+          value={credencial.email}
+          onChangeText={email => setCredencial({ ...credencial, email })} />
+
         <Text style={styles.label}>Senha</Text>
-        <TextInput secureTextEntry={true} style={[styles.input, { marginBottom: 20 }]}
+        <TextInput secureTextEntry={true}
+          value={credencial.password}
+          style={[styles.input, { marginBottom: 20 }]}
           onChangeText={password => setCredencial({ ...credencial, password })} />
 
         <TouchableOpacity>

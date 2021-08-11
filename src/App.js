@@ -1,12 +1,13 @@
 import 'react-native-gesture-handler'
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-import AuthContextProvider from './contexts/AuthContextProvider'
 import Routes from './routes/Routes'
+import AuthContext, { AuthContextProvider } from './contexts/AuthContext'
 export default () => {
+  const { signed } = useContext(AuthContext)
   return (
     <NavigationContainer >
-      <AuthContextProvider value={{ teste: true }}>
+      <AuthContextProvider value={signed}>
         <Routes />
       </AuthContextProvider>
     </NavigationContainer>
