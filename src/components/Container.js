@@ -6,12 +6,15 @@ import matisse from '../style/matisse'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: matisse.laranja,
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: matisse.laranja
     }
 })
 export default props => {
+    const customStyle = props.backgroundColor ?
+        [styles.container, { backgroundColor: props.backgroundColor }]
+        : styles.container
     return (
-        <SafeAreaView style={styles.container}>{props.children}</SafeAreaView>
+        <SafeAreaView style={customStyle}>{props.children}</SafeAreaView>
     )
 }
