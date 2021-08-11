@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         color: 'white'
     }
 })
-export default () => {
+export default (props) => {
     return (
         <Container backgroundColor='white'>
             <Text style={styles.textoInicio}>Vamos Começar!</Text>
@@ -93,7 +93,8 @@ export default () => {
             </TouchableOpacity>
             <View style={styles.botoesSalvar}>
                 <TouchableButton title='Voltar' style={styles.botaoVoltar}
-                    styleText={[styles.textoBotao, styles.textoBotaoVoltar]} />
+                    styleText={[styles.textoBotao, styles.textoBotaoVoltar]} 
+                    onPress={ () => props.navigation.goBack()}/>
                 <TouchableButton title='Próximo' style={styles.botaoProximo}
                     styleText={[styles.textoBotao, , styles.textoBotaoProximo]} />
 

@@ -63,7 +63,7 @@ export default props => {
 
       <View style={styles.botoesCadastroContainer}>
         <Text style={[styles.label, styles.naoTemConta]}>Não tem conta?</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('cadastroTipoUsuario') }>
           <Text style={[styles.label, styles.cadastre]}>CADASTRE-SE!</Text>
         </TouchableOpacity>
 
