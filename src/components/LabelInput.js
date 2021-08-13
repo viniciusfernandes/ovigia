@@ -3,17 +3,19 @@ import {
     StyleSheet,
     Text, TextInput
 } from 'react-native';
+import matisse from '../style/matisse';
 
 const styles = StyleSheet.create({
     input: {
         backgroundColor: 'white',
-        height: '10%',
+        height: 40,
         paddingLeft: 20,
         borderRadius: 20,
         elevation: 3,
         width: '80%'
     },
     titulo: {
+        color: matisse.cinzaEscuro,
         fontSize: 15,
         fontWeight: 'bold',
         marginTop: 20,
