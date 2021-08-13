@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from 'react-native'
 import Container from '../../components/Container'
 import LabelInput from '../../components/LabelInput'
 import TouchableButton from '../../components/TouchableButton'
+import { criarVigia } from '../../services/vigia/vigia.services'
 import styles from './styles/cadastro.styles'
 export default (props) => {
     const [contato, setContato] = useState({})
@@ -21,7 +22,8 @@ export default (props) => {
                     styleText={[styles.textoBotao, styles.textoBotaoCinza]}
                     onPress={() => props.navigation.goBack()} />
                 <TouchableButton title='Salvar' style={styles.botaoLaranja}
-                    styleText={[styles.textoBotao, , styles.textoBotaoLaranja]} />
+                    styleText={[styles.textoBotao, , styles.textoBotaoLaranja]}
+                    onPress={() => criarVigia(contato, data => console.info('id vigia: ' + data))} />
 
             </View>
         </Container>
