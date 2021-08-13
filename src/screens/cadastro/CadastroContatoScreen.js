@@ -23,7 +23,7 @@ export default (props) => {
                     onPress={() => props.navigation.goBack()} />
                 <TouchableButton title='Salvar' style={styles.botaoLaranja}
                     styleText={[styles.textoBotao, , styles.textoBotaoLaranja]}
-                    onPress={() => criarVigia(contato, data => console.info('id vigia: ' + data))} />
+                    onPress={() => criarVigia(contato, data => props.navigation.navigate('cadastroSucesso'))} />
 
             </View>
         </Container>
