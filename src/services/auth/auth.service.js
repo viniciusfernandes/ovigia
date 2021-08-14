@@ -5,9 +5,9 @@ export const signIn = (credencial, onSuccess) => {
 }
 
 export const signOn = (credencial, onSuccess) => {
-    POST('/auth/signon', credencial, token => {
-        console.info('singOn ok: ' + token)
-        updateToken(token)
-        onSuccess()
+    POST('/auth/signon', credencial, usuario => {
+        console.info('singOn ok: ' + JSON.stringify(usuario))
+        updateToken(usuario)
+        onSuccess(usuario)
     })
 }

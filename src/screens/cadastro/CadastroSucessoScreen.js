@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, Text, Image } from 'react-native'
+import { useContext } from 'react/cjs/react.development'
 import Container from '../../components/Container'
 import LabelInput from '../../components/LabelInput'
 import TouchableButton from '../../components/TouchableButton'
 import { larguraPercentual } from '../../constantes/medidas/Medidas'
+import AuthContext from '../../contexts/AuthContext'
 import { criarVigia } from '../../services/vigia/vigia.services'
 import matisse from '../../style/matisse'
 const styles = StyleSheet.create({
@@ -16,7 +18,7 @@ const styles = StyleSheet.create({
         width: '30%',
         resizeMode: 'contain',
     },
-    textoBotao:{
+    textoBotao: {
         color: matisse.laranja,
         fontSize: 20,
         textAlign: 'center'
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
     },
 })
 export default (props) => {
-    const [contato, setContato] = useState({})
+    const { openMenu } = useContext(AuthContext)
     return (
         <Container>
             <Image
@@ -47,7 +49,7 @@ export default (props) => {
             <Text style={[styles.texto, styles.textoMenor, { marginBottom: '30%' }]}>dos seus documentos.</Text>
             <TouchableButton title='Acessar Conta' style={styles.botao}
                 styleText={[styles.textoBotao, styles.textoBotaoCinza]}
-                onPress={() => props.navigation.goBack()} />
+                onPress={() => openMenu()} />
         </Container>
     )
 }

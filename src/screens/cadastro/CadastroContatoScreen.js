@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, Text } from 'react-native'
 import { useContext } from 'react/cjs/react.development'
 import Container from '../../components/Container'
 import LabelInput from '../../components/LabelInput'
 import TouchableButton from '../../components/TouchableButton'
 import AuthContext from '../../contexts/AuthContext'
-import { signOn } from '../../services/auth/auth.service'
-import { criarVigia } from '../../services/vigia/vigia.services'
 import styles from './styles/cadastro.styles'
 export default (props) => {
     const [contato, setContato] = useState({
@@ -17,7 +15,7 @@ export default (props) => {
         tipoUsuario: 'VIGIA'
     })
 
-    const { singOn } = useContext(AuthContext)
+    const { signOn } = useContext(AuthContext)
 
     return (
         <Container backgroundColor='white'>
@@ -43,7 +41,7 @@ export default (props) => {
                     onPress={() => props.navigation.goBack()} />
                 <TouchableButton title='Salvar' style={styles.botaoLaranja}
                     styleText={[styles.textoBotao, , styles.textoBotaoLaranja]}
-                    onPress={() => signOn(contato, data => props.navigation.navigate('cadastroSucesso'))} />
+                    onPress={() => signOn(contato, () => props.navigation.navigate('cadastroSucesso'))} />
 
             </View>
         </Container>

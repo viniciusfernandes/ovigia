@@ -14,18 +14,23 @@ export const AuthContextProvider = ({ children }) => {
         error => setUsuario(null)
     )
 
-
-    const signon = usuario => signOn(
+    const signon = (usuario, onSuccess) => signOn(
         usuario,
         data => {
-            console.info('usuario criado: ' + data)
+            console.info('usuario criado: ' + JSON.stringify(data))
             setUsuario({ email: data.email, nome: data.nome, tipoUsario: data.tipoUsuario })
+            onSuccess()
         },
         error => setUsuario(null)
     )
 
     return (
-        <AuthContext.Provider value={{ signed: !!usuario, signIn: signin, signOn, signon }}    >
+        <AuthContext.Provider value={{
+            signed: !!usuario && usuario.signed,
+            signIn: signin,
+            signOn: signon,
+            openMenu: () => setUsuario({ ...usuario, signed: true })
+        }}>
             {children}
         </AuthContext.Provider>
     )
