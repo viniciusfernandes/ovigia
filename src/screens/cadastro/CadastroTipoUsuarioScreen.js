@@ -2,8 +2,10 @@ import React, { useContext } from 'react'
 import { Image, View, StyleSheet, Text, TouchableOpacity, Button } from 'react-native'
 import Container from '../../components/Container'
 import TouchableButton from '../../components/TouchableButton'
+import AuthContext from '../../contexts/AuthContext'
 import styles from './styles/cadastro.styles'
 export default (props) => {
+    useContext(AuthContext)
     return (
         <Container backgroundColor='white'>
             <Text style={styles.textoTitulo}>Vamos Começar!</Text>
