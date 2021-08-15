@@ -7,7 +7,7 @@ import ResumoRonda from '../screens/vigia/ResumoRonda';
 import EdicaoVigia from '../screens/vigia/EdicaoVigia';
 import styles from './styles/app.routes.styles'
 function getIcon(focused, screenName) {
-    if ('home' === screenName) {
+    if ('edicaoVigia' === screenName) {
         return require('../../images/Home.png')
     } else if ('financeiro' === screenName) {
         return require('../../images/Financeiro.png')
@@ -28,8 +28,8 @@ export default () => {
     return (
         <Navigator
             screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, color, size }) => {
-                    return <Image style={styles.icon} source={getIcon(focused, route.name)} />
+                tabBarIcon: ({ focused }) => {
+                    return <Image source={getIcon(focused, route.name)} />
                 },
             })}
 

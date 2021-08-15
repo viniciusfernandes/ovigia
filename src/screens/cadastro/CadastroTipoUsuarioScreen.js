@@ -4,14 +4,32 @@ import Container from '../../components/Container'
 import TouchableButton from '../../components/TouchableButton'
 import AuthContext from '../../contexts/AuthContext'
 import styles from './styles/cadastro.styles'
+
+import Geolocation from '@react-native-community/geolocation';
 export default (props) => {
-    useContext(AuthContext)
+    const { setTipoUsuario } = useContext(AuthContext)
+
+    function navigate(tipo) {
+        setTipoUsuario({ tipo })
+        props.navigation.navigate('cadastroContato')
+    }
+    Geolocation.getCurrentPosition(
+        position => {
+            const location = JSON.stringify(position);
+            console.info('Location: ' + location)
+        },
+        error => Alert.alert(error.message),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
     return (
         <Container backgroundColor='white'>
             <Text style={styles.textoTitulo}>Vamos Começar!</Text>
             <Text style={styles.textoMenor}>Primeiro, queremos saber</Text>
             <Text style={styles.textoMenor}>se você é:</Text>
-            <TouchableOpacity style={[styles.box, styles.boxVigia]}>
+            <TouchableOpacity style={[styles.box, styles.boxVigia]}
+                onPress={() => {
+                    navigate('VIGIA')
+                }} >
                 <Image
                     style={styles.boxIcon}
                     source={require('../../../images/escudo_branco_75.png')}
@@ -19,7 +37,10 @@ export default (props) => {
                 <Text style={styles.tipoUsuario}>Vigia</Text>
 
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.box, styles.boxCliente]}>
+            <TouchableOpacity style={[styles.box, styles.boxCliente]}
+                onPress={() => {
+                    navigate('CLIENTE')
+                }}>
                 <Image
                     style={styles.boxIcon}
                     source={require('../../../images/usuario_branco_75.png')}
@@ -30,11 +51,9 @@ export default (props) => {
                 <TouchableButton title='Voltar' style={styles.botaoCinza}
                     styleText={[styles.textoBotao, styles.textoBotaoCinza]}
                     onPress={() => props.navigation.goBack()} />
-                <TouchableButton title='Próximo' style={styles.botaoLaranja}
-                    styleText={[styles.textoBotao, , styles.textoBotaoLaranja]}
-                    onPress={() => props.navigation.navigate('cadastroContato')} />
 
             </View>
         </Container>
     )
 }
+

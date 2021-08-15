@@ -29,6 +29,7 @@ export const AuthContextProvider = ({ children }) => {
             signed: !!usuario && usuario.signed,
             signIn: signin,
             signOn: signon,
+            setTipoUsuario: tipoUsuario=>setUsuario({ ...usuario, tipoUsuario }), 
             openMenu: () => setUsuario({ ...usuario, signed: true })
         }}>
             {children}
