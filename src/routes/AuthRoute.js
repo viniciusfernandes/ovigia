@@ -7,7 +7,6 @@ import LoginScreen from '../screens/login/LoginScreen';
 import CadastroTipoUsuario from '../screens/cadastro/CadastroTipoUsuarioScreen';
 import CadastroContato from '../screens/cadastro/CadastroContatoScreen';
 import CadastroSucessoScreen from '../screens/cadastro/CadastroSucessoScreen';
-import RondaVigiaScreen from '../screens/ronda/RondaVigiaScreen';
 
 const Stack = createBottomTabNavigator()
 const Screen = Stack.Screen

@@ -34,9 +34,11 @@ export default () => {
             tabBarOptions={{
                 showLabel: false,
                 style: {
-                    borderTopLeftRadius: 30,
-                    borderTopRightRadius: 30,
-                    height: '10%'
+                    borderTopLeftRadius: 25,
+                    borderTopRightRadius: 25,
+                    height: '10%',
+                    elevation: 50,
+                    backgroundColor: matisse.laranjaTransparente
                 }
             }}
 
