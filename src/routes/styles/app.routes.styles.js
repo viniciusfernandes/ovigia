@@ -54,5 +54,13 @@ const styles = StyleSheet.create({
         height: 10,
 
     },
-   
+    tabIcon: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        backgroundColor: 'white',
+        width: 60,
+        height: 60,
+    }
+
 })

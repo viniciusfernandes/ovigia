@@ -11,30 +11,29 @@ import matisse from '../style/matisse';
 import { color } from 'react-native-reanimated';
 function getIcon(focused, screenName) {
     if ('edicaoVigia' === screenName) {
-        return require('../../images/Home.png')
+        return focused ? require('../../images/overview_laranja_75.png') : require('../../images/overview_preto_75.png')
     } else if ('financeiro' === screenName) {
-        return require('../../images/Financeiro.png')
+        return focused ? require('../../images/financeiro_laranja_75.png') : require('../../images/financeiro_preto_75.png')
     } else if ('clientes' === screenName) {
-        return require('../../images/Clientes.png')
-    } else if ('ronda' === screenName) {
-        return require('../../images/Ronda.png')
+        return focused ? require('../../images/clientes_laranja_75.png') : require('../../images/clientes_preto_75.png')
+    } else if ('rondaVigia' === screenName) {
+        return focused ? require('../../images/ronda_laranja_75.png') : require('../../images/ronda_preto_75.png')
     } else if ('chamados' === screenName || 'login' === screenName) {
-        return require('../../images/Chamados.png')
+        return focused ? require('../../images/chamados_laranja_75.png') : require('../../images/chamados_preto_75.png')
     }
 }
 
 const Tab = createBottomTabNavigator();
 const Screen = Tab.Screen
 const Navigator = Tab.Navigator
-const TabBarComponent = (props) => (<BottomTabBar {...props} />)
 export default () => {
 
     return (
         <Navigator
 
             tabBarOptions={{
-                showLabel: true,
-                 style: {
+                showLabel: false,
+                style: {
                     borderTopLeftRadius: 30,
                     borderTopRightRadius: 30,
                     height: '10%'
@@ -50,25 +49,40 @@ export default () => {
             <Screen name="clientes" component={PerfilVigia} />
             <Screen name="ronda" component={ResumoRonda} /> */}
 
-            <Tab.Screen
-                name="rondaVigia"
-                component={RondaVigiaScreen}
+
+            <Screen name="edicaoVigia" component={EdicaoVigia}
                 options={{
                     tabBarIcon: ({ focused }) => (
-                        <View style={{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderRadius: 5,
-                            backgroundColor: 'white',
-                            width: 60,
-                                    height: 60,
-                        }}>
-                            <Image
-                                source={getIcon(false, 'edicaoVigia')}
-                                resizeMode='contain'
-                                 
-                            />
+                        <View style={styles.tabIcon}>
+                            <Image source={getIcon(focused, 'edicaoVigia')} resizeMode='contain' />
+                        </View>
+                    )
+                }}
+            />
+            <Screen name="financeiro" component={PerfilVigia}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <View style={styles.tabIcon}>
+                            <Image source={getIcon(focused, 'financeiro')} resizeMode='contain' />
+                        </View>
+                    )
+                }}
+            />
 
+            <Screen name="rondaVigia" component={RondaVigiaScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <View style={styles.tabIcon}>
+                            <Image source={getIcon(focused, 'rondaVigia')} resizeMode='contain' />
+                        </View>
+                    )
+                }}
+            />
+            <Screen name="chamados" component={RondaVigiaScreen}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <View style={styles.tabIcon}>
+                            <Image source={getIcon(focused, 'chamados')} resizeMode='contain' />
                         </View>
                     )
                 }}
