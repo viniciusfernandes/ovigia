@@ -5,11 +5,10 @@ import {
 } from 'react-native';
 import Container from '../../components/Container';
 import styles from './styles/login.styles'
-import { signIn } from '../../services/auth/auth.service';
 import AuthContext from '../../contexts/AuthContext';
 
 export default props => {
-  const [credencial, setCredencial] = useState({ email: 'sss@hotmail.com', password: '1234' })
+  const [credencial, setCredencial] = useState({ email: 'viniciussf@hotmail.com', password: '1234' })
   const { signIn } = useContext(AuthContext)
   return (
     <Container>
@@ -63,7 +62,7 @@ export default props => {
 
       <View style={styles.botoesCadastroContainer}>
         <Text style={[styles.label, styles.naoTemConta]}>Não tem conta?</Text>
-        <TouchableOpacity onPress={()=>props.navigation.navigate('cadastroTipoUsuario') }>
+        <TouchableOpacity onPress={() => props.navigation.navigate('cadastroTipoUsuario')}>
           <Text style={[styles.label, styles.cadastre]}>CADASTRE-SE!</Text>
         </TouchableOpacity>
 

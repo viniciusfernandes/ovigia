@@ -1,8 +1,7 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import Container from '../../components/Container'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
-import Navegacao from '../../Navegacao'
 import matisse from '../../style/matisse'
 
 const styles = StyleSheet.create({
@@ -72,10 +71,13 @@ export default props => {
 
     return (
         <Container>
-            <Text style={[styles.header, { marginTop: '15%' }]}>Acompanhe</Text>
-            <Text style={styles.header}>todos os chamados</Text>
-            <Text style={[styles.header, styles.textPequeno]}>Chamados em aberto</Text>
-            {gerarTextChamados()}
+            <ScrollView>
+                <Text style={[styles.header, { marginTop: '15%' }]}>Acompanhe</Text>
+                <Text style={styles.header}>todos os chamados</Text>
+                <Text style={[styles.header, styles.textPequeno]}>Chamados em aberto</Text>
+                {gerarTextChamados()}
+
+            </ScrollView>
 
         </Container>
     )

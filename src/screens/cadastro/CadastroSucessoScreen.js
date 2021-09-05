@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     },
 })
 export default (props) => {
-    const { openMenu } = useContext(AuthContext)
+    const { habilitarHome } = useContext(AuthContext)
     return (
         <Container>
             <Image
@@ -49,7 +49,7 @@ export default (props) => {
             <Text style={[styles.texto, styles.textoMenor, { marginBottom: '30%' }]}>dos seus documentos.</Text>
             <TouchableButton title='Acessar Conta' style={styles.botao}
                 styleText={[styles.textoBotao, styles.textoBotaoCinza]}
-                onPress={() => openMenu()} />
+                onPress={() => habilitarHome()} />
         </Container>
     )
 }

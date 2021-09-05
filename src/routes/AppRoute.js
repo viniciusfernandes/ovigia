@@ -9,8 +9,10 @@ import styles from './styles/app.routes.styles'
 import RondaVigiaScreen from '../screens/ronda/RondaVigiaScreen';
 import matisse from '../style/matisse';
 import { color } from 'react-native-reanimated';
+import ChamadosVigiaScreen from '../screens/vigia/ChamadosVigiaScreen';
+import IniciarRondaScreen from '../screens/vigia/IniciarRondaScreen';
 function getIcon(focused, screenName) {
-    if ('edicaoVigia' === screenName) {
+    if ('iniciarRonda' === screenName) {
         return focused ? require('../../images/overview_laranja_75.png') : require('../../images/overview_preto_75.png')
     } else if ('financeiro' === screenName) {
         return focused ? require('../../images/financeiro_laranja_75.png') : require('../../images/financeiro_preto_75.png')
@@ -30,7 +32,6 @@ export default () => {
 
     return (
         <Navigator
-
             tabBarOptions={{
                 showLabel: false,
                 style: {
@@ -40,23 +41,13 @@ export default () => {
                     elevation: 50,
                     backgroundColor: matisse.laranjaTransparente
                 }
-            }}
+            }}>
 
-
-
-        >
-            {/* <Screen style={{ borderRadius: 30 }} name="rondaVigia" component={RondaVigiaScreen} />
-            <Screen name="edicaoVigia" component={EdicaoVigia} />
-            <Screen name="financeiro" component={PerfilVigia} />
-            <Screen name="clientes" component={PerfilVigia} />
-            <Screen name="ronda" component={ResumoRonda} /> */}
-
-
-            <Screen name="edicaoVigia" component={EdicaoVigia}
+            <Screen name="iniciarRonda" component={IniciarRondaScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View style={styles.tabIcon}>
-                            <Image source={getIcon(focused, 'edicaoVigia')} resizeMode='contain' />
+                            <Image source={getIcon(focused, 'iniciarRonda')} resizeMode='contain' />
                         </View>
                     )
                 }}
@@ -80,7 +71,7 @@ export default () => {
                     )
                 }}
             />
-            <Screen name="chamados" component={RondaVigiaScreen}
+            <Screen name="chamados" component={ChamadosVigiaScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View style={styles.tabIcon}>
