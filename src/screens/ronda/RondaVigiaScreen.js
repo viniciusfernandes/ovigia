@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
@@ -25,6 +25,16 @@ export default () => (
                 longitudeDelta: 0.0121,
             }}
         >
+            <Marker
+                coordinate={{
+                    latitude: -23.70389,
+                    longitude: -46.61829,
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02
+                }}
+                pinColor={"white"}
+                title={'Você está aqui!'}
+            />
         </MapView>
     </View>
 );
