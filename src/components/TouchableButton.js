@@ -8,14 +8,15 @@ import {
 
 const styles = StyleSheet.create({
     button: {
+        alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 25,
         fontSize: 20,
         fontWeight: 'bold',
+        justifyContent: 'center',
         padding: '2%',
         paddingTop: '2%',
         elevation: 5,
-
     },
     buttonText: {
         fontWeight: 'bold',

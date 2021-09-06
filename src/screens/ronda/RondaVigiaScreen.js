@@ -2,22 +2,44 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import TouchableButton from '../../components/TouchableButton';
+import matisse from '../../style/matisse';
 const styles = StyleSheet.create({
-    container: {
-        ...StyleSheet.absoluteFillObject,
-        flex: 1,
-        justifyContent: 'flex-end',
+    botoesContainer: {
         alignItems: 'center',
+        position: 'absolute',
+        top: '80%',
+        width: '100%'
     },
-    map: {
-        ...StyleSheet.absoluteFillObject,
+    mapaContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    mapa: {
+        borderRadius: 200,
+        width: '100%',
+        height: '100%',
+    },
+    pausarButton: {
+        backgroundColor: matisse.laranja,
+        width: '45%'
+    },
+    concluirButton: {
+        marginTop: '2%',
+        width: '45%',
     },
 });
 
 export default () => (
-    <View style={styles.container}>
+    <View style={styles.mapaContainer}>
+        <View style={styles.botoesContainer}>
+            <TouchableButton style={styles.pausarButton} styleText={{ color: 'white', fontSize: 20 }}
+                title="Pausar Ronda" />
+            <TouchableButton style={styles.concluirButton} styleText={{ fontSize: 20 }}
+                title="Concluir Ronda" />
+        </View>
         <MapView
-            style={styles.map}
+            style={styles.mapa}
             region={{
                 latitude: -23.70389,
                 longitude: -46.61829,

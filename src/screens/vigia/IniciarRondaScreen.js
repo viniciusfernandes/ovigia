@@ -1,12 +1,13 @@
 import React from 'react'
 import { useContext } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import Container from '../../components/Container'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
 import TouchableButton from '../../components/TouchableButton'
 import AuthContext from '../../contexts/AuthContext'
 import matisse from '../../style/matisse'
+
 
 const styles = StyleSheet.create({
     dataHora: {
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
         borderRadius: 200,
         width: '100%',
         height: '85%',
+        overflow: 'hidden'
 
     },
     rondaDescricao: {
@@ -68,7 +70,6 @@ const styles = StyleSheet.create({
         marginTop: '6%'
     }
 })
-
 
 export default props => {
     const { nomeUsuario } = useContext(AuthContext)
