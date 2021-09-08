@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
 export default props => {
     return (
-        <View style={styles.mapaContainer}>
+        <View key={props.id} style={styles.mapaContainer}>
             <MapView
                 style={styles.mapa}
                 region={{

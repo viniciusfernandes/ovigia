@@ -60,7 +60,6 @@ export default props => {
     return (
         <Container>
             <HeaderBox headers={['Olá, ' + nomeUsuario, 'Vamos começar?']} detail='Ronda' />
-
             <MapBox />
             <TouchableButton style={styles.iniciarRondaButton} styleText={{ fontSize: 20 }}
                 title="Iniciar Ronda"
@@ -70,7 +69,6 @@ export default props => {
                 <Text style={styles.textAtividade}>Atividades</Text>
             </View>
             <ImageBoxRightBar
-                key='143'
                 imagem={require('../../../images/escudocheck_laranja_75.png')}>
                 <Text style={styles.rondaTitulo}>Ronda Concluída!</Text>
                 <Text style={styles.rondaDescricao}>Concluiu na data:</Text>
@@ -80,8 +78,8 @@ export default props => {
                 </View>
 
             </ImageBoxRightBar>
+
             <ImageBoxRightBar
-                key='123'
                 imagem={require('../../../images/sino_laranja_75.png')}>
                 <Text style={styles.rondaTitulo}>Você tem Mensalidades!</Text>
                 <Text style={styles.rondaDescricao}>Veja as datas de vecimentos</Text>

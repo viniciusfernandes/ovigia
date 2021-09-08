@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
 export default props => {
     return (
-        <TouchableOpacity style={[styles.button, props.style]} onPress={props.onPress}>
+        <TouchableOpacity key={props.id} style={[styles.button, props.style]} onPress={props.onPress}>
             <Text style={[styles.buttonText, props.styleText]}>{props.title} </Text>
         </TouchableOpacity>
     )

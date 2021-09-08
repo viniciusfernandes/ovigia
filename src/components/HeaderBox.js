@@ -19,11 +19,14 @@ const styles = StyleSheet.create({
 })
 export default props => {
     const headers = []
+    var idHeader = 1
     props.headers.forEach(message => {
-        headers.push(<Text style={[styles.header]}>{message}</Text>)
+
+        headers.push(<Text key={idHeader++} style={[styles.header]}>{message}</Text>)
     });
+
     return (
-        <View style={{ width: '100%', marginTop: '10%' }}>
+        <View key={props.id} style={{ width: '100%', marginTop: '10%' }}>
             {headers}
             <Text style={[styles.header, styles.textPequeno]}>{props.detail}</Text>
         </View>

@@ -57,7 +57,7 @@ export default props => {
             </>
     }
     return (
-        <TouchableOpacity key={props.key}>
+        <TouchableOpacity key={props.id}>
             <View style={styles.container}>
                 <View style={styles.imagem}>
                     <Image style={styles.icon} source={props.imagem} />

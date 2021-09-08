@@ -12,7 +12,6 @@ export default props => {
   const { signIn } = useContext(AuthContext)
   return (
     <Container>
-
       <Image
         style={styles.logo}
         source={{
