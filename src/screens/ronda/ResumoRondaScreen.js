@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import Container from '../../components/Container'
 import matisse from '../../style/matisse'
 import Medidas, { larguraPercentual } from '../../constantes/medidas/Medidas'
+import MapView, { Marker } from 'react-native-maps'
+import MapBox from '../../components/MapBox'
 
 const isTablet = Medidas.isTablet
 const boxSize = larguraPercentual(22)
@@ -15,17 +17,10 @@ let styles = StyleSheet.create({
     },
     textPequeno: {
         color: 'white',
-        fontSize: isTablet ? 30 : 17,
+        fontSize: isTablet ? 30 : 20,
         marginLeft: '5%',
-        marginTop: '5%'
-    },
-    mapa: {
-        backgroundColor: 'white',
-        borderRadius: 20,
-        height: '35%',
         marginTop: '5%',
-        marginLeft: '10%',
-        marginRight: '10%',
+        marginBottom: '5%'
     },
     boxLine: {
         flexDirection: 'row',
@@ -54,7 +49,6 @@ let styles = StyleSheet.create({
         fontSize: isTablet ? 45 : 30,
         textAlign: 'center'
     }
-
 })
 
 
@@ -73,9 +67,8 @@ export default props => {
             <Text style={[styles.header, { marginTop: '2%' }]}>Ronda Concluída!</Text>
             <Text style={styles.header}>Veja o seu resumo.</Text>
 
-            <View style={styles.mapa}>
-                <Text style={styles.header}>AQUI FICARÁ O mapa!!!</Text>
-            </View>
+            <MapBox />
+
             <Text style={styles.textPequeno}>Resumo</Text>
 
             <View style={styles.boxLine}>
