@@ -6,6 +6,5 @@ import AuthRoute from './AuthRoute';
 
 export default () => {
     const { signed } = useContext(AuthContext)
-    console.info('routes signed: ' + signed)
-    return signed ? <AppRoute /> : <AuthRoute />
+    return !signed ? <AppRoute /> : <AuthRoute />
 }

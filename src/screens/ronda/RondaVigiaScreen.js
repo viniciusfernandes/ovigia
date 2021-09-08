@@ -76,10 +76,7 @@ export default props => {
                 <TouchableButton style={styles.pausarButton} styleText={{ color: 'white', fontSize: 20 }}
                     title="Pausar Ronda" />
                 <TouchableButton style={styles.concluirButton} styleText={{ fontSize: 20 }}
-                    title="Concluir Ronda" onPress={() =>
-                        setModalOpened(true)
-
-                    }
+                    title="Concluir Ronda" onPress={() => setModalOpened(true)}
                 />
             </View>
             <View style={styles.mapaContainer}>
@@ -115,7 +112,11 @@ export default props => {
                         <View style={modalStyles.modal}>
                             <Text style={modalStyles.modalText}>Confirma mesmo?</Text>
                             <TouchableButton title='Sim' style={modalStyles.simButton}
-                                styleText={modalStyles.simText} onPress={() => setModalOpened(false)} />
+                                styleText={modalStyles.simText} onPress={() => {
+                                    setModalOpened(false)
+                                    props.navigation.navigate('resumoRonda')
+                                }
+                                } />
                         </View>
                     </View>
                 </Modal>

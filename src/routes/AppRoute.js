@@ -1,16 +1,14 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
-import { BottomTabBar, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Image, View } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import PerfilVigia from '../screens/vigia/PerfilVigia'
-import ResumoRonda from '../screens/vigia/ResumoRonda';
-import EdicaoVigia from '../screens/vigia/EdicaoVigia';
 import styles from './styles/app.routes.styles'
 import RondaVigiaScreen from '../screens/ronda/RondaVigiaScreen';
-import matisse from '../style/matisse';
-import { color } from 'react-native-reanimated';
 import ChamadosVigiaScreen from '../screens/vigia/ChamadosVigiaScreen';
 import IniciarRondaScreen from '../screens/vigia/IniciarRondaScreen';
+import ResumoRondaScreen from '../screens/ronda/ResumoRondaScreen';
+import matisse from '../style/matisse';
 function getIcon(focused, screenName) {
     if ('iniciarRonda' === screenName) {
         return focused ? require('../../images/overview_laranja_75.png') : require('../../images/overview_preto_75.png')
@@ -41,45 +39,25 @@ export default () => {
                     elevation: 50,
                     backgroundColor: matisse.laranjaTransparente
                 }
-            }}>
+            }}
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    return (
+                        <View style={styles.tabIcon}>
+                            <Image source={getIcon(focused, route.name)} />
+                        </View>
+                    )
+                },
 
-            <Screen name="iniciarRonda" component={IniciarRondaScreen}
-                options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View style={styles.tabIcon}>
-                            <Image source={getIcon(focused, 'iniciarRonda')} resizeMode='contain' />
-                        </View>
-                    )
-                }}
-            />
-            <Screen name="financeiro" component={PerfilVigia}
-                options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View style={styles.tabIcon}>
-                            <Image source={getIcon(focused, 'financeiro')} resizeMode='contain' />
-                        </View>
-                    )
-                }}
-            />
+            })}
+        >
 
-            <Screen name="rondaVigia" component={RondaVigiaScreen}
-                options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View style={styles.tabIcon}>
-                            <Image source={getIcon(focused, 'rondaVigia')} resizeMode='contain' />
-                        </View>
-                    )
-                }}
-            />
-            <Screen name="chamados" component={ChamadosVigiaScreen}
-                options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View style={styles.tabIcon}>
-                            <Image source={getIcon(focused, 'chamados')} resizeMode='contain' />
-                        </View>
-                    )
-                }}
-            />
-        </Navigator>
+            <Screen name="iniciarRonda" component={IniciarRondaScreen} />
+            <Screen name="financeiro" component={PerfilVigia} />
+            <Screen name="rondaVigia" component={RondaVigiaScreen} />
+            <Screen name="chamados" component={ChamadosVigiaScreen} />
+            <Screen name="resumoRonda" component={ResumoRondaScreen} options={{ tabBarButton: () => null }} />
+        </ Navigator>
+
     );
 }

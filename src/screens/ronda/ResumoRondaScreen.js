@@ -2,9 +2,10 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Container from '../../components/Container'
 import matisse from '../../style/matisse'
-import Medidas from '../../constantes/medidas/Medidas'
+import Medidas, { larguraPercentual } from '../../constantes/medidas/Medidas'
 
 const isTablet = Medidas.isTablet
+const boxSize = larguraPercentual(22)
 let styles = StyleSheet.create({
     header: {
         marginLeft: '5%',
@@ -27,20 +28,20 @@ let styles = StyleSheet.create({
         marginRight: '10%',
     },
     boxLine: {
-        borderRadius: 5,
         flexDirection: 'row',
-        height: '15%',
+        height: boxSize,
         justifyContent: 'space-between',
-        marginLeft: '15%',
-        marginRight: '15%',
-        marginTop: '2%'
+        marginBottom: '5%',
+        marginTop: '2%',
+        paddingLeft: '20%',
+        paddingRight: '20%',
+        width: '100%',
     },
     box: {
         backgroundColor: 'white',
         borderRadius: 10,
-        elevation: 15,
-        width: '30%',
-        height: '80%',
+        elevation: 5,
+        width: boxSize,
     },
     boxTitulo: {
         color: matisse.laranja,
@@ -82,7 +83,7 @@ export default props => {
                 {gerarBox('Kilômetros', '15')}
             </View>
 
-            <View style={[styles.boxLine, { marginTop: '5%' }]}>
+            <View style={styles.boxLine}>
                 {gerarBox('Tempo (h)', 20)}
                 {gerarBox('Chamados', 11)}
             </View>
