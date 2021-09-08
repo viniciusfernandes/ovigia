@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         marginLeft: '5%',
         width: '100%'
     },
-    iniciarRondaButton: {
+        iniciarRondaButton: {
         marginTop: '5%',
         width: '60%'
     },
@@ -41,11 +41,6 @@ const styles = StyleSheet.create({
         width: '100%',
         fontSize: 15,
         fontWeight: 'bold'
-    },
-    textAtividade: {
-        color: matisse.laranja,
-        fontSize: 17,
-        marginLeft: '5%',
     },
     textPequeno: {
         fontSize: 17,
@@ -65,9 +60,7 @@ export default props => {
                 title="Iniciar Ronda"
                 onPress={() => props.navigation.navigate('rondaVigia')} />
 
-            <View style={{ width: '100%' }}>
-                <Text style={styles.textAtividade}>Atividades</Text>
-            </View>
+           
             <ImageBoxRightBar
                 imagem={require('../../../images/escudocheck_laranja_75.png')}>
                 <Text style={styles.rondaTitulo}>Ronda Concluída!</Text>

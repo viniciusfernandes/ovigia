@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         height: '30%',
         justifyContent: 'center',
-        marginBottom: '5%',
+        marginBottom: '2%',
         marginTop: '5%',
         width: '80%',
 

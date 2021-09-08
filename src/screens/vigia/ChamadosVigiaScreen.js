@@ -1,6 +1,7 @@
 import React from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import Container from '../../components/Container'
+import HeaderBox from '../../components/HeaderBox'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
 import matisse from '../../style/matisse'
 
@@ -72,9 +73,8 @@ export default props => {
     return (
         <Container>
             <ScrollView>
-                <Text style={[styles.header, { marginTop: '15%' }]}>Acompanhe</Text>
-                <Text style={styles.header}>todos os chamados</Text>
-                <Text style={[styles.header, styles.textPequeno]}>Chamados em aberto</Text>
+                <HeaderBox headers={['Acompanhe', 'todos os chamados']} detail='Chamados em aberto' />
+
                 {gerarTextChamados()}
 
             </ScrollView>
