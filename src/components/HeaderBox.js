@@ -1,8 +1,8 @@
 import React from "react"
-import { StyleSheet } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
 
 const styles = StyleSheet.create({
-     
+
     header: {
         color: 'white',
         fontSize: 25,
@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         marginLeft: '5%',
         width: '100%'
     },
-    
+
     textPequeno: {
         fontSize: 17,
         marginLeft: '10%',
@@ -19,12 +19,13 @@ const styles = StyleSheet.create({
 })
 export default props => {
     const headers = []
-    
+    props.headers.forEach(message => {
+        headers.push(<Text style={[styles.header]}>{message}</Text>)
+    });
     return (
         <View style={{ width: '100%', marginTop: '10%' }}>
-            <Text style={[styles.header]}>Olá {nomeUsuario}</Text>
-            <Text style={styles.header}>Vamos começar?</Text>
-            <Text style={[styles.header, styles.textPequeno]}>{props.descricao}</Text>
+            {headers}
+            <Text style={[styles.header, styles.textPequeno]}>{props.detail}</Text>
         </View>
     )
 }

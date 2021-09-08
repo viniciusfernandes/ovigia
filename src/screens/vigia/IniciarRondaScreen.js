@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import Container from '../../components/Container'
+import HeaderBox from '../../components/HeaderBox'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
 import MapBox from '../../components/MapBox'
 import TouchableButton from '../../components/TouchableButton'
@@ -58,11 +59,8 @@ export default props => {
 
     return (
         <Container>
-            <View style={{ width: '100%', marginTop: '10%' }}>
-                <Text style={[styles.header]}>Olá {nomeUsuario}</Text>
-                <Text style={styles.header}>Vamos começar?</Text>
-                <Text style={[styles.header, styles.textPequeno]}>Ronda</Text>
-            </View>
+            <HeaderBox headers={['Olá, ' + nomeUsuario, 'Vamos começar?']} detail='Ronda' />
+
             <MapBox />
             <TouchableButton style={styles.iniciarRondaButton} styleText={{ fontSize: 20 }}
                 title="Iniciar Ronda"

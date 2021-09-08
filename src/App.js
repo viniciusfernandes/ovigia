@@ -7,11 +7,11 @@ import ResumoRondaScreen from './screens/ronda/ResumoRondaScreen'
 export default () => {
   const { signed } = useContext(AuthContext)
   return (
-    // <NavigationContainer>
-    //   <AuthContextProvider value={signed}>
-    //     <Routes />
-    //   </AuthContextProvider>
-    // </NavigationContainer>
-    <ResumoRondaScreen></ResumoRondaScreen>
+    <NavigationContainer>
+      <AuthContextProvider value={signed}>
+        <Routes />
+      </AuthContextProvider>
+    </NavigationContainer>
+    // <ResumoRondaScreen></ResumoRondaScreen>
   )
 }

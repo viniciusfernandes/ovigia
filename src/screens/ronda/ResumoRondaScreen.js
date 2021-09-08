@@ -5,6 +5,7 @@ import matisse from '../../style/matisse'
 import Medidas, { larguraPercentual } from '../../constantes/medidas/Medidas'
 import MapView, { Marker } from 'react-native-maps'
 import MapBox from '../../components/MapBox'
+import HeaderBox from '../../components/HeaderBox'
 
 const isTablet = Medidas.isTablet
 const boxSize = larguraPercentual(22)
@@ -64,12 +65,9 @@ function gerarBox(titulo, valor) {
 export default props => {
     return (
         <Container>
-            <Text style={[styles.header, { marginTop: '2%' }]}>Ronda Concluída!</Text>
-            <Text style={styles.header}>Veja o seu resumo.</Text>
+            <HeaderBox headers={['Ronda Concluída!', 'Veja o seu resumo.']} detail='Resumo' />
 
             <MapBox />
-
-            <Text style={styles.textPequeno}>Resumo</Text>
 
             <View style={styles.boxLine}>
                 {gerarBox('Residência', 20)}
