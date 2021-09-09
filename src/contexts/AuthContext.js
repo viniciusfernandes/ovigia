@@ -33,6 +33,7 @@ export const AuthContextProvider = ({ children }) => {
             signed: !!usuario && usuario.signed,
             signIn: signin,
             signOn: signon,
+            singOut: () => setUsuario(null),
             setTipoUsuario: tipoUsuario => setUsuario({ ...usuario, tipoUsuario }),
             habilitarHome: () => habilitarHome(usuario, true),
             nomeUsuario: !!usuario ? usuario.nome : null
