@@ -14,9 +14,7 @@ export default props => {
     <Container hideProfile={true}>
       <Image
         style={styles.logo}
-        source={{
-          uri: 'https://icons.iconarchive.com/icons/custom-icon-design/mono-general-3/128/home-icon.png',
-        }}
+        source={require('../../../images/ovigia_branco_75.png')}
       />
 
       <View style={styles.formulario}>

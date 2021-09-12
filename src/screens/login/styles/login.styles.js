@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
     logo: {
         marginBottom: '5%',
         marginTop: '10%',
-        height: '20%',
-        width: '35%',
+        height: '25%',
+        width: '48%',
 
     },
     mensagemEntrarCom: {

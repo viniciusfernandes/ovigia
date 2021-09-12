@@ -3,7 +3,6 @@ import React, { useContext } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import Routes from './routes/Routes'
 import AuthContext, { AuthContextProvider } from './contexts/AuthContext'
-import ResumoRondaScreen from './screens/ronda/ResumoRondaScreen'
 export default () => {
   const { signed } = useContext(AuthContext)
   return (
@@ -12,6 +11,5 @@ export default () => {
         <Routes />
       </AuthContextProvider>
     </NavigationContainer>
-    // <ResumoRondaScreen></ResumoRondaScreen>
   )
 }
