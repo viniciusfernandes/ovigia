@@ -10,7 +10,6 @@ export const AuthContextProvider = ({ children }) => {
     const signin = usuario => signIn(
         usuario,
         data => {
-            console.info('usuario logado: ' + data)
             habilitarHome({ email: data.email, nome: data.nome, tipoUsario: data.tipoUsuario }, true)
         },
         error => {

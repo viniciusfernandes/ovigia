@@ -1,9 +1,11 @@
 
 import React from 'react';
 import { useState } from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { useContext } from 'react/cjs/react.development';
 import TouchableButton from '../../components/TouchableButton';
+import RondaVigiaContext from '../../contexts/RondaVigiaContext';
 import matisse from '../../style/matisse';
 const styles = StyleSheet.create({
     botoesContainer: {
@@ -69,7 +71,8 @@ const modalStyles = StyleSheet.create({
 
 export default props => {
     const [modalOpened, setModalOpened] = useState(false)
-
+    const context = useContext(RondaVigiaContext)
+    console.info('ronda context: ' + context)
     return (
         <>
             <View style={styles.botoesContainer}>

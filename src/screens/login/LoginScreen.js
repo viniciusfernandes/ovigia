@@ -10,6 +10,7 @@ import AuthContext from '../../contexts/AuthContext';
 export default props => {
   const [credencial, setCredencial] = useState({ email: 'viniciussf@hotmail.com', password: '1234' })
   const { signIn } = useContext(AuthContext)
+
   return (
     <Container hideProfile={true}>
       <Image
