@@ -24,40 +24,29 @@ const styles = StyleSheet.create({
 })
 
 export default props => {
-
-    // geolocation.getCurrentPosition(
-    //     position => {
-    //          currentPosition=[{ latitude: position.latitude, longitude: position.longitude }]
-    //         setCurrentPosition([{ latitude: position.latitude, longitude: position.longitude }])
-    //         console.info('position ' + JSON.stringify(currentPosition))
-    //         coordinates[0] = currentPosition
-    //     },
-    //     error => Alert.alert (error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    // )
     const coordinates = props.coordinates
-    var marcadores = []
-    var startMarker = null
-    var endMarker = null
-    const endPosition = coordinates[coordinates.lenght - 1]
-    if (startMarker) {
-        marcadores.push(
-            <Marker
-                coordinate={startMarker.position}
+    var markers = []
+    const startPosition = coordinates.length == 1 ? coordinates[0] : undefined
+    const endPosition = coordinates[coordinates.length - 1]
+    if (startPosition) {
+        markers.push(
+            <Marker key='startMarker'
+                coordinate={startPosition}
                 title={'Você partiu daqui.'}
             />)
     }
 
-    if (endMarker) {
-        marcadores.push(
-            <Marker
-                coordinate={endMarker.position}
+    if (endPosition) {
+        markers.push(
+            <Marker key='endtMarker'
+                coordinate={endPosition}
                 title={'Você está aqui!'}
             />)
     }
 
-    var lines = null
+    var polyline = null
     if (props.drawLines) {
-        lines = <Polyline
+        polyline = <Polyline
             coordinates={props.coordinates}
             strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
             strokeColors={['#7F0000']}
@@ -67,8 +56,8 @@ export default props => {
     return (
         <View key={props.id} style={styles.mapaContainer}>
             <MapView style={styles.mapa} region={endPosition}>
-                {props.markers}
-                {lines}
+                {markers}
+                {polyline}
             </MapView>
         </View>
     )

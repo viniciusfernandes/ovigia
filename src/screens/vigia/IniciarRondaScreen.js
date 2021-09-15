@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Geolocation from '@react-native-community/geolocation'
 import { useContext } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
@@ -10,6 +10,7 @@ import TouchableButton from '../../components/TouchableButton'
 import AuthContext from '../../contexts/AuthContext'
 import { RondaVigiaContextProvider } from '../../contexts/RondaVigiaContext'
 import matisse from '../../style/matisse'
+import { useState } from 'react/cjs/react.development'
 
 
 const styles = StyleSheet.create({
@@ -52,20 +53,40 @@ const styles = StyleSheet.create({
 
 export default props => {
     const { nomeUsuario } = useContext(AuthContext)
-    var startPosition = null
-    Geolocation.getCurrentPosition(
-        position => {
-            startPosition = { latitude: position.latitude, longitude: position.longitude }
-            console.info('start position ' + JSON.stringify(startPosition))
-        },
-        error => Alert.alert(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    )
+    // const [startPosition, setStartPosition] = useState({
+    //     latitude: 37.421998333333335,
+    //     longitude: -122.084,
+    //     latitudeDelta: 0.001,
+    //     longitudeDelta: 0.001
+    // })
+
+    const startPosition = {
+        latitude: 37.421998333333335,
+        longitude: -122.084,
+        latitudeDelta: 0.001,
+        longitudeDelta: 0.001
+    }
+
+    // useEffect(() => {
+    //     Geolocation.getCurrentPosition(
+    //         position => {
+    //             setStartPosition({
+    //                 latitude: position.coords.latitude,
+    //                 longitude: position.coords.longitude,
+    //                 latitudeDelta: 0.001,
+    //                 longitudeDelta: 0.001
+    //             })
+    //         },
+    //         error => Alert.alert(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    //     )
+    // }, [])
+
     const coordinates = [startPosition]
     return (
         <RondaVigiaContextProvider>
             <Container >
                 <HeaderBox headers={['Olá, ' + nomeUsuario, 'Vamos começar?']} detail='Ronda' />
-                <MapBox startMartker={startPosition} coordinates={coordinates} />
+                <MapBox coordinates={coordinates} />
                 <TouchableButton style={styles.iniciarRondaButton} styleText={{ fontSize: 20 }}
                     title="Iniciar Ronda"
                     onPress={() => props.navigation.navigate('rondaVigia')} />
