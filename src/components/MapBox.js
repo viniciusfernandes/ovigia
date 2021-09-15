@@ -4,6 +4,7 @@ import MapView, { Marker, Polyline } from "react-native-maps";
 import matisse from "../style/matisse";
 
 const styles = StyleSheet.create({
+
     mapaContainer: {
         alignItems: 'center',
         backgroundColor: matisse.cinzaTransparente,
@@ -21,6 +22,17 @@ const styles = StyleSheet.create({
         height: '85%',
         overflow: 'hidden'
     },
+    fullMapaContainer: {
+        alignItems: 'center',
+        height: '100%',
+        justifyContent: 'center',
+        width: '100%',
+    },
+    fullMapa: {
+        width: '100%',
+        height: '100%',
+    },
+
 })
 
 export default props => {
@@ -53,9 +65,12 @@ export default props => {
             strokeWidth={2}
         />
     }
+    console.info('fullScreen: ' + props.fullScreen === undefined)
+    const mapaContainerStyle = props.fullScreen ? styles.fullMapaContainer : styles.mapaContainer
+    const mapaStyle = props.fullScreen ? styles.fullMapa : styles.mapa
     return (
-        <View key={props.id} style={styles.mapaContainer}>
-            <MapView style={styles.mapa} region={endPosition}>
+        <View key={props.id} style={mapaContainerStyle}>
+            <MapView style={mapaStyle} region={endPosition}>
                 {markers}
                 {polyline}
             </MapView>

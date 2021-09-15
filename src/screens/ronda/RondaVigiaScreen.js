@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Modal, StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useContext } from 'react/cjs/react.development';
+import MapBox from '../../components/MapBox';
 import TouchableButton from '../../components/TouchableButton';
 import RondaVigiaContext from '../../contexts/RondaVigiaContext';
 import matisse from '../../style/matisse';
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     mapa: {
-        borderRadius: 200,
+
         width: '100%',
         height: '100%',
     },
@@ -71,8 +72,8 @@ const modalStyles = StyleSheet.create({
 
 export default props => {
     const [modalOpened, setModalOpened] = useState(false)
-    const context = useContext(RondaVigiaContext)
-    console.info('ronda context: ' + context)
+    const { coordinates } = useContext(RondaVigiaContext)
+    console.info('conda coords: ' + JSON.stringify(coordinates))
     return (
         <>
             <View style={styles.botoesContainer}>
@@ -83,28 +84,7 @@ export default props => {
                 />
             </View>
             <View style={styles.mapaContainer}>
-
-                <MapView
-                    style={styles.mapa}
-                    region={{
-                        latitude: -23.70389,
-                        longitude: -46.61829,
-                        latitudeDelta: 0.015,
-                        longitudeDelta: 0.0121,
-                    }}
-                >
-                    <Marker
-                        coordinate={{
-                            latitude: -23.70389,
-                            longitude: -46.61829,
-                            latitudeDelta: 0.02,
-                            longitudeDelta: 0.02
-                        }}
-                        pinColor={"white"}
-                        title={'Você está aqui!'}
-                    />
-                </MapView>
-
+                <MapBox coordinates={coordinates} fullScreen />
                 <Modal
                     animationType="slide"
                     transparent={true}
