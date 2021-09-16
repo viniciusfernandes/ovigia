@@ -65,7 +65,6 @@ export default props => {
             strokeWidth={2}
         />
     }
-    console.info('fullScreen: ' + props.fullScreen === undefined)
     const mapaContainerStyle = props.fullScreen ? styles.fullMapaContainer : styles.mapaContainer
     const mapaStyle = props.fullScreen ? styles.fullMapa : styles.mapa
     return (

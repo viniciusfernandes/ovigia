@@ -6,6 +6,7 @@ import {
 import Container from '../../components/Container';
 import styles from './styles/login.styles'
 import AuthContext from '../../contexts/AuthContext';
+import RondaVigiaContext from '../../contexts/RondaVigiaContext';
 
 export default props => {
   const [credencial, setCredencial] = useState({ email: 'viniciussf@hotmail.com', password: '1234' })

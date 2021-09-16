@@ -1,7 +1,10 @@
 
+import Geolocation from '@react-native-community/geolocation';
 import React from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { Modal, StyleSheet, Text, View } from 'react-native';
+import _BackgroundTimer from 'react-native-background-timer';
 import MapView, { Marker } from 'react-native-maps';
 import { useContext } from 'react/cjs/react.development';
 import MapBox from '../../components/MapBox';
@@ -72,8 +75,12 @@ const modalStyles = StyleSheet.create({
 
 export default props => {
     const [modalOpened, setModalOpened] = useState(false)
-    const { coordinates } = useContext(RondaVigiaContext)
-    console.info('conda coords: ' + JSON.stringify(coordinates))
+    const { addCoordinate, coordinates } = useContext(RondaVigiaContext)
+    const context = useContext(RondaVigiaContext);
+    console.info('ronda context: ' + JSON.stringify(context))
+    
+
+
     return (
         <>
             <View style={styles.botoesContainer}>

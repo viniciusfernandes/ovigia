@@ -1,52 +1,58 @@
-import React, { useState } from 'react';
+import Geolocation from '@react-native-community/geolocation';
+import React, { useEffect, useState } from 'react';
 import { createContext } from 'react';
+import _BackgroundTimer from 'react-native-background-timer';
+ 
 
-const latitude = -23.70389
-const longitude = -46.61840
-const delta = 0.00005
-
-export const initCoordinates = [{
-    latitude: latitude,
-    longitude: longitude,
-    latitudeDelta: 0.001,
-    longitudeDelta: 0.001,
-}]
-
-export const startPosition = initCoordinates[0]
-export const endPosition = initCoordinates[0]
-
-const RondaVigiaContext = createContext({
-    startPosition: startPosition,
-    endPosition: endPosition,
-    coordinates: initCoordinates,
-})
+const RondaVigiaContext = createContext({ })
 
 export const RondaVigiaContextProvider = ({ children }) => {
-    // useEffect(() => {
-    //     _BackgroundTimer.setInterval(() => {
-    //         console.info('useeffect')
-    //         if (Math.random() > 0.5) {
-    //             latitude += delta
-    //         }
-    //         else {
-    //             longitude += delta
-    //         }
-    //         var currPosistion = {
-    //             latitude: latitude,
-    //             longitude: longitude,
-    //             latitudeDelta: 0.001,
-    //             longitudeDelta: 0.001,
-    //         }
-    //         setCoordinates([...coordinates, currPosistion])
-    //     }, 2000)
-    // }, [])
+    console.info('RondaVigiaContextProvider init')
+    const latitude = -23.70389
+    const longitude = -46.61840
+    const delta = 0.00005
 
+    const [coordinates, setCoordinates] = useState([{
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: 0.001,
+        longitudeDelta: 0.001,
+    }])
+
+
+    useEffect(() => {
+        console.info('useeffect')
+
+        _BackgroundTimer.runBackgroundTimer(() => {
+            Geolocation.getCurrentPosition(
+                position => {
+
+                    var currPosistion = {
+                        latitude: Math.random() > 0.5 ? latitude + delta : latitude - delta,
+                        longitude: Math.random() > 0.5 ? longitude - delta : longitude + delta,
+                        latitudeDelta: 0.001,
+                        longitudeDelta: 0.001,
+                    }
+                    setCoordinates([...coordinates, currPosistion])
+                    // coordinates.push(currPosistion)
+                    console.info('coordinates size: ' +  coordinates.length)
+                },
+                error => console.error(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+            )
+        },
+            3000);
+
+    }, [])
+
+
+    console.info('RondaVigiaContextProvider end')
 
     return (
         <RondaVigiaContext.Provider value={{
-            startPosition: startPosition,
-            endPosition: endPosition,
-            coordinates: initCoordinates
+            startPosition: coordinates[0],
+            endPosition: coordinates[coordinates.length - 1],
+            coordinates: coordinates,
+            addCoordinate: newCoordinate => { setCoordinates([...coordinates, newCoordinate]) }
         }} >
             {children}
         </RondaVigiaContext.Provider>

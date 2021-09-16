@@ -53,13 +53,6 @@ const styles = StyleSheet.create({
 
 export default props => {
     const { nomeUsuario } = useContext(AuthContext)
-    // const [startPosition, setStartPosition] = useState({
-    //     latitude: 37.421998333333335,
-    //     longitude: -122.084,
-    //     latitudeDelta: 0.001,
-    //     longitudeDelta: 0.001
-    // })
-
     const startPosition = {
         latitude: 37.421998333333335,
         longitude: -122.084,
@@ -67,53 +60,37 @@ export default props => {
         longitudeDelta: 0.001
     }
 
-    // useEffect(() => {
-    //     Geolocation.getCurrentPosition(
-    //         position => {
-    //             setStartPosition({
-    //                 latitude: position.coords.latitude,
-    //                 longitude: position.coords.longitude,
-    //                 latitudeDelta: 0.001,
-    //                 longitudeDelta: 0.001
-    //             })
-    //         },
-    //         error => Alert.alert(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    //     )
-    // }, [])
-
     const coordinates = [startPosition]
     return (
-        <RondaVigiaContextProvider>
-            <Container >
-                <HeaderBox headers={['Olá, ' + nomeUsuario, 'Vamos começar?']} detail='Ronda' />
-                <MapBox coordinates={coordinates} />
-                <TouchableButton style={styles.iniciarRondaButton} styleText={{ fontSize: 20 }}
-                    title="Iniciar Ronda"
-                    onPress={() => props.navigation.navigate('rondaVigia')} />
+        <Container >
+            <HeaderBox headers={['Olá, ' + nomeUsuario, 'Vamos começar?']} detail='Ronda' />
+            <MapBox coordinates={coordinates} />
+            <TouchableButton style={styles.iniciarRondaButton} styleText={{ fontSize: 20 }}
+                title="Iniciar Ronda"
+                onPress={() => props.navigation.navigate('rondaVigia')} />
 
 
-                <ImageBoxRightBar
-                    imagem={require('../../../images/escudocheck_laranja_75.png')}>
-                    <Text style={styles.rondaTitulo}>Ronda Concluída!</Text>
-                    <Text style={styles.rondaDescricao}>Concluiu na data:</Text>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={styles.dataHora} >12:43</Text>
-                        <Text style={[styles.dataHora, { marginLeft: 15 }]} >12/12/2021</Text>
-                    </View>
+            <ImageBoxRightBar
+                imagem={require('../../../images/escudocheck_laranja_75.png')}>
+                <Text style={styles.rondaTitulo}>Ronda Concluída!</Text>
+                <Text style={styles.rondaDescricao}>Concluiu na data:</Text>
+                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                    <Text style={styles.dataHora} >12:43</Text>
+                    <Text style={[styles.dataHora, { marginLeft: 15 }]} >12/12/2021</Text>
+                </View>
 
-                </ImageBoxRightBar>
+            </ImageBoxRightBar>
 
-                <ImageBoxRightBar
-                    imagem={require('../../../images/sino_laranja_75.png')}>
-                    <Text style={styles.rondaTitulo}>Você tem Mensalidades!</Text>
-                    <Text style={styles.rondaDescricao}>Veja as datas de vecimentos</Text>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={styles.dataHora} >Total:</Text>
-                        <Text style={[styles.dataHora, { marginLeft: 15 }]} >12</Text>
-                    </View>
+            <ImageBoxRightBar
+                imagem={require('../../../images/sino_laranja_75.png')}>
+                <Text style={styles.rondaTitulo}>Você tem Mensalidades!</Text>
+                <Text style={styles.rondaDescricao}>Veja as datas de vecimentos</Text>
+                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                    <Text style={styles.dataHora} >Total:</Text>
+                    <Text style={[styles.dataHora, { marginLeft: 15 }]} >12</Text>
+                </View>
 
-                </ImageBoxRightBar>
-            </Container>
-        </RondaVigiaContextProvider>
+            </ImageBoxRightBar>
+        </Container>
     )
 }

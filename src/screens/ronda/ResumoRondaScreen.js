@@ -6,6 +6,8 @@ import Medidas, { larguraPercentual } from '../../constantes/medidas/Medidas'
 import MapView, { Marker } from 'react-native-maps'
 import MapBox from '../../components/MapBox'
 import HeaderBox from '../../components/HeaderBox'
+import { useContext } from 'react/cjs/react.development'
+import RondaVigiaContext from '../../contexts/RondaVigiaContext'
 
 const isTablet = Medidas.isTablet
 const boxSize = larguraPercentual(22)
@@ -63,11 +65,14 @@ function gerarBox(titulo, valor) {
 }
 
 export default props => {
+
+    const { coordinates } = useContext(RondaVigiaContext)
+
     return (
         <Container>
             <HeaderBox headers={['Ronda Concluída!', 'Veja o seu resumo.']} detail='Resumo' />
 
-            <MapBox />
+            <MapBox coordinates={coordinates} />
 
             <View style={styles.boxLine}>
                 {gerarBox('Residência', 20)}
