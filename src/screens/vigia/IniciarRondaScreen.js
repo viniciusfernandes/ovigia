@@ -8,7 +8,7 @@ import ImageBoxRightBar from '../../components/ImageBoxRightBar'
 import MapBox from '../../components/MapBox'
 import TouchableButton from '../../components/TouchableButton'
 import AuthContext from '../../contexts/AuthContext'
-import { RondaVigiaContextProvider } from '../../contexts/RondaVigiaContext'
+import RondaVigiaContext, { RondaVigiaContextProvider } from '../../contexts/RondaVigiaContext'
 import matisse from '../../style/matisse'
 import { useState } from 'react/cjs/react.development'
 
@@ -53,14 +53,8 @@ const styles = StyleSheet.create({
 
 export default props => {
     const { nomeUsuario } = useContext(AuthContext)
-    const startPosition = {
-        latitude: 37.421998333333335,
-        longitude: -122.084,
-        latitudeDelta: 0.001,
-        longitudeDelta: 0.001
-    }
-
-    const coordinates = [startPosition]
+    const { coordinates, iniciarRonda } = useContext(RondaVigiaContext)
+    console.info('iniciar ronda vigia coordinates: ' + coordinates.length)
     return (
         <Container >
             <HeaderBox headers={['Olá, ' + nomeUsuario, 'Vamos começar?']} detail='Ronda' />

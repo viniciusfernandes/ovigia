@@ -58,8 +58,9 @@ export default props => {
 
     var polyline = null
     if (props.drawLines) {
+        console.info('drawn lines')
         polyline = <Polyline
-            coordinates={props.coordinates}
+            coordinates={coordinates}
             strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
             strokeColors={['#7F0000']}
             strokeWidth={2}
@@ -67,6 +68,8 @@ export default props => {
     }
     const mapaContainerStyle = props.fullScreen ? styles.fullMapaContainer : styles.mapaContainer
     const mapaStyle = props.fullScreen ? styles.fullMapa : styles.mapa
+
+    console.info('polylines: '+polyline)
     return (
         <View key={props.id} style={mapaContainerStyle}>
             <MapView style={mapaStyle} region={endPosition}>

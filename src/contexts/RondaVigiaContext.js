@@ -2,9 +2,10 @@ import Geolocation from '@react-native-community/geolocation';
 import React, { useEffect, useState } from 'react';
 import { createContext } from 'react';
 import _BackgroundTimer from 'react-native-background-timer';
- 
+import { set } from 'react-native-reanimated';
 
-const RondaVigiaContext = createContext({ })
+
+const RondaVigiaContext = createContext({})
 
 export const RondaVigiaContextProvider = ({ children }) => {
     console.info('RondaVigiaContextProvider init')
@@ -12,17 +13,10 @@ export const RondaVigiaContextProvider = ({ children }) => {
     const longitude = -46.61840
     const delta = 0.00005
 
-    const [coordinates, setCoordinates] = useState([{
-        latitude: latitude,
-        longitude: longitude,
-        latitudeDelta: 0.001,
-        longitudeDelta: 0.001,
-    }])
+    var coordinates = []
 
-
-    useEffect(() => {
-        console.info('useeffect')
-
+    const [rondaIniciada, setRondaIniciada] = useState(false)
+    const iniciarRonda = () => {
         _BackgroundTimer.runBackgroundTimer(() => {
             Geolocation.getCurrentPosition(
                 position => {
@@ -33,17 +27,30 @@ export const RondaVigiaContextProvider = ({ children }) => {
                         latitudeDelta: 0.001,
                         longitudeDelta: 0.001,
                     }
-                    setCoordinates([...coordinates, currPosistion])
-                    // coordinates.push(currPosistion)
-                    console.info('coordinates size: ' +  coordinates.length)
+
+                    coordinates.push(currPosistion)
+                    console.info('coordinates size: ' + coordinates.length)
                 },
                 error => console.error(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
             )
         },
-            3000);
+            5000);
+    }
 
-    }, [])
+    const pausarRonda = () => {
+        Geolocation.stopObserving()
+    }
 
+    useEffect(() => {
+        console.info('useEffect')
+        iniciarRonda()
+        if (rondaIniciada) {
+            iniciarRonda()
+        } else {
+            pausarRonda()
+        }
+
+    }, [rondaIniciada])
 
     console.info('RondaVigiaContextProvider end')
 
@@ -52,7 +59,9 @@ export const RondaVigiaContextProvider = ({ children }) => {
             startPosition: coordinates[0],
             endPosition: coordinates[coordinates.length - 1],
             coordinates: coordinates,
-            addCoordinate: newCoordinate => { setCoordinates([...coordinates, newCoordinate]) }
+            rondaIniciada: rondaIniciada,
+            iniciarRonda: () => setRondaIniciada(true),
+            pausarRonda: () => setRondaIniciada(false)
         }} >
             {children}
         </RondaVigiaContext.Provider>

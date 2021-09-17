@@ -75,23 +75,30 @@ const modalStyles = StyleSheet.create({
 
 export default props => {
     const [modalOpened, setModalOpened] = useState(false)
-    const { addCoordinate, coordinates } = useContext(RondaVigiaContext)
-    const context = useContext(RondaVigiaContext);
-    console.info('ronda context: ' + JSON.stringify(context))
-    
-
-
+    const { coordinates, iniciarRonda, pausarRonda, rondaIniciada } = useContext(RondaVigiaContext)
+    console.info('ronda coordinates: ' + coordinates.length)
     return (
         <>
             <View style={styles.botoesContainer}>
                 <TouchableButton style={styles.pausarButton} styleText={{ color: 'white', fontSize: 20 }}
-                    title="Pausar Ronda" />
+                    title={rondaIniciada ? 'Pausa Ronda' : 'Iniciar Ronda'}
+                    onPress={() => {
+                        if (rondaIniciada) {
+                            pausarRonda()
+                        } else {
+                            iniciarRonda()
+                        }
+                    }}
+                />
                 <TouchableButton style={styles.concluirButton} styleText={{ fontSize: 20 }}
-                    title="Concluir Ronda" onPress={() => setModalOpened(true)}
+                    title="Concluir Ronda" onPress={() => {
+                        pausarRonda()
+                        setModalOpened(true)
+                    }}
                 />
             </View>
             <View style={styles.mapaContainer}>
-                <MapBox coordinates={coordinates} fullScreen />
+                <MapBox coordinates={coordinates} fullScreen drawLines />
                 <Modal
                     animationType="slide"
                     transparent={true}
