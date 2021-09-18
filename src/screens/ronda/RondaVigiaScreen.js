@@ -76,12 +76,12 @@ const modalStyles = StyleSheet.create({
 export default props => {
     const [modalOpened, setModalOpened] = useState(false)
     const { coordinates, iniciarRonda, pausarRonda, rondaIniciada } = useContext(RondaVigiaContext)
-    console.info('ronda coordinates: ' + coordinates.length)
+    console.info('ronda iniciada: ' + rondaIniciada)
     return (
         <>
             <View style={styles.botoesContainer}>
                 <TouchableButton style={styles.pausarButton} styleText={{ color: 'white', fontSize: 20 }}
-                    title={rondaIniciada ? 'Pausa Ronda' : 'Iniciar Ronda'}
+                    title={rondaIniciada ? 'Pausar Ronda' : 'Iniciar Ronda'}
                     onPress={() => {
                         if (rondaIniciada) {
                             pausarRonda()

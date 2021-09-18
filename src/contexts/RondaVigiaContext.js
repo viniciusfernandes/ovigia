@@ -2,11 +2,17 @@ import Geolocation from '@react-native-community/geolocation';
 import React, { useEffect, useState } from 'react';
 import { createContext } from 'react';
 import _BackgroundTimer from 'react-native-background-timer';
-import { set } from 'react-native-reanimated';
-
 
 const RondaVigiaContext = createContext({})
+const RONDA_STATUS = {
+    INICIADA: 'iniciada',
+    PAUSADA: 'pausada',
+    ENCERRADA: 'encerrada',
+    isEncerrada: status => { return RONDA_STATUS.ENCERRADA == status },
+    isPausaPermitida: status => { return RONDA_STATUS.INICIADA == status },
+    isInicioPermitido: status => { return RONDA_STATUS.PAUSADA == status }
 
+}
 export const RondaVigiaContextProvider = ({ children }) => {
     console.info('RondaVigiaContextProvider init')
     const latitude = -23.70389
@@ -15,8 +21,9 @@ export const RondaVigiaContextProvider = ({ children }) => {
 
     var coordinates = []
 
-    const [rondaIniciada, setRondaIniciada] = useState(false)
+    const [rondaStatus, setRondaStatus] = useState(RONDA_STATUS.ENCERRADA)
     const iniciarRonda = () => {
+        console.info('iniciando ronda')
         _BackgroundTimer.runBackgroundTimer(() => {
             Geolocation.getCurrentPosition(
                 position => {
@@ -34,23 +41,31 @@ export const RondaVigiaContextProvider = ({ children }) => {
                 error => console.error(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
             )
         },
-            5000);
+            2000);
     }
 
     const pausarRonda = () => {
+        console.info('pausando ronda')
         Geolocation.stopObserving()
     }
 
+
+    const encerrarRonda = () => {
+        console.info('encerrando ronda')
+        coordinates = []
+        pausarRonda()
+    }
+
     useEffect(() => {
-        console.info('useEffect')
-        iniciarRonda()
-        if (rondaIniciada) {
+        if (RONDA_STATUS.isInicioPermitido(rondaStatus)) {
             iniciarRonda()
-        } else {
+        } else if (RONDA_STATUS.isPausaPermitida(rondaStatus)) {
             pausarRonda()
+        } else {
+            encerrarRonda()
         }
 
-    }, [rondaIniciada])
+    }, [rondaStatus])
 
     console.info('RondaVigiaContextProvider end')
 
@@ -59,9 +74,10 @@ export const RondaVigiaContextProvider = ({ children }) => {
             startPosition: coordinates[0],
             endPosition: coordinates[coordinates.length - 1],
             coordinates: coordinates,
-            rondaIniciada: rondaIniciada,
-            iniciarRonda: () => setRondaIniciada(true),
-            pausarRonda: () => setRondaIniciada(false)
+            rondaIniciada: RONDA_STATUS.isPausaPermitida(rondaStatus),
+            iniciarRonda: () => setRondaStatus(RONDA_STATUS.INICIADA),
+            pausarRonda: () => setRondaStatus(RONDA_STATUS.PAUSADA),
+            encerrarRonda: () => encerrarRonda()
         }} >
             {children}
         </RondaVigiaContext.Provider>

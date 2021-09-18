@@ -41,6 +41,7 @@ export default props => {
     const startPosition = coordinates.length == 1 ? coordinates[0] : undefined
     const endPosition = coordinates[coordinates.length - 1]
     if (startPosition) {
+        console.info('init marker position: ' + JSON.stringify(startPosition))
         markers.push(
             <Marker key='startMarker'
                 coordinate={startPosition}
@@ -49,8 +50,9 @@ export default props => {
     }
 
     if (endPosition) {
+        console.info('end marker position: ' + JSON.stringify(endPosition))
         markers.push(
-            <Marker key='endtMarker'
+            <Marker key='endMarker'
                 coordinate={endPosition}
                 title={'Você está aqui!'}
             />)
@@ -58,7 +60,8 @@ export default props => {
 
     var polyline = null
     if (props.drawLines) {
-        console.info('drawn lines')
+        console.info('polyline: ' + true)
+
         polyline = <Polyline
             coordinates={coordinates}
             strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
@@ -69,10 +72,9 @@ export default props => {
     const mapaContainerStyle = props.fullScreen ? styles.fullMapaContainer : styles.mapaContainer
     const mapaStyle = props.fullScreen ? styles.fullMapa : styles.mapa
 
-    console.info('polylines: '+polyline)
     return (
         <View key={props.id} style={mapaContainerStyle}>
-            <MapView style={mapaStyle} region={endPosition}>
+            <MapView style={mapaStyle} initialRegion={endPosition} region={endPosition}>
                 {markers}
                 {polyline}
             </MapView>
