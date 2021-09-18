@@ -14,7 +14,6 @@ const RONDA_STATUS = {
 
 }
 export const RondaVigiaContextProvider = ({ children }) => {
-    console.info('RondaVigiaContextProvider init')
     const latitude = -23.70389
     const longitude = -46.61840
     const delta = 0.00005
@@ -37,6 +36,7 @@ export const RondaVigiaContextProvider = ({ children }) => {
 
                     coordinates.push(currPosistion)
                     console.info('coordinates size: ' + coordinates.length)
+
                 },
                 error => console.error(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
             )
@@ -45,15 +45,15 @@ export const RondaVigiaContextProvider = ({ children }) => {
     }
 
     const pausarRonda = () => {
-        console.info('pausando ronda')
-        Geolocation.stopObserving()
+        //console.info('pausando ronda')
+        _BackgroundTimer.stopBackgroundTimer()
     }
 
 
     const encerrarRonda = () => {
-        console.info('encerrando ronda')
+        //console.info('encerrando ronda')
         coordinates = []
-        pausarRonda()
+        //  _BackgroundTimer.stopBackgroundTimer()
     }
 
     useEffect(() => {
@@ -65,9 +65,7 @@ export const RondaVigiaContextProvider = ({ children }) => {
             encerrarRonda()
         }
 
-    }, [rondaStatus])
-
-    console.info('RondaVigiaContextProvider end')
+    }, [])
 
     return (
         <RondaVigiaContext.Provider value={{
@@ -75,9 +73,18 @@ export const RondaVigiaContextProvider = ({ children }) => {
             endPosition: coordinates[coordinates.length - 1],
             coordinates: coordinates,
             rondaIniciada: RONDA_STATUS.isPausaPermitida(rondaStatus),
-            iniciarRonda: () => setRondaStatus(RONDA_STATUS.INICIADA),
-            pausarRonda: () => setRondaStatus(RONDA_STATUS.PAUSADA),
-            encerrarRonda: () => encerrarRonda()
+            iniciarRonda: () => {
+                setRondaStatus(RONDA_STATUS.INICIADA)
+                iniciarRonda()
+            },
+            pausarRonda: () => {
+                setRondaStatus(RONDA_STATUS.PAUSADA)
+                pausarRonda()
+            },
+            encerrarRonda: () => {
+                setRondaStatus(RONDA_STATUS.ENCERRADA)
+                encerrarRonda()
+            }
         }} >
             {children}
         </RondaVigiaContext.Provider>

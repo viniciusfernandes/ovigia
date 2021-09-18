@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Container from '../../components/Container'
 import HeaderBox from '../../components/HeaderBox'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
-import MapBox from '../../components/MapBox'
+import MapBox, { DEFAULT_POSITION } from '../../components/MapBox'
 import TouchableButton from '../../components/TouchableButton'
 import AuthContext from '../../contexts/AuthContext'
 import RondaVigiaContext, { RondaVigiaContextProvider } from '../../contexts/RondaVigiaContext'
@@ -54,12 +54,7 @@ const styles = StyleSheet.create({
 export default props => {
     const { nomeUsuario } = useContext(AuthContext)
     const { coordinates, iniciarRonda } = useContext(RondaVigiaContext)
-    const [currentPosition, setCurrentPosition] = useState({
-        latitude: 1,
-        longitude: 1,
-        latitudeDelta: 0.001,
-        longitudeDelta: 0.001,
-    })
+    const [currentPosition, setCurrentPosition] = useState(DEFAULT_POSITION)
 
     useEffect(() => {
         // console.info('init useEffect: ')
