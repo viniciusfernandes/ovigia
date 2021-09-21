@@ -8,9 +8,10 @@ import ImageBoxRightBar from '../../components/ImageBoxRightBar'
 import MapBox, { DEFAULT_POSITION } from '../../components/MapBox'
 import TouchableButton from '../../components/TouchableButton'
 import AuthContext from '../../contexts/AuthContext'
-import RondaVigiaContext, { RondaVigiaContextProvider } from '../../contexts/RondaVigiaContext'
 import matisse from '../../style/matisse'
 import { useState } from 'react/cjs/react.development'
+import RondaCoordinatesSingleton from '../ronda/RondaCoordinatesSigleton'
+import RondaCoordinatesSigleton from '../ronda/RondaCoordinatesSigleton'
 
 
 const styles = StyleSheet.create({
@@ -53,26 +54,8 @@ const styles = StyleSheet.create({
 
 export default props => {
     const { nomeUsuario } = useContext(AuthContext)
-    const { coordinates, iniciarRonda } = useContext(RondaVigiaContext)
     const [currentPosition, setCurrentPosition] = useState(DEFAULT_POSITION)
 
-    useEffect(() => {
-        // console.info('init useEffect: ')
-        Geolocation.getCurrentPosition(
-            position => {
-                setCurrentPosition({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    latitudeDelta: 0.001,
-                    longitudeDelta: 0.001,
-                })
-                // console.info('getting position: ' + JSON.stringify(position))
-            },
-            error => console.error(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-        )
-        // console.info('end useEffect: ')
-    }, [])
-    // console.info('current position:   ' + JSON.stringify(currentPosition))
     return (
         <Container >
             <HeaderBox headers={['Olá, ' + nomeUsuario, 'Vamos começar?']} detail='Ronda' />
@@ -80,7 +63,6 @@ export default props => {
             <TouchableButton style={styles.iniciarRondaButton} styleText={{ fontSize: 20 }}
                 title="Iniciar Ronda"
                 onPress={() => {
-                    iniciarRonda()
                     props.navigation.navigate('rondaVigia')
                 }} />
 

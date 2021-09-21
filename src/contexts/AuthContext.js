@@ -20,7 +20,6 @@ export const AuthContextProvider = ({ children }) => {
     const signon = (usuario, onSuccess) => signOn(
         usuario,
         data => {
-            console.info('usuario criado: ' + JSON.stringify(data))
             setUsuario()
             habilitarHome({ email: data.email, nome: data.nome, tipoUsario: data.tipoUsuario }, false)
             onSuccess()

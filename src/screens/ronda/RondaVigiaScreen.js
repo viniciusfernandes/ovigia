@@ -1,16 +1,13 @@
 
-import Geolocation from '@react-native-community/geolocation';
 import React from 'react';
-import { useEffect } from 'react';
 import { useState } from 'react';
 import { Modal, StyleSheet, Text, View } from 'react-native';
 import _BackgroundTimer from 'react-native-background-timer';
-import MapView, { Marker } from 'react-native-maps';
-import { useContext } from 'react/cjs/react.development';
 import MapBox from '../../components/MapBox';
 import TouchableButton from '../../components/TouchableButton';
-import RondaVigiaContext from '../../contexts/RondaVigiaContext';
 import matisse from '../../style/matisse';
+import RondaCoordinateSigleton from './RondaCoordinatesSigleton'
+
 const styles = StyleSheet.create({
     botoesContainer: {
         alignItems: 'center',
@@ -41,14 +38,14 @@ const styles = StyleSheet.create({
 const modalStyles = StyleSheet.create({
     modalContainer: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     modal: {
-        backgroundColor: "white",
+        backgroundColor: 'white',
         borderRadius: 20,
         elevation: 3,
-        alignItems: "center",
+        alignItems: 'center',
         width: '50%',
     },
     simButton: {
@@ -58,32 +55,45 @@ const modalStyles = StyleSheet.create({
         width: '50%'
     },
     simText: {
-        color: "white",
+        color: 'white',
         fontSize: 15,
-        fontWeight: "bold",
-        textAlign: "center",
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
     modalText: {
         fontSize: 15,
         fontWeight: 'bold',
         marginBottom: '10%',
         marginTop: '10%',
-        textAlign: "center"
+        textAlign: 'center'
     }
 });
 
 
 export default props => {
     const [modalOpened, setModalOpened] = useState(false)
-    const { coordinates, iniciarRonda, pausarRonda, rondaIniciada } = useContext(RondaVigiaContext)
-    console.info('ronda iniciada: ' + rondaIniciada)
+    const [state, setState] = useState({
+        rondaIniciada: RondaCoordinateSigleton.rondaIniciada,
+        coordinates: []
+    })
+
+    const iniciarRonda = () => {
+        RondaCoordinateSigleton.iniciarRonda(coordinates => {
+            setState({ ...state, coordinates })
+        })
+    }
+
+    const pausarRonda = () => {
+        RondaCoordinateSigleton.pausarRonda()
+    }
+
     return (
         <>
             <View style={styles.botoesContainer}>
                 <TouchableButton style={styles.pausarButton} styleText={{ color: 'white', fontSize: 20 }}
-                    title={rondaIniciada ? 'Pausar Ronda' : 'Iniciar Ronda'}
+                    title={state.rondaIniciada ? 'Pausar Ronda' : 'Iniciar Ronda'}
                     onPress={() => {
-                        if (rondaIniciada) {
+                        if (state.rondaIniciada) {
                             pausarRonda()
                         } else {
                             iniciarRonda()
@@ -91,16 +101,16 @@ export default props => {
                     }}
                 />
                 <TouchableButton style={styles.concluirButton} styleText={{ fontSize: 20 }}
-                    title="Concluir Ronda" onPress={() => {
+                    title='Concluir Ronda' onPress={() => {
                         pausarRonda()
                         setModalOpened(true)
                     }}
                 />
             </View>
             <View style={styles.mapaContainer}>
-                <MapBox coordinates={coordinates} fullScreen drawLines />
+                <MapBox id='rondaScreen' coordinates={[...state.coordinates]} fullScreen drawLines />
                 <Modal
-                    animationType="slide"
+                    animationType='slide'
                     transparent={true}
                     visible={modalOpened}
 

@@ -41,28 +41,13 @@ export const DEFAULT_POSITION = {
     longitudeDelta: 0.001,
 }
 export default props => {
-    const coordinates = !props.coordinates && props.coordinates.length > 0 ? props.coordinates : [DEFAULT_POSITION]
+    const coordinates = props.coordinates !== undefined && props.coordinates.length > 0 ? props.coordinates : [DEFAULT_POSITION]
     var markers = []
-    const startPosition = coordinates.length == 1 ? coordinates[0] : undefined
+    const startPosition = coordinates[0]
     const endPosition = coordinates[coordinates.length - 1]
-    // if (startPosition) {
-    //     console.info('init marker position: ' + JSON.stringify(startPosition))
-    //     markers.push(
-    //     )
-    // }
 
-    // if (endPosition) {
-    //     console.info('end marker position: ' + JSON.stringify(endPosition))
-    //     markers.push(
-    //     )
-    // }
+    console.info('screend id: ' + props.id + ' and coordinates size: ' + coordinates.length)
 
-    // var polyline = null
-    // if (props.drawLines) {
-    //     console.info('polyline: ' + true)
-
-
-    // }
     const mapaContainerStyle = props.fullScreen ? styles.fullMapaContainer : styles.mapaContainer
     const mapaStyle = props.fullScreen ? styles.fullMapa : styles.mapa
 
@@ -71,6 +56,7 @@ export default props => {
             <MapView style={mapaStyle} initialRegion={endPosition} region={endPosition}>
                 <Marker key='startMarker'
                     coordinate={startPosition}
+                    pinColor={'yellow'}
                     title={'Você partiu daqui.'}
                 />
                 <Marker key='endMarker'
