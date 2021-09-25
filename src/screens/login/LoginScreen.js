@@ -8,7 +8,7 @@ import styles from './styles/login.styles'
 import AuthContext from '../../contexts/AuthContext';
 
 export default props => {
-  const [credencial, setCredencial] = useState({ email: 'viniciussf@hotmail.com', password: '1234' })
+  const [credencial, setCredencial] = useState({ email: 'vinicius@gmail.com', password: '1234' })
   const { signIn } = useContext(AuthContext)
 
   return (

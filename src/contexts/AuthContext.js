@@ -1,17 +1,25 @@
 import React, { createContext, useState } from 'react';
+import { updateToken } from '../services/api';
 import { signIn, signOn } from '../services/auth/auth.service';
 
 const AuthContext = createContext({})
 
 export const AuthContextProvider = ({ children }) => {
     const [usuario, setUsuario] = useState(null)
-    const habilitarHome = (usuario, navegarHome) => setUsuario({ ...usuario, signed: navegarHome })
+    const habilitarHome = (usuario, navegarHome) => {
+        setUsuario({
+            id: usuario.id,
+            email: usuario.email,
+            nome: usuario.nome,
+            tipoUsario: usuario.tipoUsuario,
+            signed: navegarHome
+        })
+        updateToken(usuario.token)
+    }
 
     const signin = usuario => signIn(
         usuario,
-        data => {
-            habilitarHome({ email: data.email, nome: data.nome, tipoUsario: data.tipoUsuario }, true)
-        },
+        usuarioAutenticado => habilitarHome(usuarioAutenticado, true),
         error => {
             setUsuario(null)
         }
@@ -19,9 +27,9 @@ export const AuthContextProvider = ({ children }) => {
 
     const signon = (usuario, onSuccess) => signOn(
         usuario,
-        data => {
+        usuarioAutenticado => {
             setUsuario()
-            habilitarHome({ email: data.email, nome: data.nome, tipoUsario: data.tipoUsuario }, false)
+            habilitarHome(usuarioAutenticado, false)
             onSuccess()
         },
         error => setUsuario(null)
@@ -29,6 +37,7 @@ export const AuthContextProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             signed: !!usuario && usuario.signed,
+            idUsuario: !!usuario ? usuario.id : null,
             signIn: signin,
             signOn: signon,
             singOut: () => setUsuario(null),

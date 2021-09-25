@@ -63,6 +63,7 @@ export default props => {
             <TouchableButton style={styles.iniciarRondaButton} styleText={{ fontSize: 20 }}
                 title="Iniciar Ronda"
                 onPress={() => {
+                   // RondaCoordinatesSigleton.iniciarRonda()
                     props.navigation.navigate('rondaVigia')
                 }} />
 

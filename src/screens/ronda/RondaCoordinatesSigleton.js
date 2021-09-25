@@ -23,12 +23,12 @@ class RondaCoordinatesSingleton {
         }
 
         this.rondaIniciada = true
-        const delta = 0.00005
+        const delta = 0.00010
+
         _BackgroundTimer.runBackgroundTimer(() => {
             Geolocation.getCurrentPosition(
                 position => {
                     var coords = position.coords
-
                     this.coordinates.push({
                         latitude: Math.random() > 0.5 ? coords.latitude + delta : coords.latitude - delta,
                         longitude: Math.random() > 0.5 ? coords.longitude - delta : coords.longitude + delta,
@@ -45,7 +45,7 @@ class RondaCoordinatesSingleton {
                 error => console.error(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
             )
         },
-            4000);
+            1000);
     }
 
     pausarRonda = () => {
@@ -53,9 +53,12 @@ class RondaCoordinatesSingleton {
         _BackgroundTimer.stopBackgroundTimer()
     }
 
-    encerrarRonda = () => {
+    encerrarRonda = callback => {
         coordinates = []
         _BackgroundTimer.stopBackgroundTimer()
+        if (callback != undefined) {
+            callback()
+        }
     }
 
 

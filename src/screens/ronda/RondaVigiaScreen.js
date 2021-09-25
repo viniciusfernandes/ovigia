@@ -1,12 +1,15 @@
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import { Modal, StyleSheet, Text, View } from 'react-native';
 import _BackgroundTimer from 'react-native-background-timer';
 import MapBox from '../../components/MapBox';
 import TouchableButton from '../../components/TouchableButton';
+import AuthContext from '../../contexts/AuthContext';
+import { criarRonda } from '../../services/ronda/ronda.service';
 import matisse from '../../style/matisse';
 import RondaCoordinateSigleton from './RondaCoordinatesSigleton'
+import CloseButton from '../../components/CloseButton';
 
 const styles = StyleSheet.create({
     botoesContainer: {
@@ -66,7 +69,8 @@ const modalStyles = StyleSheet.create({
         marginBottom: '10%',
         marginTop: '10%',
         textAlign: 'center'
-    }
+    },
+
 });
 
 
@@ -77,16 +81,29 @@ export default props => {
         coordinates: []
     })
 
+    const { idUsuario } = useContext(AuthContext)
+
     const iniciarRonda = () => {
         RondaCoordinateSigleton.iniciarRonda(coordinates => {
-            setState({ ...state, coordinates })
+            setState({ rondaIniciada: true, coordinates: coordinates })
         })
     }
 
     const pausarRonda = () => {
+        setState({ rondaIniciada: false, coordinates: state.coordinates })
         RondaCoordinateSigleton.pausarRonda()
     }
 
+    const encerrarRonda = () => {
+        criarRonda(idUsuario, RondaCoordinateSigleton.coordinates, () => {
+            console.info('enviou a ronda para o usuario: ' + idUsuario)
+            RondaCoordinateSigleton.encerrarRonda()
+            setState({ rondaIniciada: false, coordinates: [] })
+            setModalOpened(false)
+            props.navigation.navigate('resumoRonda')
+        })
+
+    }
     return (
         <>
             <View style={styles.botoesContainer}>
@@ -118,10 +135,10 @@ export default props => {
                     <View style={modalStyles.modalContainer}>
                         <View style={modalStyles.modal}>
                             <Text style={modalStyles.modalText}>Confirma mesmo?</Text>
+                            <CloseButton onPress={() => setModalOpened(false)} />
                             <TouchableButton title='Sim' style={modalStyles.simButton}
                                 styleText={modalStyles.simText} onPress={() => {
-                                    setModalOpened(false)
-                                    props.navigation.navigate('resumoRonda')
+                                    encerrarRonda()
                                 }
                                 } />
                         </View>

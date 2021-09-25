@@ -36,7 +36,9 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     imagemContainer: {
-        position: 'absolute', left: init, top: -radius,
+        position: 'absolute',
+        left: init,
+        top: -radius,
         width: diameter, height: diameter,
         backgroundColor: 'white',
         borderWidth: borda,
