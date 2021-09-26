@@ -1,6 +1,7 @@
 import axios from "axios";
+import { useState } from "react/cjs/react.development";
 
-const api = axios.create({
+const axiosInstance = axios.create({
     baseURL: 'http://172.18.0.1:8080/ovigia',
     headers: {
         'Content-Type': 'application/json',
@@ -10,25 +11,9 @@ const api = axios.create({
 
 })
 
-//solicitacao
-api.interceptors.request.use(function (config) {
-    // Faça algo antes que a solicitação seja enviada
-
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ2aW5pY2l1c0BnbWFpbC5jb20iLCJpYXQiOjE2MzI1MjY2MzEsImV4cCI6MTYzMjU2OTgzMX0.QsUQ-nt-S5Ek_OYA_cdnPu60o7K8Gor3WpIWzRZY5y1ReY-tbl98go3ciWpwJWLT0DxnqoqBkilRG7TnLNioMQ'
-
-
-    console.info('use header token: ' + token)
-    config.headers.Authorization = `Bearer ${token}`
-
-    return config
-
-}, function (error) {
-    console.error('fail on using header token: ' + error)
-    return Promise.reject(error)
-})
 
 //resposta
-api.interceptors.response.use(function (response) {
+axiosInstance.interceptors.response.use(function (response) {
     // Qualquer código de status que esteja dentro do intervalo de 2xx faz com que esta função seja acionada
     // Faça algo com dados de resposta
     // console.log ('resposta interceptada:', response.data)
@@ -96,34 +81,9 @@ api.interceptors.response.use(function (response) {
 })
 
 
-export default api
-
-export function GET(resource, onSuccess, onError) {
-    api.get(resource)
-        .then(response => {
-            onSuccess(response.data.value !== undefined ? response.data.value : {})
-        })
-        .catch(error => handleError(error, onError));
-}
-
-export function POST(resource, body, onSuccess, onError) {
-    api.post(resource, body)
-        .then(response => {
-            onSuccess(response.data.value !== undefined ? response.data.value : {})
-        })
-        .catch(error => handleError(error, onError));
-}
-
-export function DELETE(resource, onSuccess, onError) {
-    api.delete(resource, body)
-        .then(response => {
-            onSuccess(response.data.value !== undefined ? response.data.value : {})
-        })
-        .catch(error => handleError(error, onError));
-}
 
 export function updateToken(token) {
-   // api.interceptors.request.use(config => config.headers['Authorization'] = `Bearer ${token}`)
+    setToken(token)
 }
 
 function handleError(error, onError) {
@@ -132,4 +92,55 @@ function handleError(error, onError) {
     }
     console.error(error)
     console.trace()
+
 }
+
+class WebClient {
+    constructor() {
+        this.token = null
+    }
+
+    get(resource, onSuccess, onError) {
+        axiosInstance.get(resource)
+            .then(response => {
+                onSuccess(response.data.value !== undefined ? response.data.value : {})
+            })
+            .catch(error => handleError(error, onError));
+    }
+
+
+
+    post(resource, body, onSuccess, onError) {
+        axiosInstance.post(resource, body)
+            .then(response => {
+                onSuccess(response.data.value !== undefined ? response.data.value : {})
+            })
+            .catch(error => handleError(error, onError));
+    }
+
+    delete(resource, onSuccess, onError) {
+        axiosInstance.delete(resource, body)
+            .then(response => {
+                onSuccess(response.data.value !== undefined ? response.data.value : {})
+            })
+            .catch(error => handleError(error, onError));
+    }
+
+    setToken(token) {
+        this.token = token
+        axiosInstance.interceptors.request.use(function (config) {
+            console.info('use header token: ' + this.token)
+            config.headers.Authorization = `Bearer ${token}`
+
+            return config
+
+        }, function (error) {
+            console.error('fail on using header token: ' + error)
+            return Promise.reject(error)
+        })
+
+    }
+
+}
+
+export default new WebClient()

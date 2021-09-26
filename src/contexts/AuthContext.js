@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 import { updateToken } from '../services/api';
 import { signIn, signOn } from '../services/auth/auth.service';
-
+import { TipoUsuario } from '../services/constantes'
 const AuthContext = createContext({})
 
 export const AuthContextProvider = ({ children }) => {
@@ -14,7 +14,6 @@ export const AuthContextProvider = ({ children }) => {
             tipoUsario: usuario.tipoUsuario,
             signed: navegarHome
         })
-        updateToken(usuario.token)
     }
 
     const signin = usuario => signIn(
@@ -42,6 +41,7 @@ export const AuthContextProvider = ({ children }) => {
             signOn: signon,
             singOut: () => setUsuario(null),
             setTipoUsuario: tipoUsuario => setUsuario({ ...usuario, tipoUsuario }),
+            isVigia: !!usuario ? TipoUsuario.isVigia(usuario.tipoUsario) : false,
             habilitarHome: () => habilitarHome(usuario, true),
             nomeUsuario: !!usuario ? usuario.nome : null
         }}>

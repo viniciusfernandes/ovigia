@@ -40,6 +40,8 @@ const styles = StyleSheet.create({
         width: '25%',
         padding: 0
     },
+
+
 })
 
 export default props => {
@@ -56,9 +58,11 @@ export default props => {
                 <View style={styles.rightBar} />
             </>
     }
+
+    const style = props.backgroundColor ? { ...styles.container, backgroundColor: props.backgroundColor } : styles.container
     return (
         <TouchableOpacity key={props.id}>
-            <View style={styles.container}>
+            <View style={style}>
                 <View style={styles.imagem}>
                     <Image style={styles.icon} source={props.imagem} />
                 </View>

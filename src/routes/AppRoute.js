@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Image, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -9,6 +9,7 @@ import ChamadosVigiaScreen from '../screens/vigia/ChamadosVigiaScreen';
 import IniciarRondaScreen from '../screens/vigia/IniciarRondaScreen';
 import ResumoRondaScreen from '../screens/ronda/ResumoRondaScreen';
 import matisse from '../style/matisse';
+import AuthContext from '../contexts/AuthContext';
 function getIcon(focused, screenName) {
     if ('iniciarRonda' === screenName) {
         return focused ? require('../../images/overview_laranja_75.png') : require('../../images/overview_preto_75.png')
@@ -27,7 +28,7 @@ const Tab = createBottomTabNavigator();
 const Screen = Tab.Screen
 const Navigator = Tab.Navigator
 export default () => {
-
+const {isVigia} = useContext(AuthContext)
     return (
         <Navigator
             tabBarOptions={{

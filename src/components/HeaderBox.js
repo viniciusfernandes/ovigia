@@ -20,9 +20,10 @@ const styles = StyleSheet.create({
 export default props => {
     const headers = []
     var idHeader = 1
-    props.headers.forEach(message => {
 
-        headers.push(<Text key={idHeader++} style={[styles.header]}>{message}</Text>)
+    const header = !!props.color ? { ...styles.header, color: props.color } : styles.header
+    props.headers.forEach(message => {
+        headers.push(<Text key={idHeader++} style={[header]}>{message}</Text>)
     });
 
     return (

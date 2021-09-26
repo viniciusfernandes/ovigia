@@ -1,7 +1,7 @@
-import { POST } from '../api'
+import WebClient from '../api'
 
 export const criarRonda = (idVigia, localizacoes, callback) => {
-    POST(`/vigias/${idVigia}/localizacoes`,
+    WebClient.post(`/vigias/${idVigia}/localizacoes`,
         { data: new Date(), localizacoes: localizacoes },
         callback)
 }
