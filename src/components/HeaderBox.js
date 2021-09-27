@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     textPequeno: {
         fontSize: 17,
         marginLeft: '10%',
-        marginTop: '6%'
+        marginTop: '3%'
     }
 })
 export default props => {

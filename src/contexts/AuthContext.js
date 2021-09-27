@@ -1,49 +1,59 @@
 import React, { createContext, useState } from 'react';
 import { updateToken } from '../services/api';
 import { signIn, signOn } from '../services/auth/auth.service';
-import { TipoUsuario } from '../services/constantes'
+import { isVigia, TipoUsuario } from '../services/constantes'
 const AuthContext = createContext({})
 
 export const AuthContextProvider = ({ children }) => {
     const [usuario, setUsuario] = useState(null)
+
     const habilitarHome = (usuario, navegarHome) => {
         setUsuario({
             id: usuario.id,
             email: usuario.email,
             nome: usuario.nome,
-            tipoUsario: usuario.tipoUsuario,
+            tipoUsuario: usuario.tipoUsuario,
             signed: navegarHome
         })
     }
 
-    const signin = usuario => signIn(
-        usuario,
-        usuarioAutenticado => habilitarHome(usuarioAutenticado, true),
+    const signin = credential => signIn(
+        credential,
+        usuario => habilitarHome(usuario, true),
         error => {
             setUsuario(null)
         }
     )
 
-    const signon = (usuario, onSuccess) => signOn(
-        usuario,
-        usuarioAutenticado => {
-            setUsuario()
-            habilitarHome(usuarioAutenticado, false)
-            onSuccess()
-        },
-        error => setUsuario(null)
-    )
+    const signon = (credential, onSuccess) => {
+        credential.tipoUsuario = usuario.tipoUsuario
+        signOn(
+            credential,
+            usuario => {
+                habilitarHome(usuario, false)
+                onSuccess()
+            },
+            error => setUsuario(null)
+        )
+    }
+
     return (
         <AuthContext.Provider value={{
-            signed: !!usuario && usuario.signed,
-            idUsuario: !!usuario ? usuario.id : null,
-            signIn: signin,
-            signOn: signon,
-            singOut: () => setUsuario(null),
-            setTipoUsuario: tipoUsuario => setUsuario({ ...usuario, tipoUsuario }),
-            isVigia: !!usuario ? TipoUsuario.isVigia(usuario.tipoUsario) : false,
             habilitarHome: () => habilitarHome(usuario, true),
-            nomeUsuario: !!usuario ? usuario.nome : null
+            isVigia: !!usuario && isVigia(usuario.tipoUsuario),
+            idUsuario: !!usuario ? usuario.id : null,
+            nomeUsuario: !!usuario ? usuario.nome : null,
+            setTipoUsuario: tipoUsuario => {
+                if (!!usuario) {
+                    setUsuario({ ...usuario, tipoUsuario: tipoUsuario })
+                } else {
+                    setUsuario({ tipoUsuario: tipoUsuario })
+                }
+            },
+            signed: !!usuario && usuario.signed,
+            autenticar: signin,
+            cadastrar: signon,
+            singOut: () => setUsuario(null),
         }}>
             {children}
         </AuthContext.Provider>

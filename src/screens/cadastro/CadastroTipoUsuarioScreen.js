@@ -10,13 +10,12 @@ export default (props) => {
     const { setTipoUsuario } = useContext(AuthContext)
 
     function navigate(tipo) {
-        setTipoUsuario({ tipo })
+        setTipoUsuario(tipo)
         props.navigation.navigate('cadastroContato')
     }
     Geolocation.getCurrentPosition(
         position => {
             const location = JSON.stringify(position);
-            console.info('Location: ' + location)
         },
         error => Alert.alert(error.message),
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }

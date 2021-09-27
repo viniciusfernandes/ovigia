@@ -10,8 +10,9 @@ import IniciarRondaScreen from '../screens/vigia/IniciarRondaScreen';
 import ResumoRondaScreen from '../screens/ronda/ResumoRondaScreen';
 import matisse from '../style/matisse';
 import AuthContext from '../contexts/AuthContext';
+import AcompanharRondaScreen from '../screens/cliente/AcompanharRondaScreen';
 function getIcon(focused, screenName) {
-    if ('iniciarRonda' === screenName) {
+    if ('iniciarRonda' === screenName || 'acompanharRonda' === screenName) {
         return focused ? require('../../images/overview_laranja_75.png') : require('../../images/overview_preto_75.png')
     } else if ('financeiro' === screenName) {
         return focused ? require('../../images/financeiro_laranja_75.png') : require('../../images/financeiro_preto_75.png')
@@ -28,7 +29,13 @@ const Tab = createBottomTabNavigator();
 const Screen = Tab.Screen
 const Navigator = Tab.Navigator
 export default () => {
-const {isVigia} = useContext(AuthContext)
+    const { isVigia } = useContext(AuthContext)
+    var initialScreen = null
+    if (isVigia) {
+        initialScreen = <Screen name="iniciarRonda" component={IniciarRondaScreen} />
+    } else {
+        initialScreen = <Screen name="acompanharRonda" component={AcompanharRondaScreen} />
+    }
     return (
         <Navigator
             tabBarOptions={{
@@ -52,8 +59,7 @@ const {isVigia} = useContext(AuthContext)
 
             })}
         >
-
-            <Screen name="iniciarRonda" component={IniciarRondaScreen} />
+            {initialScreen}
             <Screen name="financeiro" component={PerfilVigia} />
             <Screen name="rondaVigia" component={RondaVigiaScreen} />
             <Screen name="chamados" component={ChamadosVigiaScreen} />

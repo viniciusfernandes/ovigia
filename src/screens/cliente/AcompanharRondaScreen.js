@@ -59,6 +59,7 @@ export default props => {
         <Container backgroundColor='white'>
             <HeaderBox color='black' headers={['OVigia,', 'você mais seguro!']} />
             <MapBox coordinates={[currentPosition]} />
+          
             <TouchableButton style={styles.acompanharRondaButton} styleText={{ color: 'white', fontSize: 20 }}
                 title="Acompanhar Ronda" />
 

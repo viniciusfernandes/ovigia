@@ -10,7 +10,6 @@ class RondaCoordinatesSingleton {
         this.coordinates = []
         this.rondaIniciada = false
         this.callbacks = []
-        console.info('criando RondaCoordinatesSingleton ')
     }
 
     getCoordinates = () => {

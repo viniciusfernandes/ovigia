@@ -129,7 +129,6 @@ class WebClient {
     setToken(token) {
         this.token = token
         axiosInstance.interceptors.request.use(function (config) {
-            console.info('use header token: ' + this.token)
             config.headers.Authorization = `Bearer ${token}`
 
             return config

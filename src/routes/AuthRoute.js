@@ -16,7 +16,6 @@ export default () => {
     const login = RoutesMap.login
     return (
         <Navigator>
-              <Screen name="acompanharRonda" component={AcompanharRondaScreen}   />
             <Screen name="login" component={LoginScreen} options={{ tabBarVisible: false }} />
             <Screen name="cadastroTipoUsuario" component={CadastroTipoUsuario} options={{ tabBarVisible: false }} />
             <Screen name="cadastroContato" component={CadastroContato} options={{ tabBarVisible: false }} />
