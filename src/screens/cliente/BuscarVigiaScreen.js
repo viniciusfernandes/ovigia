@@ -7,6 +7,7 @@ import HeaderBox from "../../components/HeaderBox"
 import ImageBoxRightBar from "../../components/ImageBoxRightBar"
 import LabelInput from "../../components/LabelInput"
 import MapBox from "../../components/MapBox"
+import RatingStars from "../../components/RatingStars"
 import matisse from "../../style/matisse"
 
 const styles = StyleSheet.create({
@@ -40,7 +41,6 @@ const gerarRate = rate => {
     const hasRest = rest >= 0.4
     const maxRate = 5
     var startKey = null
-    console.info('roundedRate: ' + roundedRate + ' rest: ' + rest + ' hasrest: ' + hasRest)
     if (roundedRate <= 0) {
         if (hasRest) {
             stars[0] = <Image key={'start-0'} source={require('../../../images/star_orange_gray.png')} />
@@ -60,13 +60,14 @@ const gerarRate = rate => {
             } else if (rt == roundedRate) {
                 stars[rt] = <Image key={startKey} source={require('../../../images/star_orange.png')} />
                 if (hasRest) {
-                    stars[rt] = <Image key={startKey} source={require('../../../images/star_orange_gray.png')} />
                     rt++
+                    stars[rt] = <Image key={startKey} source={require('../../../images/star_orange_gray.png')} />
                 }
             } else {
                 stars[rt] = <Image key={startKey} source={require('../../../images/star_gray.png')} />
-            }
 
+            }
+             
         }
     }
 
@@ -76,7 +77,7 @@ const gerarRate = rate => {
 export default props => {
     const vigia = {
         nome: 'Renato Canuto',
-        rating: 2.55,
+        rate: 3.46,
         cidade: 'São Paulo',
         dataInicio: '12/12/2020'
     }
@@ -89,15 +90,13 @@ export default props => {
 
             <MapBox id='buscarVigiaScreen' />
 
-            <View style={styles.rating}>
-                {gerarRate(vigia.rating)}
-            </View>
 
             <ImageBoxRightBar
                 imagem={require('../../../images/escudocheck_laranja_75.png')}>
                 <Text style={styles.nome}>{vigia.nome}</Text>
+                <RatingStars rate ={vigia.rate}/>
 
-                <Text style={styles.smallBox} >{vigia.rating}</Text>
+                <Text style={styles.smallBox} >{vigia.rate}</Text>
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
                     <Text style={styles.smallBox} >{vigia.cidade}</Text>
                     <Text style={[styles.smallBox, { marginLeft: 15 }]} >{vigia.dataInicio}</Text>
