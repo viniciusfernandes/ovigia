@@ -1,4 +1,5 @@
 const matisse = {
+    amareloDourado: '#F9AC39',
     cinzaClaro: '#C3C9C9',
     cinzaStreetMap: '#F 2F3F7',
     cinzaTransparente: '#EFEFEF',

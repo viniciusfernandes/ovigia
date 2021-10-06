@@ -27,52 +27,25 @@ const styles = StyleSheet.create({
         color: matisse.laranja,
         paddingLeft: 5,
         paddingRight: 5,
+        width: '30%'
+    },
+    rateBox: {
+        backgroundColor: matisse.amareloDourado,
+        textAlign: 'center',
+        borderRadius: 5,
+        color: 'white',
+        marginLeft: 10,
+        width: 50,
+        height: 20,
+    },
+    rateContainer: {
+        flexDirection: 'row',
     },
     rating: {
         backgroundColor: matisse.laranjaClaro,
         flexDirection: 'row'
     }
 })
-
-const gerarRate = rate => {
-    var stars = []
-    const roundedRate = Math.floor(rate)
-    const rest = rate - roundedRate
-    const hasRest = rest >= 0.4
-    const maxRate = 5
-    var startKey = null
-    if (roundedRate <= 0) {
-        if (hasRest) {
-            stars[0] = <Image key={'start-0'} source={require('../../../images/star_orange_gray.png')} />
-        }
-        else {
-            stars[0] = <Image key={'start-0'} source={require('../../../images/star_gray.png')} />
-        }
-        for (var rt = 1; rt < maxRate; rt++) {
-            startKey = 'start-' + rt
-            stars[rt] = <Image key={startKey} source={require('../../../images/star_gray.png')} />
-        }
-    } else {
-        for (var rt = 1; rt <= maxRate; rt++) {
-            startKey = 'start-' + rt
-            if (rt < roundedRate) {
-                stars[rt] = <Image key={startKey} source={require('../../../images/star_orange.png')} />
-            } else if (rt == roundedRate) {
-                stars[rt] = <Image key={startKey} source={require('../../../images/star_orange.png')} />
-                if (hasRest) {
-                    rt++
-                    stars[rt] = <Image key={startKey} source={require('../../../images/star_orange_gray.png')} />
-                }
-            } else {
-                stars[rt] = <Image key={startKey} source={require('../../../images/star_gray.png')} />
-
-            }
-             
-        }
-    }
-
-    return stars
-}
 
 export default props => {
     const vigia = {
@@ -94,9 +67,11 @@ export default props => {
             <ImageBoxRightBar
                 imagem={require('../../../images/escudocheck_laranja_75.png')}>
                 <Text style={styles.nome}>{vigia.nome}</Text>
-                <RatingStars rate ={vigia.rate}/>
+                <View style={styles.rateContainer}>
+                    <RatingStars rate={vigia.rate} />
+                    <Text style={styles.rateBox} >{vigia.rate}</Text>
+                </View>
 
-                <Text style={styles.smallBox} >{vigia.rate}</Text>
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
                     <Text style={styles.smallBox} >{vigia.cidade}</Text>
                     <Text style={[styles.smallBox, { marginLeft: 15 }]} >{vigia.dataInicio}</Text>
