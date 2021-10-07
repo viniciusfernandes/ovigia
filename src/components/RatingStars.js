@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         width: 100,
+        height: 20,
     },
     star: {
         width: 20,
