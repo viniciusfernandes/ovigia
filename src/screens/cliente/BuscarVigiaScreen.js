@@ -27,7 +27,8 @@ export default props => {
 
     return (
         <Container>
-            <HeaderBox headers={['Encontre o', 'vigia mais próximo.']} />
+            <HeaderBox headers={['Encontre o', 'vigia mais próximo.']}
+                detail={'Localização e dados do vigia:'} />
 
             <MapBox id='buscarVigiaScreen' />
 

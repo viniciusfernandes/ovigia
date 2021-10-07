@@ -7,8 +7,6 @@ import LoginScreen from '../screens/login/LoginScreen';
 import CadastroTipoUsuario from '../screens/cadastro/CadastroTipoUsuarioScreen';
 import CadastroContato from '../screens/cadastro/CadastroContatoScreen';
 import CadastroSucessoScreen from '../screens/cadastro/CadastroSucessoScreen';
-import AcompanharRondaScreen from '../screens/cliente/AcompanharRondaScreen';
-import BuscarVigiaScreen from '../screens/cliente/BuscarVigiaScreen';
 
 const Stack = createBottomTabNavigator()
 const Screen = Stack.Screen
@@ -17,7 +15,6 @@ export default () => {
     const login = RoutesMap.login
     return (
         <Navigator>
-            <Screen name="buscarVigia" component={BuscarVigiaScreen} />
             <Screen name="login" component={LoginScreen} options={{ tabBarVisible: false }} />
             <Screen name="cadastroTipoUsuario" component={CadastroTipoUsuario} options={{ tabBarVisible: false }} />
             <Screen name="cadastroContato" component={CadastroContato} options={{ tabBarVisible: false }} />

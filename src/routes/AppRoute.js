@@ -11,6 +11,7 @@ import ResumoRondaScreen from '../screens/ronda/ResumoRondaScreen';
 import matisse from '../style/matisse';
 import AuthContext from '../contexts/AuthContext';
 import AcompanharRondaScreen from '../screens/cliente/AcompanharRondaScreen';
+import BuscarVigiaScreen from '../screens/cliente/BuscarVigiaScreen';
 function getIcon(focused, screenName) {
     if ('iniciarRonda' === screenName || 'acompanharRonda' === screenName) {
         return focused ? require('../../images/overview_laranja_75.png') : require('../../images/overview_preto_75.png')
@@ -22,6 +23,8 @@ function getIcon(focused, screenName) {
         return focused ? require('../../images/ronda_laranja_75.png') : require('../../images/ronda_preto_75.png')
     } else if ('chamados' === screenName || 'login' === screenName) {
         return focused ? require('../../images/chamados_laranja_75.png') : require('../../images/chamados_preto_75.png')
+    } else if ('buscarVigia' === screenName) {
+        return focused ? require('../../images/busca_laranja_75.png') : require('../../images/busca_preto_75.png')
     }
 }
 
@@ -62,6 +65,7 @@ export default () => {
             {initialScreen}
             <Screen name="financeiro" component={PerfilVigia} />
             <Screen name="rondaVigia" component={RondaVigiaScreen} />
+            <Screen name="buscarVigia" component={BuscarVigiaScreen} />
             <Screen name="chamados" component={ChamadosVigiaScreen} />
             <Screen name="resumoRonda" component={ResumoRondaScreen} options={{ tabBarButton: () => null }} />
         </ Navigator>
