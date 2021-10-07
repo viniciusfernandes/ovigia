@@ -33,22 +33,28 @@ const Screen = Tab.Screen
 const Navigator = Tab.Navigator
 export default () => {
     const { isVigia } = useContext(AuthContext)
-    var initialScreen = null
+    var screens = []
     if (isVigia) {
-        initialScreen = <Screen name="iniciarRonda" component={IniciarRondaScreen} />
+        screens.push(<Screen key='iniciarRonda' name='iniciarRonda' component={IniciarRondaScreen} />)
+        screens.push(<Screen key='financeiro' name='financeiro' component={PerfilVigia} />)
+        screens.push(<Screen key='rondaVigia' name='rondaVigia' component={RondaVigiaScreen} />)
+        screens.push(<Screen key='chamados' name='chamados' component={ChamadosVigiaScreen} />)
+        screens.push(<Screen key='resumoRonda' name='resumoRonda' component={ResumoRondaScreen} options={{ tabBarButton: () => null }} />)
     } else {
-        initialScreen = <Screen name="acompanharRonda" component={AcompanharRondaScreen} />
+        screens.push(<Screen key='acompanharRonda' name='acompanharRonda' component={AcompanharRondaScreen} />)
+        screens.push(<Screen key='buscarVigia' name='buscarVigia' component={BuscarVigiaScreen} />)
     }
     return (
         <Navigator
             tabBarOptions={{
                 showLabel: false,
                 style: {
-                    borderTopLeftRadius: 25,
-                    borderTopRightRadius: 25,
+                    // borderTopLeftRadius: 25,
+                    // borderTopRightRadius: 25,
                     height: '10%',
-                    elevation: 50,
-                    backgroundColor: matisse.laranjaTransparente
+                    elevation: 3,
+                    // backgroundColor: matisse.laranjaTransparente
+                    backgroundColor: matisse.cinzaTransparente
                 }
             }}
             screenOptions={({ route }) => ({
@@ -62,12 +68,7 @@ export default () => {
 
             })}
         >
-            {initialScreen}
-            <Screen name="financeiro" component={PerfilVigia} />
-            <Screen name="rondaVigia" component={RondaVigiaScreen} />
-            <Screen name="buscarVigia" component={BuscarVigiaScreen} />
-            <Screen name="chamados" component={ChamadosVigiaScreen} />
-            <Screen name="resumoRonda" component={ResumoRondaScreen} options={{ tabBarButton: () => null }} />
+            {screens}
         </ Navigator>
 
     );

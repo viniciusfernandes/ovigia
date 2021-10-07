@@ -13,11 +13,8 @@ const styles = StyleSheet.create({
     },
     container: {
         margin: 10,
-        backgroundColor: '#fff',
         borderRadius: 30,
         elevation: 5,
-
-
     },
     input: {
         borderBottomColor: matisse.laranja,

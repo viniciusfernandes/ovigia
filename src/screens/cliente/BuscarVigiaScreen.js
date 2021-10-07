@@ -28,9 +28,9 @@ export default props => {
     return (
         <Container>
             <HeaderBox headers={['Encontre o', 'vigia mais próximo.']}
-                detail={'Localização e dados do vigia:'} />
+                detail={'Seu vigia mais próximo esta aqui!'} />
 
-            <MapBox id='buscarVigiaScreen' />
+            <MapBox id='buscarVigiaScreen' pinTitle={'Seu vigia esta aqui!'} />
 
             <VigiaRatingBox
                 icon={require('../../../images/usuario_branco_75.png')}

@@ -50,14 +50,14 @@ export default props => {
 
     const mapaContainerStyle = props.fullScreen ? styles.fullMapaContainer : styles.mapaContainer
     const mapaStyle = props.fullScreen ? styles.fullMapa : styles.mapa
-
+    const pinTitle = props.titlePin ? props.titlePin : 'Você partiu daqui.'
     return (
         <View key={props.id} style={mapaContainerStyle}>
             <MapView style={mapaStyle} initialRegion={endPosition} region={endPosition}>
                 <Marker key='startMarker'
                     coordinate={startPosition}
                     pinColor={'yellow'}
-                    title={'Você partiu daqui.'}
+                    title={pinTitle}
                 />
                 <Marker key='endMarker'
                     coordinate={endPosition}
