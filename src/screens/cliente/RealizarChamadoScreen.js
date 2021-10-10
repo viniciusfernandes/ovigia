@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     },
     iniciarButton: {
         position: 'absolute',
-        top: '80%',
+        top: '65%',
         backgroundColor: matisse.laranja,
         width: '45%'
     },
