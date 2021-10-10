@@ -8,14 +8,16 @@ const styles = StyleSheet.create({
     mapaContainer: {
         alignItems: 'center',
         backgroundColor: matisse.cinzaTransparente,
+        borderColor: 'white',
         borderRadius: 20,
+        borderStyle:'solid',
+        borderWidth:4   ,
         elevation: 5,
         height: '30%',
         justifyContent: 'center',
         marginBottom: '2%',
         marginTop: '5%',
         width: '80%',
-
     },
     mapa: {
         width: '100%',
@@ -24,6 +26,7 @@ const styles = StyleSheet.create({
     },
     fullMapaContainer: {
         alignItems: 'center',
+      
         height: '100%',
         justifyContent: 'center',
         width: '100%',
@@ -40,6 +43,7 @@ export const DEFAULT_POSITION = {
     latitudeDelta: 0.001,
     longitudeDelta: 0.001,
 }
+
 export default props => {
     const coordinates = props.coordinates !== undefined && props.coordinates.length > 0 ? props.coordinates : [DEFAULT_POSITION]
     var markers = []
@@ -48,11 +52,11 @@ export default props => {
 
     console.info('screend id: ' + props.id + ' and coordinates size: ' + coordinates.length)
 
-    const mapaContainerStyle = props.fullScreen ? styles.fullMapaContainer : styles.mapaContainer
+    const containerStyle = props.fullScreen ? styles.fullMapaContainer : styles.mapaContainer
     const mapaStyle = props.fullScreen ? styles.fullMapa : styles.mapa
     const pinTitle = props.titlePin ? props.titlePin : 'Você partiu daqui.'
     return (
-        <View key={props.id} style={mapaContainerStyle}>
+        <View key={props.id} style={[containerStyle, props.style]}>
             <MapView style={mapaStyle} initialRegion={endPosition} region={endPosition}>
                 <Marker key='startMarker'
                     coordinate={startPosition}

@@ -12,6 +12,7 @@ import matisse from '../style/matisse';
 import AuthContext from '../contexts/AuthContext';
 import AcompanharRondaScreen from '../screens/cliente/AcompanharRondaScreen';
 import BuscarVigiaScreen from '../screens/cliente/BuscarVigiaScreen';
+import RealizarChamadoScreen from '../screens/cliente/RealizarChamadoScreen';
 function getIcon(focused, screenName) {
     if ('iniciarRonda' === screenName || 'acompanharRonda' === screenName) {
         return focused ? require('../../images/overview_laranja_75.png') : require('../../images/overview_preto_75.png')
@@ -21,7 +22,7 @@ function getIcon(focused, screenName) {
         return focused ? require('../../images/clientes_laranja_75.png') : require('../../images/clientes_preto_75.png')
     } else if ('rondaVigia' === screenName) {
         return focused ? require('../../images/ronda_laranja_75.png') : require('../../images/ronda_preto_75.png')
-    } else if ('chamados' === screenName || 'login' === screenName) {
+    } else if ('chamados' === screenName || 'realizarChamado' === screenName) {
         return focused ? require('../../images/chamados_laranja_75.png') : require('../../images/chamados_preto_75.png')
     } else if ('buscarVigia' === screenName) {
         return focused ? require('../../images/busca_laranja_75.png') : require('../../images/busca_preto_75.png')
@@ -43,6 +44,7 @@ export default () => {
     } else {
         screens.push(<Screen key='acompanharRonda' name='acompanharRonda' component={AcompanharRondaScreen} />)
         screens.push(<Screen key='buscarVigia' name='buscarVigia' component={BuscarVigiaScreen} />)
+        screens.push(<Screen key='realizarChamado' name='realizarChamado' component={RealizarChamadoScreen} />)
     }
     return (
         <Navigator
