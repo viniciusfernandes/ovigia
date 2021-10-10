@@ -95,7 +95,8 @@ export default props => {
     }
 
     const encerrarRonda = () => {
-        criarRonda(idUsuario, RondaCoordinateSigleton.coordinates, () => {
+        criarRonda(idUsuario, RondaCoordinateSigleton.coordinates, response => {
+            console.info('ronda response: '+JSON.stringify(response))
             RondaCoordinateSigleton.encerrarRonda()
             setState({ rondaIniciada: false, coordinates: [] })
             setModalOpened(false)
