@@ -31,10 +31,12 @@ export default props => {
                 detail={'Seu vigia mais próximo esta aqui!'} />
 
             <MapBox id='buscarVigiaScreen' pinTitle={'Seu vigia esta aqui!'} />
-
             <VigiaRatingBox
                 icon={require('../../../images/usuario_branco_75.png')}
-                vigia={vigia} />
+                vigia={vigia}
+                buttonTitle='Contratar'
+                onPress={() => { console.info('Realizou a contratacao') }}
+                showMensalidade />
         </Container>
     )
 }

@@ -5,6 +5,7 @@ const matisse = {
     cinzaTransparente: '#EFEFEF',
     cinzaEscuro: '#707272',
     laranja: '#F38223',
+    laranjaAvermelhado: '#D14B1F',
     laranjaEscuro: '#BF5818',
     laranjaClaro: '#FFEEE0',
     laranjaTransparente: '#FFF2E8'

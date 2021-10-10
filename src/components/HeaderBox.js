@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         marginTop: '3%'
     }
 })
-export default props => {
+export default      props => {
     const headers = []
     var idHeader = 1
 

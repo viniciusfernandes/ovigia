@@ -13,6 +13,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: matisse.laranja
     },
+    perfil: {
+        borderColor: 'white',
+        borderRadius: 40,
+        borderWidth: 2,
+        height: '100%',
+        width: '100%',
+    },
     perfilcontainer: {
         height: 50,
         left: '85%',
@@ -20,13 +27,7 @@ const styles = StyleSheet.create({
         top: '2%',
         width: 50,
     },
-    perfil: {
-        borderColor: 'white',
-        borderRadius: 40,
-        borderWidth: 2,
-        height: '100%',
-        width: '100%',
-    }
+
 })
 
 export default props => {

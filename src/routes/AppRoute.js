@@ -13,10 +13,11 @@ import AuthContext from '../contexts/AuthContext';
 import AcompanharRondaScreen from '../screens/cliente/AcompanharRondaScreen';
 import BuscarVigiaScreen from '../screens/cliente/BuscarVigiaScreen';
 import RealizarChamadoScreen from '../screens/cliente/RealizarChamadoScreen';
+import ConsultarFinancasClienteScreen from '../screens/cliente/ConsultarFinancasClienteScreen';
 function getIcon(focused, screenName) {
     if ('iniciarRonda' === screenName || 'acompanharRonda' === screenName) {
         return focused ? require('../../images/overview_laranja_75.png') : require('../../images/overview_preto_75.png')
-    } else if ('financeiro' === screenName) {
+    } else if ('financeiro' === screenName || 'consultarFinancasCliente' === screenName) {
         return focused ? require('../../images/financeiro_laranja_75.png') : require('../../images/financeiro_preto_75.png')
     } else if ('clientes' === screenName) {
         return focused ? require('../../images/clientes_laranja_75.png') : require('../../images/clientes_preto_75.png')
@@ -43,6 +44,7 @@ export default () => {
         screens.push(<Screen key='resumoRonda' name='resumoRonda' component={ResumoRondaScreen} options={{ tabBarButton: () => null }} />)
     } else {
         screens.push(<Screen key='acompanharRonda' name='acompanharRonda' component={AcompanharRondaScreen} />)
+        screens.push(<Screen key='consultarFinancasCliente' name='consultarFinancasCliente' component={ConsultarFinancasClienteScreen} />)
         screens.push(<Screen key='buscarVigia' name='buscarVigia' component={BuscarVigiaScreen} />)
         screens.push(<Screen key='realizarChamado' name='realizarChamado' component={RealizarChamadoScreen} />)
     }

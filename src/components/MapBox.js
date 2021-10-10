@@ -50,8 +50,6 @@ export default props => {
     const startPosition = coordinates[0]
     const endPosition = coordinates[coordinates.length - 1]
 
-    console.info('screend id: ' + props.id + ' and coordinates size: ' + coordinates.length)
-
     const containerStyle = props.fullScreen ? styles.fullMapaContainer : styles.mapaContainer
     const mapaStyle = props.fullScreen ? styles.fullMapa : styles.mapa
     const pinTitle = props.titlePin ? props.titlePin : 'Você partiu daqui.'

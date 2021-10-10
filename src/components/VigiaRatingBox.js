@@ -1,7 +1,5 @@
 import React from 'react'
 import { Image, Text, StyleSheet, View, } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { larguraPercentual } from '../constantes/medidas/Medidas'
 import matisse from '../style/matisse'
 import RatingStars from './RatingStars'
 import TouchableButton from './TouchableButton'
@@ -68,14 +66,27 @@ const styles = StyleSheet.create({
     },
     textButton: {
         color: 'white',
+        fontSize: 20,
     }
 })
 
 export default props => {
-    const vigia = props.vigia
-    const style = props.style ? [styles.container, props.style] : styles.container
+    const vigia = props.vigia ? props.vigia : {
+        nome: 'Não definido',
+        rate: 0,
+        cidade: 'Não definido',
+        dataInicio: 'Não definido'
+    }
+
+    const mensalidade = !props.showMensalidade ?
+        <View style={{ marginTop: 30 }}>
+            <Text style={{ fontSize: 15, color: matisse.laranjaAvermelhado }} >Valor Mensalidade:</Text>
+            <Text style={{ fontSize: 30, fontWeight: 'bold', color: matisse.laranjaAvermelhado }} >R$1234,00</Text>
+        </View> : null
+
+    const heightMensalidade = { height: !props.showMensalidade ? styles.container.height + 80 : styles.container.height }
     return (
-        <View style={style}>
+        <View style={[styles.container, heightMensalidade, props.style]}>
             <View style={styles.iconContainer}>
                 <Image style={styles.icon} source={props.icon} />
             </View>
@@ -90,7 +101,11 @@ export default props => {
                     <Text style={styles.smallBox} >{vigia.cidade}</Text>
                     <Text style={[styles.smallBox, { marginLeft: 15 }]} >{vigia.dataInicio}</Text>
                 </View>
-                <TouchableButton style={styles.contratarButton} styleText={styles.textButton} title='Contratar' />
+                {mensalidade}
+                <TouchableButton style={styles.contratarButton}
+                    styleText={styles.textButton}
+                    title={props.buttonTitle}
+                    onPress={props.onPress} />
             </View>
 
 
