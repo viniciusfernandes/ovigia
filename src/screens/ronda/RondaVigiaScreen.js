@@ -98,7 +98,6 @@ export default props => {
         const ronda = {
             idVigia: idUsuario,
             localizacoes: RondaCoordinateSigleton.coordinates,
-            data: new Date(),
             inicio: RondaCoordinateSigleton.recuperarInicioRonda(),
             fim: RondaCoordinateSigleton.recuperarFimRonda()
         }
