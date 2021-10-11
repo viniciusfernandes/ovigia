@@ -95,12 +95,24 @@ export default props => {
     }
 
     const encerrarRonda = () => {
-        criarRonda(idUsuario, RondaCoordinateSigleton.coordinates, response => {
-            console.info('ronda response: '+JSON.stringify(response))
+        const ronda = {
+            idVigia: idUsuario,
+            localizacoes: RondaCoordinateSigleton.coordinates,
+            data: new Date(),
+            inicio: RondaCoordinateSigleton.recuperarInicioRonda(),
+            fim: RondaCoordinateSigleton.recuperarFimRonda()
+        }
+
+        criarRonda(ronda, response => {
+            console.info('ronda response: ' + JSON.stringify(response))
             RondaCoordinateSigleton.encerrarRonda()
             setState({ rondaIniciada: false, coordinates: [] })
             setModalOpened(false)
-            props.navigation.navigate('resumoRonda')
+            props.navigation.navigate('resumoRonda', {
+                distancia: response.distanciaTotal,
+                tempo: response.tempoTotal,
+                escalaTempo: response.escalaTempo
+            })
         })
 
     }

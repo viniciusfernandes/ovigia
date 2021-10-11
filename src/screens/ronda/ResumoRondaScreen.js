@@ -64,9 +64,8 @@ function gerarBox(titulo, valor) {
 }
 
 export default props => {
-
-
-
+    const resumo = props.route.params
+    console.info('resumo: ' + JSON.stringify(resumo))
     return (
         <Container>
             <HeaderBox headers={['Ronda Concluída!', 'Veja o seu resumo.']} detail='Resumo' />
@@ -75,11 +74,11 @@ export default props => {
 
             <View style={styles.boxLine}>
                 {gerarBox('Residência', 20)}
-                {gerarBox('Kilômetros', '15')}
+                {gerarBox('Kilômetros', resumo.distancia)}
             </View>
 
             <View style={styles.boxLine}>
-                {gerarBox('Tempo (h)', 20)}
+                {gerarBox(`Tempo (${resumo.escalaTempo})`, resumo.tempo)}
                 {gerarBox('Chamados', 11)}
             </View>
 

@@ -29,13 +29,13 @@ class RondaCoordinatesSingleton {
                 position => {
                     var coords = position.coords
                     this.coordinates.push({
+                        timestamp: position.timestamp,
                         latitude: Math.random() > 0.5 ? coords.latitude + delta : coords.latitude - delta,
                         longitude: Math.random() > 0.5 ? coords.longitude - delta : coords.longitude + delta,
                         latitudeDelta: 0.001,
                         longitudeDelta: 0.001,
                     })
                     console.info('coords size: ' + this.coordinates.length)
-
                     if (this.callbacks.length > 0) {
                         this.callbacks.forEach(call => call(this.coordinates))
                     }
@@ -53,11 +53,25 @@ class RondaCoordinatesSingleton {
     }
 
     encerrarRonda = callback => {
-        coordinates = []
+        this.coordinates = []
         _BackgroundTimer.stopBackgroundTimer()
         if (callback != undefined) {
             callback()
         }
+    }
+
+    recuperarInicioRonda() {
+        if (this.coordinates.length > 0) {
+            return this.coordinates[0].timestamp
+        }
+        return null
+    }
+
+    recuperarFimRonda() {
+        if (this.coordinates.length > 0) {
+            return this.coordinates[this.coordinates.length - 1].timestamp
+        }
+        return null
     }
 
 
