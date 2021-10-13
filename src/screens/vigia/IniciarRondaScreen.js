@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import Geolocation from '@react-native-community/geolocation'
+import React from 'react'
 import { useContext } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Container from '../../components/Container'
@@ -10,9 +9,6 @@ import TouchableButton from '../../components/TouchableButton'
 import AuthContext from '../../contexts/AuthContext'
 import matisse from '../../style/matisse'
 import { useState } from 'react/cjs/react.development'
-import RondaCoordinatesSingleton from '../ronda/RondaCoordinatesSigleton'
-import RondaCoordinatesSigleton from '../ronda/RondaCoordinatesSigleton'
-
 
 const styles = StyleSheet.create({
     dataHora: {
@@ -63,7 +59,7 @@ export default props => {
             <TouchableButton style={styles.iniciarRondaButton} styleText={{ fontSize: 20 }}
                 title="Iniciar Ronda"
                 onPress={() => {
-                   // RondaCoordinatesSigleton.iniciarRonda()
+                    // RondaCoordinatesSigleton.iniciarRonda()
                     props.navigation.navigate('rondaVigia')
                 }} />
 

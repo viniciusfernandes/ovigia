@@ -34,6 +34,7 @@ export default props => {
     const { idUsuario, nomeUsuario } = useContext(AuthContext)
     const currentPosition = DEFAULT_POSITION
     const idVigia = 'asdf1234'
+    const logradouro = 'Avenida Paulista 1234, cj 66'
     return (
         <Container>
             <HeaderBox headers={['Olá, ' + nomeUsuario, 'quer um chamado agora?']} detail='Localização do seu vigia' />
@@ -43,7 +44,16 @@ export default props => {
                 <TouchableButton style={styles.iniciarButton} styleText={styles.textButton}
                     title={!chamadoRealizado ? 'Fazer Chamado' : 'Cancelar Chamado'}
                     onPress={() => {
-                        criarChamado(idUsuario, idVigia, response => console.info('chamado id: ' + JSON.stringify(response)))
+                        criarChamado({
+                            idCliente: idUsuario,
+                            idVigia: idVigia,
+                            nomeCliente: nomeUsuario,
+                            logradouro: logradouro,
+                            localizacao: {
+                                latitude: currentPosition.latitude,
+                                longitude: currentPosition.longitude,
+                            }
+                        }, response => console.info('chamado id: ' + JSON.stringify(response)))
                     }}
                 />
 

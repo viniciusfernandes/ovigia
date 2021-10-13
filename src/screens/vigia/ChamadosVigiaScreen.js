@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useState } from 'react/cjs/react.development'
 import Container from '../../components/Container'
 import HeaderBox from '../../components/HeaderBox'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
+import { obterChamadosAtivos } from '../../services/chamado/chamado.service'
 import matisse from '../../style/matisse'
 
 const styles = StyleSheet.create({
@@ -27,56 +29,50 @@ const styles = StyleSheet.create({
     }
 })
 
+function gerarChamadosBoxes(chamados) {
+    const total = chamados.length
+    let chamadosBoxes = []
+    var box = null
+    var chamado = null
+
+    for (var i = 0; i < total; i++) {
+        chamado = chamados[i]
+        console.info('XXX: '+JSON.stringify(chamado))
+
+        box =
+            <ImageBoxRightBar
+                key={'chamado' + i}
+                imagem={require('../../../images/perfil-vinicius.jpg')}>
+                <Text style={{ marginTop: 10, width: '100%', fontSize: 15, fontWeight: 'bold' }}>{chamado.nomeCliente}</Text>
+                <Text style={{ width: '100%' }}>{'Avenida Macunaíma, 1234'}</Text>
+                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                    <Text style={styles.dataHora} >{chamado.hora}</Text>
+                    <Text style={[styles.dataHora, { marginLeft: 15 }]} >{chamado.data}</Text>
+                </View>
+
+            </ImageBoxRightBar>
+
+        chamadosBoxes.push(box)
+
+    }
+
+    return chamadosBoxes
+}
 
 export default props => {
-    function obterChamados() {
-        return [
-            { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
-            { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
-            { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
-            { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
-            { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
-            { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
-            { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
-            { nome: 'Vinicius Fernandes', logradouro: 'Av. Paulista 1234 - São Paulo', hora: '14:54h', data: '12/08/2021' },
+    const idVigia = 'asdf1234'
+    const [chamadoBoxes, setChamadoBoxes] = useState([])
+    useEffect(()=>{
+        obterChamadosAtivos(idVigia, chamados => {
+            setChamadoBoxes(gerarChamadosBoxes(chamados))
+        })
 
-        ]
-    }
-
-    function gerarTextChamados() {
-        let textsChamados = []
-        let chamados = obterChamados()
-        var box = null
-        var chamado = null
-        for (var i = 0; i < chamados.length; i++) {
-            chamado = chamados[i]
-            box =
-                <ImageBoxRightBar
-                    key={'chamado' + i}
-                    imagem={require('../../../images/perfil-vinicius.jpg')}>
-                    <Text style={{ marginTop: 10, width: '100%', fontSize: 15, fontWeight: 'bold' }}>{chamado.nome}</Text>
-                    <Text style={{ width: '100%' }}>{chamado.logradouro}</Text>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={styles.dataHora} >{chamado.hora}</Text>
-                        <Text style={[styles.dataHora, { marginLeft: 15 }]} >{chamado.data}</Text>
-                    </View>
-
-                </ImageBoxRightBar>
-
-            textsChamados.push(box)
-
-        }
-
-        return textsChamados
-    }
-
+    },[])
     return (
         <Container>
             <ScrollView>
                 <HeaderBox headers={['Acompanhe', 'todos os chamados']} detail='Chamados em aberto' />
-
-                {gerarTextChamados()}
-
+                {chamadoBoxes}
             </ScrollView>
 
         </Container>
