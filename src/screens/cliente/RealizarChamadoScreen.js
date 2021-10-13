@@ -8,6 +8,7 @@ import HeaderBox from '../../components/HeaderBox';
 import MapBox, { DEFAULT_POSITION } from '../../components/MapBox';
 import TouchableButton from '../../components/TouchableButton';
 import AuthContext from '../../contexts/AuthContext';
+import { criarChamado } from '../../services/chamado/chamado.service';
 import matisse from '../../style/matisse';
 
 const styles = StyleSheet.create({
@@ -32,6 +33,7 @@ export default props => {
     const [chamadoRealizado] = useState(false)
     const { idUsuario, nomeUsuario } = useContext(AuthContext)
     const currentPosition = DEFAULT_POSITION
+    const idVigia = 'asdf1234'
     return (
         <Container>
             <HeaderBox headers={['Olá, ' + nomeUsuario, 'quer um chamado agora?']} detail='Localização do seu vigia' />
@@ -41,6 +43,7 @@ export default props => {
                 <TouchableButton style={styles.iniciarButton} styleText={styles.textButton}
                     title={!chamadoRealizado ? 'Fazer Chamado' : 'Cancelar Chamado'}
                     onPress={() => {
+                        criarChamado(idUsuario, idVigia, response => console.info('chamado id: ' + JSON.stringify(response)))
                     }}
                 />
 
