@@ -37,12 +37,11 @@ function gerarChamadosBoxes(chamados) {
 
     for (var i = 0; i < total; i++) {
         chamado = chamados[i]
-        console.info('XXX: '+JSON.stringify(chamado))
-
         box =
             <ImageBoxRightBar
                 key={'chamado' + i}
-                imagem={require('../../../images/perfil-vinicius.jpg')}>
+                iconStyle={{ backgroundColor: matisse.cinzaClaro }}
+                imagem={require('../../../images/usuario_branco_75.png')}>
                 <Text style={{ marginTop: 10, width: '100%', fontSize: 15, fontWeight: 'bold' }}>{chamado.nomeCliente}</Text>
                 <Text style={{ width: '100%' }}>{'Avenida Macunaíma, 1234'}</Text>
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
@@ -62,12 +61,12 @@ function gerarChamadosBoxes(chamados) {
 export default props => {
     const idVigia = 'asdf1234'
     const [chamadoBoxes, setChamadoBoxes] = useState([])
-    useEffect(()=>{
+    useEffect(() => {
         obterChamadosAtivos(idVigia, chamados => {
             setChamadoBoxes(gerarChamadosBoxes(chamados))
         })
 
-    },[])
+    }, [])
     return (
         <Container>
             <ScrollView>

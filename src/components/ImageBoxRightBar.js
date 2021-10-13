@@ -64,7 +64,7 @@ export default props => {
         <TouchableOpacity key={props.id}>
             <View style={style}>
                 <View style={styles.imagem}>
-                    <Image style={styles.icon} source={props.imagem} />
+                    <Image style={[styles.icon, props.iconStyle]} source={props.imagem} />
                 </View>
                 {content}
             </View>
