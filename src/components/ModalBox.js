@@ -1,7 +1,7 @@
 import React from 'react'
-import { Modal, StyleSheet, Text, View } from 'react-native'
-import {CloseButton} from './CloseButton'
-import {TouchableButton} from './TouchableButton'
+import {  Modal, StyleSheet, Text, View } from 'react-native'
+import { CloseButton } from './CloseButton'
+import { TouchableButton } from './TouchableButton'
 import matisse from '../style/matisse';
 
 
@@ -39,8 +39,6 @@ const styles = StyleSheet.create({
     },
 
 });
-
-
 
 export default props => {
     return (
