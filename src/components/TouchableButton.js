@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: '2%',
         paddingTop: '2%',
-        elevation: 5,
+        elevation: 3,
     },
     buttonText: {
         fontWeight: 'bold',

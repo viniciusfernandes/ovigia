@@ -61,13 +61,11 @@ export default props => {
 
     const style = props.backgroundColor ? { ...styles.container, backgroundColor: props.backgroundColor } : styles.container
     return (
-        <TouchableOpacity key={props.id}>
-            <View style={style}>
-                <View style={styles.imagem}>
-                    <Image style={[styles.icon, props.iconStyle]} source={props.imagem} />
-                </View>
-                {content}
+        <TouchableOpacity key={props.id} style={style}>
+            <View style={styles.imagem}>
+                <Image style={[styles.icon, props.iconStyle]} source={props.imagem} />
             </View>
+            {content}
         </TouchableOpacity>
     )
 }

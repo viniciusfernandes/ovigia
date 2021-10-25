@@ -1,7 +1,7 @@
 
 import React, { useContext } from 'react';
 import { useState } from 'react';
-import { Modal, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import _BackgroundTimer from 'react-native-background-timer';
 import MapBox from '../../components/MapBox';
 import TouchableButton from '../../components/TouchableButton';
@@ -9,7 +9,7 @@ import AuthContext from '../../contexts/AuthContext';
 import { criarRonda } from '../../services/ronda/ronda.service';
 import matisse from '../../style/matisse';
 import RondaCoordinateSigleton from './RondaCoordinatesSigleton'
-import CloseButton from '../../components/CloseButton';
+import ModalBox from '../../components/ModalBox';
 
 const styles = StyleSheet.create({
     botoesContainer: {
@@ -38,44 +38,8 @@ const styles = StyleSheet.create({
     },
 });
 
-const modalStyles = StyleSheet.create({
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    modal: {
-        backgroundColor: 'white',
-        borderRadius: 20,
-        elevation: 3,
-        alignItems: 'center',
-        width: '50%',
-    },
-    simButton: {
-        backgroundColor: matisse.laranja,
-        color: 'white',
-        marginBottom: '10%',
-        width: '50%'
-    },
-    simText: {
-        color: 'white',
-        fontSize: 15,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    modalText: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        marginBottom: '10%',
-        marginTop: '10%',
-        textAlign: 'center'
-    },
-
-});
-
-
 export default props => {
-    const [modalOpened, setModalOpened] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false)
     const [state, setState] = useState({
         rondaIniciada: RondaCoordinateSigleton.rondaIniciada,
         coordinates: []
@@ -106,7 +70,7 @@ export default props => {
             console.info('ronda response: ' + JSON.stringify(response))
             RondaCoordinateSigleton.encerrarRonda()
             setState({ rondaIniciada: false, coordinates: [] })
-            setModalOpened(false)
+            setModalVisible(false)
             props.navigation.navigate('resumoRonda', {
                 distancia: response.distanciaTotal,
                 tempo: response.tempoTotal,
@@ -131,31 +95,15 @@ export default props => {
                 <TouchableButton style={styles.concluirButton} styleText={{ fontSize: 20 }}
                     title='Concluir Ronda' onPress={() => {
                         pausarRonda()
-                        setModalOpened(true)
+                        setModalVisible(true)
                     }}
                 />
             </View>
             <View style={styles.mapaContainer}>
                 <MapBox id='rondaScreen' coordinates={[...state.coordinates]} fullScreen drawLines />
-                <Modal
-                    animationType='slide'
-                    transparent={true}
-                    visible={modalOpened}
-
-                >
-                    <View style={modalStyles.modalContainer}>
-                        <View style={modalStyles.modal}>
-                            <Text style={modalStyles.modalText}>Confirma mesmo?</Text>
-                            <CloseButton onPress={() => setModalOpened(false)} />
-                            <TouchableButton title='Sim' style={modalStyles.simButton}
-                                styleText={modalStyles.simText} onPress={() => {
-                                    encerrarRonda()
-                                }
-                                } />
-                        </View>
-                    </View>
-                </Modal>
-
+                <ModalBox visible={modalVisible}
+                    onClose={() => setModalVisible(false)}
+                    onConfirm={() => encerrarRonda()} />
             </View>
         </>
     );

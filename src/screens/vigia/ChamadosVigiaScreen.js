@@ -4,7 +4,9 @@ import { useState } from 'react/cjs/react.development'
 import Container from '../../components/Container'
 import HeaderBox from '../../components/HeaderBox'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
+import TouchableButton from '../../components/TouchableButton'
 import { obterChamadosAtivos } from '../../services/chamado/chamado.service'
+import TipoUsuario, { TipoSituacaoChamado } from '../../services/constantes'
 import matisse from '../../style/matisse'
 
 const styles = StyleSheet.create({
@@ -34,21 +36,24 @@ function gerarChamadosBoxes(chamados) {
     let chamadosBoxes = []
     var box = null
     var chamado = null
-
+    var situacaoStyle = null
     for (var i = 0; i < total; i++) {
         chamado = chamados[i]
+        situacaoStyle = { backgroundColor: TipoSituacaoChamado.isAberto(chamado.situacao) ? 'green' : matisse.amareloDourado }
         box =
             <ImageBoxRightBar
-                key={'chamado' + i}
+                key={'box' + i}
                 iconStyle={{ backgroundColor: matisse.cinzaClaro }}
                 imagem={require('../../../images/usuario_branco_75.png')}>
                 <Text style={{ marginTop: 10, width: '100%', fontSize: 15, fontWeight: 'bold' }}>{chamado.nomeCliente}</Text>
                 <Text style={{ width: '100%' }}>{'Avenida Macunaíma, 1234'}</Text>
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
                     <Text style={styles.dataHora} >{chamado.hora}</Text>
-                    <Text style={[styles.dataHora, { marginLeft: 15 }]} >{chamado.data}</Text>
+                    <Text style={[styles.dataHora, { marginLeft: 10 }]} >{chamado.data}</Text>
+                    <Text style={[styles.dataHora, { marginLeft: 10 }, situacaoStyle]} >{chamado.situacao}</Text>
                 </View>
 
+                {/* <TouchableButton title='Aceitar Chamado' onPress={() => { }} /> */}
             </ImageBoxRightBar>
 
         chamadosBoxes.push(box)
@@ -61,12 +66,9 @@ function gerarChamadosBoxes(chamados) {
 export default props => {
     const idVigia = 'asdf1234'
     const [chamadoBoxes, setChamadoBoxes] = useState([])
-    useEffect(() => {
-        obterChamadosAtivos(idVigia, chamados => {
-            setChamadoBoxes(gerarChamadosBoxes(chamados))
-        })
-
-    }, [])
+    obterChamadosAtivos(idVigia, chamados => {
+        setChamadoBoxes(gerarChamadosBoxes(chamados))
+    })
     return (
         <Container>
             <ScrollView>
