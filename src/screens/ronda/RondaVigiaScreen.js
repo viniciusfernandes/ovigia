@@ -3,14 +3,13 @@ import React, { useContext } from 'react';
 import { useState } from 'react';
 import { Modal, StyleSheet, Text, View } from 'react-native';
 import _BackgroundTimer from 'react-native-background-timer';
+import CloseButton from '../../components/CloseButton';
 import MapBox from '../../components/MapBox';
 import TouchableButton from '../../components/TouchableButton';
 import AuthContext from '../../contexts/AuthContext';
 import { criarRonda } from '../../services/ronda/ronda.service';
 import matisse from '../../style/matisse';
 import RondaCoordinateSigleton from './RondaCoordinatesSigleton'
-import ModalBox from '../../components/ModalBox';
-import HeaderBox from '../../components/HeaderBox';
 
 const styles = StyleSheet.create({
     botoesContainer: {
@@ -145,6 +144,7 @@ export default props => {
                     <View style={modalStyles.modalContainer}>
                         <View style={modalStyles.modal}>
                             <Text style={modalStyles.modalText}>Confirma mesmo?</Text>
+                            <CloseButton onPress={() => setModalVisible(false)} />
                             <TouchableButton title='Sim' style={modalStyles.simButton}
                                 styleText={modalStyles.simText} onPress={() => {
                                     setModalVisible(false)
