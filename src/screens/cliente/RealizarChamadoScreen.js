@@ -3,12 +3,13 @@ import React, { useContext } from 'react';
 import { useState } from 'react';
 import { Modal, StyleSheet, Text, View } from 'react-native';
 import _BackgroundTimer from 'react-native-background-timer';
+import { useEffect } from 'react/cjs/react.development';
 import Container from '../../components/Container';
 import HeaderBox from '../../components/HeaderBox';
 import MapBox, { DEFAULT_POSITION } from '../../components/MapBox';
 import TouchableButton from '../../components/TouchableButton';
 import AuthContext from '../../contexts/AuthContext';
-import { cancelarChamado, criarChamado } from '../../services/chamado/chamado.service';
+import { cancelarChamado, criarChamado, obterChamadoAtivoCliente, obterChamadosAtivos } from '../../services/chamado/chamado.service';
 import matisse from '../../style/matisse';
 
 const styles = StyleSheet.create({
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '100%',
     },
-    iniciarButton: {
+    realizarButton: {
         position: 'relative',
         bottom: '5%',
         backgroundColor: matisse.laranja,
@@ -45,17 +46,25 @@ const styles = StyleSheet.create({
 });
 
 export default props => {
-    const [chamadoRealizado, setChamadoRealizado] = useState(false)
-    const [idChamado, setIdChamado] = useState(null)
+
+    const [state, setState] = useState({ chamadoRealizado: false, idChamado: null })
 
     const { idUsuario, nomeUsuario } = useContext(AuthContext)
     const currentPosition = DEFAULT_POSITION
     const idVigia = 'asdf1234'
     const logradouro = 'Avenida Paulista 1234, cj 66'
     var botao = null
-    if (!chamadoRealizado) {
-        botao = <TouchableButton style={styles.iniciarButton} styleText={styles.textButton}
-            title={!chamadoRealizado ? 'Fazer Chamado' : 'Cancelar Chamado'}
+
+    useEffect(() => {
+        obterChamadoAtivoCliente(idUsuario, chamado => {
+            console.info('chamado obtido: ' + !!chamado.id + ' => ' + chamado.id)
+            setState({ chamadoRealizado: !!chamado.id, idChamado: chamado.id, data: chamado.data, data: chamado.hora })
+        })
+    }, [])
+
+    if (!state.chamadoRealizado) {
+        botao = <TouchableButton style={styles.realizarButton} styleText={styles.textButton}
+            title='Realizar Chamado'
             onPress={() => {
                 criarChamado({
                     idCliente: idUsuario,
@@ -66,9 +75,8 @@ export default props => {
                         latitude: currentPosition.latitude,
                         longitude: currentPosition.longitude,
                     }
-                }, response => {
-                    setIdChamado(response.id)
-                    setChamadoRealizado(true)
+                }, chamado => {
+                    setState({ chamadoRealizado: true, idChamado: chamado.id })
                 })
             }}
         />
@@ -76,7 +84,7 @@ export default props => {
         botao = <TouchableButton style={styles.cancelarButton} styleText={styles.textButton}
             title='Cancelar Chamado'
             onPress={() => {
-                cancelarChamado(idChamado, () => setChamadoRealizado(false))
+                cancelarChamado(state.idChamado, () => setState({ idChamado: null, chamadoRealizado: false }))
             }}
         />
     }

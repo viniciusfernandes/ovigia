@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react/cjs/react.development";
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
     baseURL: 'http://172.18.0.1:8080/ovigia',
     headers: {
         'Content-Type': 'application/json',
@@ -95,6 +95,8 @@ function handleError(error, onError) {
 
 }
 
+
+
 class WebClient {
     constructor() {
         this.token = null
@@ -108,13 +110,19 @@ class WebClient {
             .catch(error => handleError(error, onError));
     }
 
+    async getSync(resource, onError) {
+        var resp = await axiosInstance.get(resource).catch(error => handleError(error, onError))
+        console.info('etapa 2. Total chamados: ' + JSON.stringify(resp.data.value[0]))
+        return resp.data.value  
 
+    }
 
     post(resource, body, onSuccess, onError) {
         axiosInstance.post(resource, body)
             .then(response => {
                 onSuccess(response.data.value !== undefined ? response.data.value : {})
             })
+
             .catch(error => handleError(error, onError));
     }
 
