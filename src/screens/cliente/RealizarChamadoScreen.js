@@ -1,16 +1,13 @@
 
 import { useFocusEffect } from '@react-navigation/core';
 import React, { useContext } from 'react';
-import { useState } from 'react';
-import { Modal, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import _BackgroundTimer from 'react-native-background-timer';
-import { useEffect } from 'react/cjs/react.development';
 import Container from '../../components/Container';
 import HeaderBox from '../../components/HeaderBox';
 import MapBox, { DEFAULT_POSITION } from '../../components/MapBox';
 import TouchableButton from '../../components/TouchableButton';
 import AuthContext from '../../contexts/AuthContext';
-import ClienteContext from '../../contexts/ClienteContext';
 import { cancelarChamado, criarChamado, obterChamadoAtivoCliente, obterChamadosAtivos } from '../../services/chamado/chamado.service';
 import matisse from '../../style/matisse';
 
