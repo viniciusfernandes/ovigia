@@ -1,7 +1,6 @@
 import React, { createContext, useState } from 'react';
-import { updateToken } from '../services/api';
 import { signIn, signOn } from '../services/auth/auth.service';
-import { isVigia, TipoUsuario } from '../services/constantes'
+import { isVigia } from '../services/constantes'
 const AuthContext = createContext({})
 
 export const AuthContextProvider = ({ children }) => {
@@ -13,7 +12,8 @@ export const AuthContextProvider = ({ children }) => {
             email: usuario.email,
             nome: usuario.nome,
             tipoUsuario: usuario.tipoUsuario,
-            signed: navegarHome
+            signed: navegarHome,
+            chamado: null,
         })
     }
 
@@ -54,6 +54,13 @@ export const AuthContextProvider = ({ children }) => {
             autenticar: signin,
             cadastrar: signon,
             singOut: () => setUsuario(null),
+            chamadoAtivo: !!usuario ? usuario.chamado : null,
+            setChamadoAtivo: chamado => {
+                console.info('cnfigurando chamado ativo: '+ chamado)
+                setUsuario({ ...usuario, chamado: chamado })
+                console.info('teste usuario.chamado ativo: '+ usuario.chamado)
+
+            }
         }}>
             {children}
         </AuthContext.Provider>
