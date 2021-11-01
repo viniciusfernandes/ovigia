@@ -5,13 +5,17 @@ export const TipoUsuario = {
 }
 
 export const TipoSituacaoChamado = {
-    ABERTO: 'ABERTO',
+    ATIVO: 'ATIVO',
     ACEITO: 'ACEITO',
     ENCERRADO: 'ENCERRADO',
-    isAberto: situacao => situacao === 'ABERTO',
+    isAtivo: situacao => situacao === 'ATIVO',
 }
 
 export function isVigia(tipoUsuario) {
     return TipoUsuario.VIGIA === tipoUsuario
+}
+
+export function isChamadoAtivo(chamado) {
+    return TipoSituacaoChamado.ATIVO === chamado.situacao
 }
 

@@ -55,12 +55,7 @@ export const AuthContextProvider = ({ children }) => {
             cadastrar: signon,
             singOut: () => setUsuario(null),
             chamadoAtivo: !!usuario ? usuario.chamado : null,
-            setChamadoAtivo: chamado => {
-                console.info('cnfigurando chamado ativo: '+ chamado)
-                setUsuario({ ...usuario, chamado: chamado })
-                console.info('teste usuario.chamado ativo: '+ usuario.chamado)
-
-            }
+            setChamadoAtivo: chamado => setUsuario({ ...usuario, chamado: chamado })
         }}>
             {children}
         </AuthContext.Provider>

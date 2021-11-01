@@ -8,7 +8,7 @@ export const criarChamado = (chamado, callback) => {
     }, callback)
 }
 
-export const obterChamadosAtivos = (idVigia, onSuccess) => {
+export const obterChamadosAtivosVigia = (idVigia, onSuccess) => {
     WebClient.get(`/vigias/${idVigia}/chamados/ativos`, onSuccess)
 }
 
