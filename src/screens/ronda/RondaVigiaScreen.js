@@ -96,12 +96,11 @@ export default props => {
         const ronda = {
             idVigia: idUsuario,
             localizacoes: RondaCoordinateSigleton.coordinates,
-            inicio: RondaCoordinateSigleton.recuperarInicioRonda(),
-            fim: RondaCoordinateSigleton.recuperarFimRonda()
+            inicio: RondaCoordinateSigleton.obterDataInicioRonda(),
+            fim: RondaCoordinateSigleton.obterDataFimRonda()
         }
 
         criarRonda(ronda, response => {
-            console.info('ronda response: ' + JSON.stringify(response))
             RondaCoordinateSigleton.encerrarRonda()
             setState({ rondaIniciada: false, coordinates: [] })
             setModalVisible(false)
