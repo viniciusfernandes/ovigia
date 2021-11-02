@@ -148,7 +148,7 @@ export default props => {
                             <TouchableButton title='Sim' style={modalStyles.simButton}
                                 styleText={modalStyles.simText} onPress={() => {
                                     setModalVisible(false)
-                                    props.navigation.navigate('resumoRonda')
+                                    encerrarRonda()
                                 }
                                 } />
                         </View>
