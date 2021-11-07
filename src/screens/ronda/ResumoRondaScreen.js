@@ -65,8 +65,8 @@ function gerarBox(titulo, valor) {
 
 export default props => {
     const resumo = props.route.params
-    console.info('resumo: ' + JSON.stringify(resumo))
     return (
+        
         <Container>
             <HeaderBox headers={['Ronda Concluída!', 'Veja o seu resumo.']} detail='Resumo' />
 

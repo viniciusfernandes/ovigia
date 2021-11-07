@@ -81,8 +81,6 @@ export default props => {
     const obterChamados = () => obterChamadosAtivosVigia(state.idVigia, chamados => {
         var boxes = []
         const total = chamados.length
-
-        let situacaoStyle = null
         for (let i = 0; i < total; i++) {
             let chamado = chamados[i]
             let situacaoStyle = { backgroundColor: isChamadoAtivo(chamado) ? 'green' : matisse.laranjaAvermelhado }
@@ -120,7 +118,7 @@ export default props => {
     return (
         <Container>
             <ScrollView>
-                <HeaderBox headers={['Acompanhe', 'todos os chamados']} detail='Chamados em aberto' />
+                <HeaderBox headers={['Acompanhe', 'todos os chamados']} detail='Chamados Ativos' />
                 {state.chamadosBoxes}
 
                 <Modal

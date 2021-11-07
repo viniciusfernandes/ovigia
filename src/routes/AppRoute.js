@@ -6,7 +6,7 @@ import PerfilVigia from '../screens/vigia/PerfilVigia'
 import styles from './styles/app.routes.styles'
 import RondaVigiaScreen from '../screens/ronda/RondaVigiaScreen';
 import ChamadosVigiaScreen from '../screens/vigia/ChamadosVigiaScreen';
-import IniciarRondaScreen from '../screens/vigia/IniciarRondaScreen';
+import IniciarRondaScreen from '../screens/ronda/IniciarRondaScreen';
 import ResumoRondaScreen from '../screens/ronda/ResumoRondaScreen';
 import matisse from '../style/matisse';
 import AuthContext from '../contexts/AuthContext';

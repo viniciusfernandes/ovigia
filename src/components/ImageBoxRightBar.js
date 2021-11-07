@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Text, StyleSheet, View, TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, View, TouchableOpacity } from 'react-native'
 import matisse from '../style/matisse'
 
 
@@ -59,9 +59,8 @@ export default props => {
             </>
     }
 
-    const style = props.backgroundColor ? { ...styles.container, backgroundColor: props.backgroundColor } : styles.container
     return (
-        <TouchableOpacity key={props.id} style={style} onPress={props.onPress}>
+        <TouchableOpacity key={props.id} style={[styles.container, props.style]} onPress={props.onPress}>
             <View style={styles.imagem}>
                 <Image style={[styles.icon, props.iconStyle]} source={props.imagem} />
             </View>

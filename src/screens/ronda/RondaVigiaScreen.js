@@ -76,7 +76,7 @@ export default props => {
     const [modalVisible, setModalVisible] = useState(false)
     const [state, setState] = useState({
         rondaIniciada: RondaCoordinateSigleton.rondaIniciada,
-        coordinates: []
+        coordinates: RondaCoordinateSigleton.coordinates
     })
 
     const { idUsuario } = useContext(AuthContext)
@@ -104,11 +104,7 @@ export default props => {
             RondaCoordinateSigleton.encerrarRonda()
             setState({ rondaIniciada: false, coordinates: [] })
             setModalVisible(false)
-            props.navigation.navigate('resumoRonda', {
-                distancia: response.distanciaTotal,
-                tempo: response.tempoTotal,
-                escalaTempo: response.escalaTempo
-            })
+            props.navigation.navigate('iniciarRonda')
         })
 
     }
