@@ -1,12 +1,13 @@
 import { useFocusEffect } from '@react-navigation/core'
 import React, { useEffect } from 'react'
 import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { useState } from 'react/cjs/react.development'
+import { useContext, useState } from 'react/cjs/react.development'
 import CloseButton from '../../components/CloseButton'
 import Container from '../../components/Container'
 import HeaderBox from '../../components/HeaderBox'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
 import TouchableButton from '../../components/TouchableButton'
+import AuthContext from '../../contexts/AuthContext'
 import { aceitarChamado, obterChamadosAtivosVigia } from '../../services/chamado/chamado.service'
 import { isChamadoAtivo, TipoSituacaoChamado } from '../../services/constantes'
 import matisse from '../../style/matisse'
@@ -68,8 +69,9 @@ const modalStyles = StyleSheet.create({
 });
 
 export default props => {
+    const {idUsuario} = useContext(AuthContext)
     const [state, setState] = useState({
-        idVigia: 'asdf1234',
+        idVigia: null,
         modalVisible: false,
         idChamado: null,
         chamadosBoxes: []
@@ -78,7 +80,7 @@ export default props => {
     const [idChamado, setIdChamado] = useState(null)
     const [modalVisivel, setModalVisivel] = useState(false)
 
-    const obterChamados = () => obterChamadosAtivosVigia(state.idVigia, chamados => {
+    const obterChamados = () => obterChamadosAtivosVigia(idUsuario, chamados => {
         var boxes = []
         const total = chamados.length
         for (let i = 0; i < total; i++) {

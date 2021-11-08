@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 export default props => {
     const { idUsuario, nomeUsuario, chamadoAtivo, setChamadoAtivo } = useContext(AuthContext)
     const currentPosition = DEFAULT_POSITION
-    const idVigia = 'asdf1234'
+    const idVigia = '9f2cd1fb-435f-48cf-8f6e-2a19dc4b0381'
     const logradouro = 'Avenida Paulista 1234, cj 66'
     var botao = null
 

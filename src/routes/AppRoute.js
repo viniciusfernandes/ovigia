@@ -7,7 +7,6 @@ import styles from './styles/app.routes.styles'
 import RondaVigiaScreen from '../screens/ronda/RondaVigiaScreen';
 import ChamadosVigiaScreen from '../screens/vigia/ChamadosVigiaScreen';
 import IniciarRondaScreen from '../screens/ronda/IniciarRondaScreen';
-import ResumoRondaScreen from '../screens/ronda/ResumoRondaScreen';
 import matisse from '../style/matisse';
 import AuthContext from '../contexts/AuthContext';
 import AcompanharRondaScreen from '../screens/cliente/AcompanharRondaScreen';
@@ -41,7 +40,6 @@ export default () => {
         screens.push(<Screen key='financeiro' name='financeiro' component={PerfilVigia} />)
         screens.push(<Screen key='rondaVigia' name='rondaVigia' component={RondaVigiaScreen} />)
         screens.push(<Screen key='chamados' name='chamados' component={ChamadosVigiaScreen} />)
-        screens.push(<Screen key='resumoRonda' name='resumoRonda' component={ResumoRondaScreen} options={{ tabBarButton: () => null }} />)
     } else {
         screens.push(<Screen key='acompanharRonda' name='acompanharRonda' component={AcompanharRondaScreen} />)
         screens.push(<Screen key='consultarFinancasCliente' name='consultarFinancasCliente' component={ConsultarFinancasClienteScreen} />)
