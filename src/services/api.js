@@ -103,7 +103,6 @@ class WebClient {
     }
 
     get(resource, onSuccess, onError) {
-        console.info('resource get: '+resource)
         axiosInstance.get(resource)
             .then(response => {
                 onSuccess(response.data.value !== undefined ? response.data.value : null)
@@ -113,7 +112,6 @@ class WebClient {
 
     async getSync(resource, onError) {
         var resp = await axiosInstance.get(resource).catch(error => handleError(error, onError))
-        console.info('etapa 2. Total chamados: ' + JSON.stringify(resp.data.value[0]))
         return resp.data.value
 
     }

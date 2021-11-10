@@ -18,7 +18,6 @@ const gerarRate = rate => {
     var stars = []
     const roundedRate = Math.floor(rate)
     var rest = rate - roundedRate
-    console.info('antes rounded rate: ' + roundedRate + ' rest: ' + rest)
 
     if (rest >= 0.9) {
         roundedRate += 1
@@ -30,7 +29,6 @@ const gerarRate = rate => {
     const hasRest = rest >= 0.45
     const maxRate = 5
     var startKey = null
-    console.info('rounded rate: ' + roundedRate + ' rest: ' + rest + ' has rest: ' + hasRest)
     if (roundedRate <= 0) {
         if (hasRest) {
             stars[0] = <Image key={'start-0'} style={styles.star} source={require('../../images/star_orange_gray.png')} />

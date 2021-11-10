@@ -37,14 +37,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     smallBox: {
-        textAlign: 'center',
         borderStyle: 'solid',
         borderWidth: 2,
         borderColor: matisse.laranja,
         borderRadius: 5,
-        color: 'black',
+        color: matisse.laranja,
+        fontWeight: 'bold',
         paddingLeft: 5,
         paddingRight: 5,
+        textAlign: 'center',
         width: 100
     },
     rateBox: {
@@ -94,11 +95,11 @@ export default props => {
             <View>
                 <Text style={styles.nome}>{vigia.nome}</Text>
                 <View style={{ flexDirection: 'row' }}>
-                    <RatingStars rate={vigia.rate} />
-                    <Text style={styles.rateBox} >{vigia.rate}</Text>
+                    <RatingStars rate={vigia.avaliacao} />
+                    <Text style={styles.rateBox} >{vigia.avaliacao}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                    <Text style={styles.smallBox} >{vigia.cidade}</Text>
+                    <Text style={styles.smallBox} >{vigia.telefone}</Text>
                     <Text style={[styles.smallBox, { marginLeft: 15 }]} >{vigia.dataInicio}</Text>
                 </View>
                 {mensalidade}
