@@ -1,3 +1,4 @@
+import Geolocation from '@react-native-community/geolocation';
 import React, { createContext, useState } from 'react';
 import { signIn, signOn } from '../services/auth/auth.service';
 import { isVigia } from '../services/constantes'
@@ -13,6 +14,7 @@ export const AuthContextProvider = ({ children }) => {
             nome: usuario.nome,
             tipoUsuario: usuario.tipoUsuario,
             signed: navegarHome,
+            localizacao: usuario.localizacao,
             chamado: null,
         })
     }
@@ -27,13 +29,28 @@ export const AuthContextProvider = ({ children }) => {
 
     const signon = (credential, onSuccess) => {
         credential.tipoUsuario = usuario.tipoUsuario
-        signOn(
-            credential,
-            usuario => {
-                habilitarHome(usuario, false)
-                onSuccess()
+        Geolocation.getCurrentPosition(
+            position => {
+                var coords = position.coords
+                credential = {
+                    ...credential,
+                    localizacao: {
+                        latitude: coords.latitude,
+                        longitude: coords.longitude,
+                        timestamp: new Date().getTime()
+                    }
+                }
+                signOn(
+                    credential,
+                    usuario => {
+                        habilitarHome(usuario, false)
+                        onSuccess()
+                    },
+                    error => setUsuario(null)
+                )
+
             },
-            error => setUsuario(null)
+            error => console.error(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
         )
     }
 
@@ -43,6 +60,7 @@ export const AuthContextProvider = ({ children }) => {
             isVigia: !!usuario && isVigia(usuario.tipoUsuario),
             idUsuario: !!usuario ? usuario.id : null,
             nomeUsuario: !!usuario ? usuario.nome : null,
+            localizacao: !!usuario ? usuario.localizacao : null,
             setTipoUsuario: tipoUsuario => {
                 if (!!usuario) {
                     setUsuario({ ...usuario, tipoUsuario: tipoUsuario })

@@ -103,6 +103,7 @@ class WebClient {
     }
 
     get(resource, onSuccess, onError) {
+        console.info('resource get: '+resource)
         axiosInstance.get(resource)
             .then(response => {
                 onSuccess(response.data.value !== undefined ? response.data.value : null)

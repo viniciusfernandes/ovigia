@@ -1,9 +1,5 @@
-import { GET, POST } from '../api'
+import WebClient from '../api'
 
-export const obterVigia = (idVigia, callback) => {
-    GET(`/vigias/${idVigia}`, callback)
-}
-
-export const criarVigia = (vigia, callback) => {
-    POST('/vigias', vigia, callback)
+export const obterVigiasProximos = (localizacao, onSuccess, onError) => {
+    WebClient.get(`/vigias/proximos?latitude=${localizacao.latitude}&longitude=${localizacao.longitude}`, onSuccess, onError)
 }
