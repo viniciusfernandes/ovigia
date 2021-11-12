@@ -12,7 +12,7 @@ import RatingStars from "../../components/RatingStars"
 import VigiaRatingBox from "../../components/VigiaRatingBox"
 import AuthContext from "../../contexts/AuthContext"
 import { obterResumoRonda } from "../../services/ronda/ronda.service"
-import { obterVigiasProximos } from "../../services/vigia/vigia.services"
+import { criarSolicitacaoVisita, obterVigiasProximos } from "../../services/vigia/vigia.services"
 import matisse from "../../style/matisse"
 
 export default props => {
@@ -23,7 +23,7 @@ export default props => {
         dataInicio: '12/12/2020'
     }
 
-    const { localizacao } = useContext(AuthContext)
+    const { idUsuario, nomeUsuario, telefoneUsuario, localizacao } = useContext(AuthContext)
     const [vigiaBoxes, setVigiaBoxes] = useState([])
     useFocusEffect(
         React.useCallback(() => {
@@ -35,8 +35,17 @@ export default props => {
                         style={{ marginBottom: 10 }}
                         icon={require('../../../images/usuario_branco_75.png')}
                         vigia={vigia}
-                        buttonTitle='Contratar'
-                        onPress={() => { console.info('Realizou a contratacao do vigia: ' + idVigia) }}
+                        buttonTitle='Solicitar Visita'
+                        onPress={() => {
+                            let solicitacao = {
+                                idCliente: idUsuario,
+                                idVigia: vigia.id,
+                                nomeCliente: nomeUsuario,
+                                telefoneCliente: telefoneUsuario,
+                                localizacaoCliente: localizacao
+                            }
+                            criarSolicitacaoVisita(solicitacao, () => console.info('Criou uma solicitacao'))
+                        }}
                         showMensalidade />)
                 })
                 setVigiaBoxes(boxes)
@@ -45,11 +54,12 @@ export default props => {
     );
     return (
         <Container>
-            <ScrollView style={{   width: '100%' }}>
-                <HeaderBox headers={['Encontre o', 'vigia mais próximo.']}
-                    detail={'Seu vigia mais próximo esta aqui!'} />
-                {/* <MapBox id='buscarVigiaScreen' pinTitle={'Seu vigia esta aqui!'} /> */}
-                {vigiaBoxes}
+            <HeaderBox style={{ marginBottom: 10 }} headers={['Encontre o vigia mais', 'próximo a você.']}
+                detail={'Solicite seus valores. Vamos lá!'} />
+            <ScrollView style={{ width: '100%' }}>
+                <View style={{ alignItems: 'center' }}>
+                    {vigiaBoxes}
+                </View>
             </ScrollView>
 
         </Container>

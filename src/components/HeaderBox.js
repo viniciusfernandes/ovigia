@@ -2,7 +2,10 @@ import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 
 const styles = StyleSheet.create({
-
+    container: {
+        marginTop: '10%',
+        width: '100%'
+    },
     header: {
         color: 'white',
         fontSize: 25,
@@ -17,7 +20,7 @@ const styles = StyleSheet.create({
         marginTop: '3%'
     }
 })
-export default      props => {
+export default props => {
     const headers = []
     var idHeader = 1
 
@@ -27,7 +30,7 @@ export default      props => {
     });
 
     return (
-        <View key={props.id} style={{ width: '100%', marginTop: '10%' }}>
+        <View key={props.id} style={styles.container, props.style}>
             {headers}
             <Text style={[styles.header, styles.textPequeno]}>{props.detail}</Text>
         </View>

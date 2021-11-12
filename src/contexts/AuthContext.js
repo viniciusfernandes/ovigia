@@ -60,6 +60,7 @@ export const AuthContextProvider = ({ children }) => {
             isVigia: !!usuario && isVigia(usuario.tipoUsuario),
             idUsuario: !!usuario ? usuario.id : null,
             nomeUsuario: !!usuario ? usuario.nome : null,
+            telefoneUsuario: !!usuario ? usuario.telefone : null,
             localizacao: !!usuario ? usuario.localizacao : null,
             setTipoUsuario: tipoUsuario => {
                 if (!!usuario) {

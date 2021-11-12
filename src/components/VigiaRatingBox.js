@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
         borderColor: matisse.laranja,
         borderRadius: 5,
         color: matisse.laranja,
+        fontSize: 12,
         fontWeight: 'bold',
         paddingLeft: 5,
         paddingRight: 5,
