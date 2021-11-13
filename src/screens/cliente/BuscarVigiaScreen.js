@@ -14,7 +14,17 @@ import AuthContext from "../../contexts/AuthContext"
 import { obterResumoRonda } from "../../services/ronda/ronda.service"
 import { criarSolicitacaoVisita, obterSolicitacaoVisitaCliente as obterIdVigiaSolicitado, obterVigiasProximos } from "../../services/vigia/vigia.services"
 import matisse from "../../style/matisse"
-
+const styles = StyleSheet.create({
+    cancelarButton: {
+        backgroundColor: matisse.laranjaAvermelhado
+    },
+    solicitarButton: {
+        backgroundColor: matisse.laranja
+    },
+    button: {
+        marginBottom: 10
+    }
+})
 export default props => {
     const { idUsuario, nomeUsuario, telefoneUsuario, localizacao } = useContext(AuthContext)
     const [vigiaBoxes, setVigiaBoxes] = useState([])
@@ -22,23 +32,24 @@ export default props => {
     const obterVigias = (localizacao, idVigiaSolicitado) => obterVigiasProximos(localizacao, response => {
         let boxes = []
         var idSolicitado = idVigiaSolicitado
+
         response.vigias.forEach(vigia => {
             let idVigia = vigia.id
+            let isSolicitado = idVigia === idVigiaSolicitado
+            console.info('eh o vigia solicitado: ' + isSolicitado + ' idvigia: ' + idVigia)
             let box = <VigiaRatingBox key={idVigia}
-                style={{ marginBottom: 10 }}
+                style={styles.button}
+                styleButton={isSolicitado ? styles.cancelarButton : styles.solicitarButton}
                 icon={require('../../../images/usuario_branco_75.png')}
                 vigia={vigia}
-                buttonTitle={idVigia === idVigiaSolicitado ? 'Cancelar Solicitação ' : 'Solicitar Visita'}
+                buttonTitle={isSolicitado ? 'Cancelar Solicitação ' : 'Solicitar Visita'}
                 onPress={() => {
                     let solicitacao = {
                         idCliente: idUsuario,
                         idVigia: vigia.id,
-                        nomeCliente: nomeUsuario,
-                        telefoneCliente: telefoneUsuario,
                         localizacaoCliente: localizacao
                     }
                     criarSolicitacaoVisita(solicitacao, () => {
-                        console.info('eh o vigia solicitado: ' + idSolicitado === idVigia)
 
                         idSolicitado = idVigia
                         //setIdVigiaSolicitado(idVigia)

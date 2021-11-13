@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         backgroundColor: matisse.laranjaClaro,
         flexDirection: 'row'
     },
-    contratarButton: {
+    button: {
         backgroundColor: matisse.laranja,
         marginTop: '5%'
     },
@@ -104,7 +104,7 @@ export default props => {
                     <Text style={[styles.smallBox, { marginLeft: 15 }]} >{vigia.dataInicio}</Text>
                 </View>
                 {mensalidade}
-                <TouchableButton style={styles.contratarButton}
+                <TouchableButton style={[styles.button, props.styleButton]}
                     styleText={styles.textButton}
                     title={props.buttonTitle}
                     onPress={props.onPress} />
