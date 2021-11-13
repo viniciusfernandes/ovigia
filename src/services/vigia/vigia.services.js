@@ -10,5 +10,10 @@ export const criarSolicitacaoVisita = (solicitacao, onSuccess, onError) => {
         telefoneCliente: solicitacao.telefoneCliente,
         localizacaoCliente: solicitacao.localizacaoCliente
     }
-    WebClient.post(`solicitacoes/vigias/${solicitacao.idVigia}/clientes/${solicitacao.idCliente}`, solc, onSuccess, onError)
+    WebClient.post(`/solicitacoes/vigias/${solicitacao.idVigia}/clientes/${solicitacao.idCliente}`, solc, onSuccess, onError)
 }
+
+export const obterSolicitacaoVisitaCliente = (idCliente, onSuccess, onError) => {
+    WebClient.get(`/solicitacoes/clientes/${idCliente}/vigiasolicitado`, onSuccess, onError)
+}
+

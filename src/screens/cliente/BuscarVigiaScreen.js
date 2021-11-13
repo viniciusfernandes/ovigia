@@ -12,46 +12,55 @@ import RatingStars from "../../components/RatingStars"
 import VigiaRatingBox from "../../components/VigiaRatingBox"
 import AuthContext from "../../contexts/AuthContext"
 import { obterResumoRonda } from "../../services/ronda/ronda.service"
-import { criarSolicitacaoVisita, obterVigiasProximos } from "../../services/vigia/vigia.services"
+import { criarSolicitacaoVisita, obterSolicitacaoVisitaCliente as obterIdVigiaSolicitado, obterVigiasProximos } from "../../services/vigia/vigia.services"
 import matisse from "../../style/matisse"
 
 export default props => {
-    const vigia = {
-        nome: 'Renato Canuto',
-        rate: 3.46,
-        cidade: 'São Paulo',
-        dataInicio: '12/12/2020'
-    }
-
     const { idUsuario, nomeUsuario, telefoneUsuario, localizacao } = useContext(AuthContext)
     const [vigiaBoxes, setVigiaBoxes] = useState([])
+    const [idVigiaSolicitado, setIdVigiaSolicitado] = useState(null)
+    const obterVigias = (localizacao, idVigiaSolicitado) => obterVigiasProximos(localizacao, response => {
+        let boxes = []
+        var idSolicitado = idVigiaSolicitado
+        response.vigias.forEach(vigia => {
+            let idVigia = vigia.id
+            let box = <VigiaRatingBox key={idVigia}
+                style={{ marginBottom: 10 }}
+                icon={require('../../../images/usuario_branco_75.png')}
+                vigia={vigia}
+                buttonTitle={idVigia === idVigiaSolicitado ? 'Cancelar Solicitação ' : 'Solicitar Visita'}
+                onPress={() => {
+                    let solicitacao = {
+                        idCliente: idUsuario,
+                        idVigia: vigia.id,
+                        nomeCliente: nomeUsuario,
+                        telefoneCliente: telefoneUsuario,
+                        localizacaoCliente: localizacao
+                    }
+                    criarSolicitacaoVisita(solicitacao, () => {
+                        console.info('eh o vigia solicitado: ' + idSolicitado === idVigia)
+
+                        idSolicitado = idVigia
+                        //setIdVigiaSolicitado(idVigia)
+                    })
+                }}
+                showMensalidade />
+            boxes.push(box)
+        })
+        setVigiaBoxes(boxes)
+    })
+
     useFocusEffect(
         React.useCallback(() => {
-            let boxes = []
-            obterVigiasProximos(localizacao, response => {
-                response.vigias.forEach(vigia => {
-                    let idVigia = vigia.id
-                    boxes.push(<VigiaRatingBox key={idVigia}
-                        style={{ marginBottom: 10 }}
-                        icon={require('../../../images/usuario_branco_75.png')}
-                        vigia={vigia}
-                        buttonTitle='Solicitar Visita'
-                        onPress={() => {
-                            let solicitacao = {
-                                idCliente: idUsuario,
-                                idVigia: vigia.id,
-                                nomeCliente: nomeUsuario,
-                                telefoneCliente: telefoneUsuario,
-                                localizacaoCliente: localizacao
-                            }
-                            criarSolicitacaoVisita(solicitacao, () => console.info('Criou uma solicitacao'))
-                        }}
-                        showMensalidade />)
-                })
-                setVigiaBoxes(boxes)
+            obterIdVigiaSolicitado(idUsuario, response => {
+                const idVigia = response !== null ? response.idVigia : null
+                console.info('buscou vigia solicitado: ' + idVigia)
+                obterVigias(localizacao, idVigia)
+                setIdVigiaSolicitado(idVigia)
             })
         }, [])
-    );
+    )
+
     return (
         <Container>
             <HeaderBox style={{ marginBottom: 10 }} headers={['Encontre o vigia mais', 'próximo a você.']}
