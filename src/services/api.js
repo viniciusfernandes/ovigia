@@ -134,7 +134,7 @@ class WebClient {
     }
 
     delete(resource, onSuccess, onError) {
-        axiosInstance.delete(resource, body)
+        axiosInstance.delete(resource)
             .then(response => {
                 onSuccess(response.data.value !== undefined ? response.data.value : {})
             })

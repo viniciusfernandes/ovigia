@@ -15,6 +15,10 @@ export const obterIdVigiaSolicitado = (idCliente, onSuccess, onError) => {
     WebClient.get(`/solicitacoes/clientes/${idCliente}/vigiasolicitado`, onSuccess, onError)
 }
 
+export const removerSolicitacaoVisita = (idCliente, onSuccess, onError) => {
+    WebClient.delete(`/solicitacoes/clientes/${idCliente}`, onSuccess, onError)
+}
+
 export const obterSolicitacoesVisitas = (idvigia, onSuccess, onError) => {
     WebClient.get(`/solicitacoes/vigias/${idvigia}`, onSuccess, onError)
 }

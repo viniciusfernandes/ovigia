@@ -6,8 +6,9 @@ import HeaderBox from "../../components/HeaderBox";
 import ImageBoxRightBar from "../../components/ImageBoxRightBar";
 import AuthContext from "../../contexts/AuthContext";
 import matisse from "../../style/matisse";
-import { obterSolicitacoesVisitas } from "../../services/solicitacaoVisita/solicitacao.visita.services"
+import { obterSolicitacoesVisitas, removerSolicitacaoVisita } from "../../services/solicitacaoVisita/solicitacao.visita.services"
 import { useFocusEffect } from "@react-navigation/core";
+import { criarContrato } from "../../services/contrato/contrato.services";
 
 const styles = StyleSheet.create({
     info: {
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     },
 })
 
-const gerarSolicitacaoBoxes = solicitacoes => {
+const gerarSolicitacaoBoxes = (solicitacoes, idVigia, removerSolicitacaoBox) => {
     return solicitacoes.map(solicitacao =>
         <ImageBoxRightBar key={solicitacao.idCliente}
             style={{ backgroundColor: matisse.laranja, height: 125 }}
@@ -58,10 +59,16 @@ const gerarSolicitacaoBoxes = solicitacoes => {
             </View>
             <View style={{ flexDirection: 'row', marginTop: 10 }}>
                 <Text style={{ color: 'white', fontWeight: 'bold' }} >Fechar Contrato?</Text>
-                <TouchableOpacity style={{ marginLeft: '10%' }} onPress={() => console.info('contratou o cliente ' + solicitacao.idCliente)}>
+                <TouchableOpacity style={{ marginLeft: '10%' }} onPress={() => criarContrato({
+                    idCliente: solicitacao.idCliente,
+                    idVigia: idVigia,
+                    valor: 0.0
+                }, () => console.info('Criou o contato cliente: ' + solicitacao.idCliente))}>
                     <Image source={require('../../../images/check_branco_75.png')} />
                 </TouchableOpacity>
-                <TouchableOpacity style={{ marginLeft: '5%' }} onPress={() => console.info('cancelou o contratou do cliente ' + solicitacao.idCliente)}>
+                <TouchableOpacity style={{ marginLeft: '5%' }} onPress={() => {
+                    removerSolicitacaoVisita(solicitacao.idCliente, () => removerSolicitacaoBox(solicitacao.idCliente))
+                }}>
                     <Image source={require('../../../images/x_branco_75.png')} />
                 </TouchableOpacity>
             </View>
@@ -71,10 +78,19 @@ const gerarSolicitacaoBoxes = solicitacoes => {
 export default props => {
     const { idUsuario } = useContext(AuthContext)
     const [solicitacoesBoxes, setSolicitacoesBoxes] = useState([])
+    const removerSolicitacaoBox = keyToRemove => {
+        console.info('boxes length: ' + JSON.stringify(solicitacoesBoxes))
+        let boxes = solicitacoesBoxes.filter(box => {
+            console.info('box key: ' + box.key + ' encontrou: ' + (box.key !== keyToRemove))
+            return box.key !== keyToRemove
+        })
+        setSolicitacoesBoxes(boxes)
+    }
     useFocusEffect(
         React.useCallback(() => {
             obterSolicitacoesVisitas(idUsuario, solicitacoes => {
-                setSolicitacoesBoxes(gerarSolicitacaoBoxes(solicitacoes))
+                var boxes = gerarSolicitacaoBoxes(solicitacoes, idUsuario, removerSolicitacaoBox)
+                setSolicitacoesBoxes(boxes)
             })
 
         }, [])
