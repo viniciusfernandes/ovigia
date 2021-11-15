@@ -1,7 +1,9 @@
 import React from 'react'
 import { Image, StyleSheet, View, TouchableOpacity } from 'react-native'
+import { larguraPercentual } from '../constantes/medidas/Medidas'
 import matisse from '../style/matisse'
 
+const larguraIcon = larguraPercentual(15)
 
 const styles = StyleSheet.create({
     content: {
@@ -30,10 +32,10 @@ const styles = StyleSheet.create({
     },
     icon: {
         borderRadius: 10,
-        height: '50%',
+        height: larguraIcon,
         marginLeft: '25%',
         marginTop: '25%',
-        width: '50%',
+        width: larguraIcon,
     },
     imagem: {
         height: '100%',

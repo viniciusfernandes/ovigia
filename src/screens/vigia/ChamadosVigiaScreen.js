@@ -69,7 +69,7 @@ const modalStyles = StyleSheet.create({
 });
 
 export default props => {
-    const {idUsuario} = useContext(AuthContext)
+    const { idUsuario } = useContext(AuthContext)
     const [state, setState] = useState({
         idVigia: null,
         modalVisible: false,
@@ -120,7 +120,8 @@ export default props => {
     return (
         <Container>
             <ScrollView>
-                <HeaderBox headers={['Acompanhe', 'todos os chamados']} detail='Chamados Ativos' />
+                <HeaderBox headers={['Acompanhe', 'todos os chamados']} detail='Chamados Ativos'
+                    color='white' />
                 {state.chamadosBoxes}
 
                 <Modal

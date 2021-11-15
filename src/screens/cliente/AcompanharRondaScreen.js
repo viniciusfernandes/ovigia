@@ -64,7 +64,7 @@ export default props => {
                 title="Acompanhar Ronda" />
 
             <ImageBoxRightBar
-                backgroundColor={matisse.laranja}
+                style={{ backgroundColor: matisse.laranja }}
                 imagem={require('../../../images/escudocheck_branco_75.png')}>
                 <Text style={styles.rondaTitulo}>Sua casa está segura!</Text>
                 <Text style={styles.rondaDescricao}>Seu vigia constatou que está tudo bem.</Text>
@@ -76,7 +76,7 @@ export default props => {
             </ImageBoxRightBar>
 
             <ImageBoxRightBar
-                backgroundColor={matisse.laranja}
+                style={{ backgroundColor: matisse.laranja }}
                 imagem={require('../../../images/sino_branco_75.png')}>
                 <Text style={styles.rondaTitulo}>Você tem Mensalidades!</Text>
                 <Text style={styles.rondaDescricao}>Veja as datas de vecimentos</Text>

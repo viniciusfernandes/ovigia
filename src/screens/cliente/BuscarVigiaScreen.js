@@ -75,7 +75,8 @@ export default props => {
     return (
         <Container>
             <HeaderBox style={{ marginBottom: 10 }} headers={['Encontre o vigia mais', 'próximo a você.']}
-                detail={'Solicite seus valores. Vamos lá!'} />
+                detail={'Solicite seus valores. Vamos lá!'}
+                color='white' />
             <ScrollView style={{ width: '100%' }}>
                 <View style={{ alignItems: 'center' }}>
                     {vigiaBoxes}
