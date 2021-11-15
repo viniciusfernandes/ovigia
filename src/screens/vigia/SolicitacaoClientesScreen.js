@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         color: 'white',
         marginTop: 10,
         width: '100%',
-        fontSize: 15,
+        fontSize: 20,
         fontWeight: 'bold'
     },
     aceitarButton: {
@@ -48,15 +48,19 @@ export default props => {
             <HeaderBox headers={['Tudo sobre seus', 'novos clientes.']} detail='Clientes para Visitar' color='black' />
 
             <ImageBoxRightBar
-                style={{ backgroundColor: matisse.laranja, height: 120 }}
+                style={{ backgroundColor: matisse.laranja, height: 125 }}
                 iconStyle={{ backgroundColor: matisse.cinzaClaro, height: 80 }}
                 imagem={require('../../../images/usuario_branco_75.png')}>
                 <Text style={styles.nomeCliente}>{solicitacao.nomeCliente}</Text>
-                <Text style={styles.info}>{solicitacao.telefoneCliente}</Text>
                 <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ fontWeight: 'bold', color: 'white' }} >Telefone: </Text>
+                    <Text style={styles.info}>{solicitacao.telefoneCliente}</Text>
+                </View>
 
-                    <Text style={styles.info} >{solicitacao.hora} (hs)</Text>
-                    <Text style={[styles.info, { marginLeft: '5%' }]} >{solicitacao.data} </Text>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ fontWeight: 'bold', color: 'white' }}>Data: </Text>
+                    <Text style={styles.info} >{solicitacao.data}</Text>
+                    <Text style={[styles.info, { marginLeft: '5%' }]} >{solicitacao.hora} (hs)</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
                     <Text style={{ color: 'white', fontWeight: 'bold' }} >Fechar Contrato?</Text>
