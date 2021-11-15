@@ -1,18 +1,14 @@
 import { useFocusEffect } from "@react-navigation/core"
 import React from "react"
-import { Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native"
-import { TouchableOpacity } from "react-native-gesture-handler"
+import { ScrollView, StyleSheet, View } from "react-native"
 import { useContext, useState } from "react/cjs/react.development"
 import Container from "../../components/Container"
 import HeaderBox from "../../components/HeaderBox"
-import ImageBoxRightBar from "../../components/ImageBoxRightBar"
-import LabelInput from "../../components/LabelInput"
-import MapBox from "../../components/MapBox"
-import RatingStars from "../../components/RatingStars"
 import VigiaRatingBox from "../../components/VigiaRatingBox"
 import AuthContext from "../../contexts/AuthContext"
-import { obterResumoRonda } from "../../services/ronda/ronda.service"
-import { criarSolicitacaoVisita, obterSolicitacaoVisitaCliente as obterIdVigiaSolicitado, obterVigiasProximos } from "../../services/vigia/vigia.services"
+import { criarSolicitacaoVisita, obterIdVigiaSolicitado } from "../../services/solicitacaoVisita/solicitacao.visita.services"
+import { obterVigiasProximos } from "../../services/vigia/vigia.services"
+
 import matisse from "../../style/matisse"
 const styles = StyleSheet.create({
     cancelarButton: {
@@ -36,7 +32,6 @@ export default props => {
         response.vigias.forEach(vigia => {
             let idVigia = vigia.id
             let isSolicitado = idVigia === idVigiaSolicitado
-            console.info('eh o vigia solicitado: ' + isSolicitado + ' idvigia: ' + idVigia)
             let box = <VigiaRatingBox key={idVigia}
                 style={styles.button}
                 styleButton={isSolicitado ? styles.cancelarButton : styles.solicitarButton}
@@ -46,11 +41,12 @@ export default props => {
                 onPress={() => {
                     let solicitacao = {
                         idCliente: idUsuario,
+                        nomeCliente: nomeUsuario,
+                        telefoneCliente: telefoneUsuario,
                         idVigia: vigia.id,
                         localizacaoCliente: localizacao
                     }
                     criarSolicitacaoVisita(solicitacao, () => {
-
                         idSolicitado = idVigia
                         //setIdVigiaSolicitado(idVigia)
                     })
@@ -65,7 +61,6 @@ export default props => {
         React.useCallback(() => {
             obterIdVigiaSolicitado(idUsuario, response => {
                 const idVigia = response !== null ? response.idVigia : null
-                console.info('buscou vigia solicitado: ' + idVigia)
                 obterVigias(localizacao, idVigia)
                 setIdVigiaSolicitado(idVigia)
             })

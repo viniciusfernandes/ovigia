@@ -12,6 +12,7 @@ export const AuthContextProvider = ({ children }) => {
             id: usuario.id,
             email: usuario.email,
             nome: usuario.nome,
+            telefone: usuario.telefone,
             tipoUsuario: usuario.tipoUsuario,
             signed: navegarHome,
             localizacao: usuario.localizacao,

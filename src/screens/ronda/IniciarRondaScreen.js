@@ -102,8 +102,8 @@ export default props => {
 
 
     return (
-        <Container >
-            <HeaderBox headers={['Olá, ' + nomeUsuario, 'Vamos começar?']} detail='Ronda e Mensalidade' />
+        <Container>
+            <HeaderBox color='white' headers={['Olá, ' + nomeUsuario, 'Vamos começar?']} detail='Ronda e Mensalidade' />
             <ImageBoxRightBar
                 imagem={require('../../../images/escudocheck_laranja_75.png')}
                 style={{ height: 120 }}>
