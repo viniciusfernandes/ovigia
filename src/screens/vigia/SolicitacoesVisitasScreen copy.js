@@ -9,7 +9,6 @@ import matisse from "../../style/matisse";
 import { obterSolicitacoesVisitas, removerSolicitacaoVisita } from "../../services/solicitacaoVisita/solicitacao.visita.services"
 import { useFocusEffect } from "@react-navigation/core";
 import { criarContrato } from "../../services/contrato/contrato.services";
-import ContratoClienteBox from "../../components/ContratoClienteBox";
 
 const styles = StyleSheet.create({
     info: {
@@ -41,21 +40,39 @@ const styles = StyleSheet.create({
     },
 })
 
-const gerarSolicitacaoBoxes = (contratos, idVigia, removerSolicitacaoBox) => {
-    return contratos.map(contrato =>
-        <ContratoClienteBox key={contrato.idCliente}
-            contrato={contrato}
-            confirmacao={'Fechar Contrato?'}
-            onConfirm={() => criarContrato({
-                idCliente: contrato.idCliente,
-                idVigia: idVigia,
-                valor: 11.62
-            }, () => console.info('Criou o contato cliente: ' + contrato.idCliente))}
-            onCancel={() => {
-                removerSolicitacaoVisita(contrato.idCliente, () => removerSolicitacaoBox(contrato.idCliente))
-            }}
-        />
-    )
+const gerarSolicitacaoBoxes = (solicitacoes, idVigia, removerSolicitacaoBox) => {
+    return solicitacoes.map(solicitacao =>
+        <ImageBoxRightBar key={solicitacao.idCliente}
+            style={{ backgroundColor: matisse.laranja, height: 125 }}
+            iconStyle={{ backgroundColor: matisse.cinzaClaro, height: 80 }}
+            imagem={require('../../../images/usuario_branco_75.png')}>
+            <Text style={styles.nomeCliente}>{solicitacao.nomeCliente}</Text>
+            <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontWeight: 'bold', color: 'white' }} >Telefone: </Text>
+                <Text style={styles.info}>{solicitacao.telefoneCliente}</Text>
+            </View>
+
+            <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontWeight: 'bold', color: 'white' }}>Data: </Text>
+                <Text style={styles.info} >{solicitacao.data}</Text>
+                <Text style={[styles.info, { marginLeft: '5%' }]} >{solicitacao.hora} (hs)</Text>
+            </View>
+            <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                <Text style={{ color: 'white', fontWeight: 'bold' }} >Fechar Contrato?</Text>
+                <TouchableOpacity style={{ marginLeft: '10%' }} onPress={() => criarContrato({
+                    idCliente: solicitacao.idCliente,
+                    idVigia: idVigia,
+                    valor: 0.0
+                }, () => console.info('Criou o contato cliente: ' + solicitacao.idCliente))}>
+                    <Image source={require('../../../images/check_branco_75.png')} />
+                </TouchableOpacity>
+                <TouchableOpacity style={{ marginLeft: '5%' }} onPress={() => {
+                    removerSolicitacaoVisita(solicitacao.idCliente, () => removerSolicitacaoBox(solicitacao.idCliente))
+                }}>
+                    <Image source={require('../../../images/x_branco_75.png')} />
+                </TouchableOpacity>
+            </View>
+        </ImageBoxRightBar>)
 }
 
 export default props => {
