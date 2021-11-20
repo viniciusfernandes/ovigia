@@ -27,6 +27,21 @@ const styles = StyleSheet.create({
 })
 export default props => {
     var contrato = props.contrato
+    let dataBox = null;
+    if (props.isVencimento) {
+        dataBox =
+            <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontWeight: 'bold', color: 'white' }}>Vencimento: </Text>
+                <Text style={styles.info} >{contrato.dataVencimento}</Text>
+            </View>
+    } else {
+        dataBox =
+            <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontWeight: 'bold', color: 'white' }}>Data: </Text>
+                <Text style={styles.info} >{contrato.data}</Text>
+                <Text style={[styles.info, { marginLeft: '5%' }]} >{contrato.hora} (hs)</Text>
+            </View>
+    }
     return (
         <ImageBoxRightBar key={contrato.idCliente}
             style={{ backgroundColor: matisse.laranja, height: 125 }}
@@ -38,11 +53,8 @@ export default props => {
                 <Text style={styles.info}>{contrato.telefoneCliente}</Text>
             </View>
 
-            <View style={{ flexDirection: 'row' }}>
-                <Text style={{ fontWeight: 'bold', color: 'white' }}>Data: </Text>
-                <Text style={styles.info} >{contrato.data}</Text>
-                <Text style={[styles.info, { marginLeft: '5%' }]} >{contrato.hora} (hs)</Text>
-            </View>
+            {dataBox}
+
             <View style={{ flexDirection: 'row', marginTop: 10 }}>
                 <Text style={{ color: 'white', fontWeight: 'bold' }} >{props.confirmacao}</Text>
                 <TouchableOpacity style={{ marginLeft: '10%' }} onPress={props.onConfirm}>

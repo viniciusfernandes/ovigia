@@ -8,11 +8,12 @@ import { DEFAULT_POSITION } from '../../components/MapBox'
 import TouchableButton from '../../components/TouchableButton'
 import AuthContext from '../../contexts/AuthContext'
 import matisse from '../../style/matisse'
-import RondaCoordinateSigleton from './RondaCoordinatesSigleton'
 
 import { useState } from 'react/cjs/react.development'
 import { obterResumoRonda } from '../../services/ronda/ronda.service'
 import { useFocusEffect } from '@react-navigation/core'
+import { obterContratosVencidos } from '../../services/contrato/contrato.services'
+import ContratoClienteBox from '../../components/ContratoClienteBox'
 
 const styles = StyleSheet.create({
     box: {
@@ -79,8 +80,7 @@ const styles = StyleSheet.create({
 
 export default props => {
     const { idUsuario, nomeUsuario } = useContext(AuthContext)
-    const [currentPosition, setCurrentPosition] = useState(DEFAULT_POSITION)
-    const [resumoBoxes, setResumoBoxes] = useState([])
+    const [contratosBoxes, setContratosBoxes] = useState([])
     const [resumoRonda, setResumoRonda] = useState({})
 
     const gerarBox = (titulo, valor) => {
@@ -92,11 +92,23 @@ export default props => {
         )
     }
 
+    const gerarContratosBoxes = (contratos) => {
+        return contratos.map(contrato => {
+            console.info(JSON.stringify(contrato))
+
+            return <ContratoClienteBox key={contrato.idCliente}
+                isVencimento
+                contrato={contrato}
+                confirmacao={'Recebeu o valor?'}
+            />
+        }
+        )
+    }
+
     useFocusEffect(
         React.useCallback(() => {
-            obterResumoRonda(idUsuario, resumoRonda => {
-                setResumoRonda(resumoRonda)
-            })
+            obterResumoRonda(idUsuario, resumoRonda => setResumoRonda(resumoRonda))
+            obterContratosVencidos(idUsuario, contratos => setContratosBoxes(gerarContratosBoxes(contratos)))
         }, [])
     );
 
@@ -131,13 +143,8 @@ export default props => {
                 </View>
 
             </ImageBoxRightBar>
+            {contratosBoxes}
 
-            <TouchableButton style={styles.iniciarRondaButton} styleText={{ fontSize: 20 }}
-                title="Iniciar Ronda"
-                onPress={() => {
-                    //    RondaCoordinateSigleton.iniciarRonda()
-                    props.navigation.navigate('rondaVigia')
-                }} />
         </Container>
     )
 }

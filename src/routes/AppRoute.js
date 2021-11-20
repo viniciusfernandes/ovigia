@@ -6,7 +6,7 @@ import PerfilVigia from '../screens/vigia/PerfilVigia'
 import styles from './styles/app.routes.styles'
 import RondaVigiaScreen from '../screens/ronda/RondaVigiaScreen';
 import ChamadosVigiaScreen from '../screens/vigia/ChamadosVigiaScreen';
-import IniciarRondaScreen from '../screens/ronda/IniciarRondaScreen';
+import HomeVigiaScreen from '../screens/ronda/HomeVigiaScreen';
 import matisse from '../style/matisse';
 import AuthContext from '../contexts/AuthContext';
 import AcompanharRondaScreen from '../screens/cliente/AcompanharRondaScreen';
@@ -37,7 +37,7 @@ export default () => {
     const { isVigia } = useContext(AuthContext)
     var screens = []
     if (isVigia) {
-        screens.push(<Screen key='iniciarRonda' name='iniciarRonda' component={IniciarRondaScreen} />)
+        screens.push(<Screen key='iniciarRonda' name='iniciarRonda' component={HomeVigiaScreen} />)
         screens.push(<Screen key='financeiro' name='financeiro' component={PerfilVigia} />)
         screens.push(<Screen key='solicitacoesVisitas' name='solicitacoesVisitas' component={SolicitacoesVisitasScreen} />)
         screens.push(<Screen key='rondaVigia' name='rondaVigia' component={RondaVigiaScreen} />)

@@ -48,6 +48,8 @@ const gerarSolicitacaoBoxes = (contratos, idVigia, removerSolicitacaoBox) => {
             confirmacao={'Fechar Contrato?'}
             onConfirm={() => criarContrato({
                 idCliente: contrato.idCliente,
+                nomeCliente: contrato.nomeCliente,
+                telefoneCliente: contrato.telefoneCliente,
                 idVigia: idVigia,
                 valor: 11.62
             }, () => console.info('Criou o contato cliente: ' + contrato.idCliente))}
