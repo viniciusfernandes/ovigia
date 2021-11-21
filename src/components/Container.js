@@ -1,11 +1,9 @@
 import React from 'react'
 import { useContext } from 'react'
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler'
+import { Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AuthContext from '../contexts/AuthContext'
 import matisse from '../style/matisse'
-import TouchableButton from './TouchableButton'
 
 const styles = StyleSheet.create({
     container: {
@@ -25,7 +23,7 @@ const styles = StyleSheet.create({
         left: '85%',
         position: 'absolute',
         top: '2%',
-        width: 50,
+        width: 50, 
     },
 
 })
@@ -38,7 +36,7 @@ export default props => {
     const { singOut } = useContext(AuthContext)
 
     const profileButton = (
-        <TouchableOpacity style={styles.perfilcontainer} onPress={() => singOut()}  >
+        <TouchableOpacity style={styles.perfilcontainer  } onPress={() => singOut()}  >
             <Image style={styles.perfil} source={require('../../images/perfil-vinicius.jpg')} />
         </TouchableOpacity>
     )

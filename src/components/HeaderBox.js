@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native"
 const styles = StyleSheet.create({
     container: {
         // marginTop: '5%',
-        alignItems:'flex-start',
+      //  alignItems:'flex-start',
         
     },
     header: {

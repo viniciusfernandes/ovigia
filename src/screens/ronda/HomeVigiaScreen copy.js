@@ -1,7 +1,8 @@
 import React from 'react'
 import { useContext } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import Container from '../../components/Container'
+import HeaderBox from '../../components/HeaderBox'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
 import { DEFAULT_POSITION } from '../../components/MapBox'
 import TouchableButton from '../../components/TouchableButton'
@@ -13,9 +14,6 @@ import { obterResumoRonda } from '../../services/ronda/ronda.service'
 import { useFocusEffect } from '@react-navigation/core'
 import { obterContratosVencidos } from '../../services/contrato/contrato.services'
 import ContratoClienteBox from '../../components/ContratoClienteBox'
-import FormArea from '../FormArea'
-import HeaderBox from '../../components/HeaderBox'
-import { obterIdVigiaSolicitado } from '../../services/solicitacaoVisita/solicitacao.visita.services'
 
 const styles = StyleSheet.create({
     box: {
@@ -65,14 +63,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold'
     },
-    textMensalidades: {
-        color: 'black',
-        fontSize: 15,
-        fontWeight: 'bold',
-        marginBottom: '5%',
-        width: '80%',
-        textAlign: 'left'
-    },
     textPequeno: {
         fontSize: 17,
         marginLeft: '10%',
@@ -92,7 +82,7 @@ export default props => {
     const { idUsuario, nomeUsuario } = useContext(AuthContext)
     const [contratosBoxes, setContratosBoxes] = useState([])
     const [resumoRonda, setResumoRonda] = useState({})
-    const [totalMensalidadesVencidas, setTotalMensalidadesVencidas] = useState(0)
+
     const gerarBox = (titulo, valor) => {
         return (
             <View style={styles.box}>
@@ -118,20 +108,17 @@ export default props => {
     useFocusEffect(
         React.useCallback(() => {
             obterResumoRonda(idUsuario, resumoRonda => setResumoRonda(resumoRonda))
-            obterContratosVencidos(idUsuario, contratos => {
-                setTotalMensalidadesVencidas(contratos.length)
-                setContratosBoxes(gerarContratosBoxes(contratos))
-            })
+            obterContratosVencidos(idUsuario, contratos => setContratosBoxes(gerarContratosBoxes(contratos)))
         }, [])
     );
 
 
     return (
-        <Container backgroundColor='white'>
-            <HeaderBox color='black' headers={['Última Ronda']} detail='e as suas mensalidades.' />
+        <Container>
+            <HeaderBox color='white' headers={['Olá, ' + nomeUsuario, 'Vamos começar?']} detail='Ronda e Mensalidade' />
             <ImageBoxRightBar
                 imagem={require('../../../images/escudocheck_laranja_75.png')}
-                style={{ borderColor: matisse.laranja, borderWidth: 2, borderColor: matisse.laranja, height: 120, marginBottom: '5%' }}>
+                style={{ height: 120 }}>
                 <Text style={styles.rondaTitulo}>Resumo da Última Ronda!</Text>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -146,13 +133,18 @@ export default props => {
 
             </ImageBoxRightBar>
 
-            <View style={{ backgroundColor: matisse.cinzaClaro, height: 3, marginBottom: '5%', width: '80%' }} />
-            <Text style={styles.textMensalidades}>Suas mensalidades Vencidas. Total: {totalMensalidadesVencidas}</Text>
-            <ScrollView style={{ width: '100%' }}>
-                {contratosBoxes}
-                {contratosBoxes}
-            </ScrollView>
-        </Container>
+            <ImageBoxRightBar
+                imagem={require('../../../images/sino_laranja_75.png')}>
+                <Text style={styles.rondaTitulo}>Você tem Mensalidades!</Text>
+                <Text style={styles.rondaDescricao}>Veja as datas de vecimentos</Text>
+                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                    <Text style={styles.dataHora} >Total:</Text>
+                    <Text style={[styles.dataHora, { marginLeft: 15 }]} >12</Text>
+                </View>
 
+            </ImageBoxRightBar>
+            {contratosBoxes}
+
+        </Container>
     )
 }

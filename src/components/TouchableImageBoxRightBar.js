@@ -22,11 +22,13 @@ const styles = StyleSheet.create({
     container: {
         borderRadius: 20,
         backgroundColor: 'white',
+        elevation: 5,
         flexDirection: 'row',
         marginLeft: '5%',
         marginRight: '5%',
         marginTop: '5%',
         height: 90
+
     },
     icon: {
         borderRadius: 10,
@@ -60,11 +62,11 @@ export default props => {
     }
 
     return (
-        <View key={props.id} style={[styles.container, props.style]}>
+        <TouchableOpacity key={props.id} style={[styles.container, props.style]} onPress={props.onPress}>
             <View style={styles.imagem}>
                 <Image style={[styles.icon, props.iconStyle]} source={props.imagem} />
             </View>
             {content}
-        </View>
+        </TouchableOpacity>
     )
 }

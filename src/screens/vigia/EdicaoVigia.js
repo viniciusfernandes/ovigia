@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
     Text, TouchableOpacity,
 } from 'react-native';
-import EdicaoPerfil from '../EdicaoPerfil';
+import FormArea from '../FormArea';
 import LabelInput from '../../components/LabelInput'
 import ImagemPerfil from '../../screens/ImagemPerfil';
 import { criarVigia } from '../../services/vigia/vigia.services';
@@ -13,7 +13,7 @@ export default props => {
     const [vigia, setVigia] = useState({})
 
     return (
-        <EdicaoPerfil >
+        <FormArea >
             <ImagemPerfil />
             <LabelInput style={{ label: { marginTop: '2%' } }} titulo={'E-mail'}
                 valor={vigia.email} onChangeText={email => setVigia({ ...vigia, email })} />
@@ -24,6 +24,6 @@ export default props => {
                 <Text style={[styles.label, styles.botaoSalvarText]}>Salvar</Text>
             </TouchableOpacity>
 
-        </EdicaoPerfil >
+        </FormArea >
     )
 }
