@@ -106,7 +106,7 @@ export default props => {
         return contratos.map(contrato => {
             console.info(JSON.stringify(contrato))
 
-            return <ContratoClienteBox key={contrato.idCliente}
+            return <ContratoClienteBox
                 isVencimento
                 contrato={contrato}
                 confirmacao={'Recebeu o valor?'}
@@ -128,7 +128,7 @@ export default props => {
 
     return (
         <Container backgroundColor='white'>
-            <HeaderBox color='black' headers={['Última Ronda']} detail='e as suas mensalidades.' />
+            <HeaderBox color='black' headers={['Resumo da Ronda']} detail='e as suas mensalidades.' />
             <ImageBoxRightBar
                 imagem={require('../../../images/escudocheck_laranja_75.png')}
                 style={{ borderColor: matisse.laranja, borderWidth: 2, borderColor: matisse.laranja, height: 120, marginBottom: '5%' }}>
@@ -147,9 +147,8 @@ export default props => {
             </ImageBoxRightBar>
 
             <View style={{ backgroundColor: matisse.cinzaClaro, height: 3, marginBottom: '5%', width: '80%' }} />
-            <Text style={styles.textMensalidades}>Suas mensalidades Vencidas. Total: {totalMensalidadesVencidas}</Text>
+            <Text style={styles.textMensalidades}>Suas Mensalidades Vencidas. Total: {totalMensalidadesVencidas}</Text>
             <ScrollView style={{ width: '100%' }}>
-                {contratosBoxes}
                 {contratosBoxes}
             </ScrollView>
         </Container>

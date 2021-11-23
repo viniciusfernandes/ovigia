@@ -43,7 +43,7 @@ export default props => {
             </View>
     }
     return (
-        <ImageBoxRightBar key={contrato.idCliente}
+        <ImageBoxRightBar key={contrato.id}
             style={{ backgroundColor: matisse.laranja, height: 125 }}
             iconStyle={{ backgroundColor: matisse.cinzaClaro, height: 80 }}
             imagem={require('../../images/usuario_branco_75.png')}>
