@@ -1,9 +1,9 @@
 import React from 'react';
 import ImageBoxRightBar from '../../components/ImageBoxRightBar';
-import FormArea from '../FormArea';
 import { StyleSheet, Text, View } from 'react-native';
 import Medidas from '../../constantes/medidas/Medidas'
 import ImagemPerfil from '../ImagemPerfil';
+import Container from '../../components/Container';
 
 const isTablet = Medidas.isTablet
 const styles = StyleSheet.create({
@@ -31,7 +31,7 @@ export default props => {
     return (
         <Container>
             <ImagemPerfil />
-            <ImageBoxRightBar showBar imagem={require('../../../images/ciclo_laranja_75.png')}> 
+            {/* <ImageBoxRightBar showBar imagem={require('../../../images/ciclo_laranja_75.png')}>
                 <View style={styles.boxContext}>
                     <Text style={styles.titulo}>Dados Pessoais</Text>
                     <Text style={styles.mensagem}>Altere os seus dados</Text>
@@ -50,6 +50,6 @@ export default props => {
                     <Text style={styles.titulo}>Sair</Text>
                     <Text style={styles.mensagem}>Entre e saia em qualquer momento</Text>
                 </View>
-            </ImageBoxRightBar>
-</Container>    )
+            </ImageBoxRightBar> */}
+        </Container>)
 }

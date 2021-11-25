@@ -103,15 +103,12 @@ export default props => {
     }
 
     const gerarContratosBoxes = (contratos) => {
-        return contratos.map(contrato => {
-            console.info(JSON.stringify(contrato))
-
-            return <ContratoClienteBox
+        return contratos.map(contrato =>
+            <ContratoClienteBox 
                 isVencimento
                 contrato={contrato}
                 confirmacao={'Recebeu o valor?'}
             />
-        }
         )
     }
 

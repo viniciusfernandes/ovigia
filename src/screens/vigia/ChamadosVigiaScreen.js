@@ -116,7 +116,6 @@ export default props => {
         }, [])
     );
 
-
     return (
         <Container>
             <ScrollView>

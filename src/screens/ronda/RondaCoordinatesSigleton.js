@@ -34,6 +34,7 @@ class RondaCoordinatesSingleton {
                         longitude: Math.random() > 0.5 ? coords.longitude - delta : coords.longitude + delta,
                         latitudeDelta: 0.001,
                         longitudeDelta: 0.001,
+                        velocidade: coords.speed
                     })
                     if (this.callbacks.length > 0) {
                         this.callbacks.forEach(call => call(this.coordinates))

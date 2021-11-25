@@ -75,15 +75,16 @@ const styles = StyleSheet.create({
 export default props => {
     const vigia = props.vigia ? props.vigia : {
         nome: 'Não definido',
-        rate: 0,
-        cidade: 'Não definido',
-        dataInicio: 'Não definido'
+        avaliacao: 0,
+        telefone: 'Não definido',
+        dataInicio: 'Não definido',
+        valor: 0.0
     }
 
     const mensalidade = !props.showMensalidade ?
         <View style={{ marginTop: 30 }}>
             <Text style={{ fontSize: 15, color: matisse.laranjaAvermelhado }} >Valor Mensalidade:</Text>
-            <Text style={{ fontSize: 30, fontWeight: 'bold', color: matisse.laranjaAvermelhado }} >R$1234,00</Text>
+            <Text style={{ fontSize: 30, fontWeight: 'bold', color: matisse.laranjaAvermelhado }} >R${vigia.valor}</Text>
         </View> : null
 
     const heightMensalidade = { height: !props.showMensalidade ? styles.container.height + 80 : styles.container.height }
