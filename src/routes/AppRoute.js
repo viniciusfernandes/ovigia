@@ -9,13 +9,12 @@ import ChamadosVigiaScreen from '../screens/vigia/ChamadosVigiaScreen';
 import HomeVigiaScreen from '../screens/ronda/HomeVigiaScreen';
 import matisse from '../style/matisse';
 import AuthContext from '../contexts/AuthContext';
-import AcompanharRondaScreen from '../screens/cliente/AcompanharRondaScreen';
 import BuscarVigiaScreen from '../screens/cliente/BuscarVigiaScreen';
 import RealizarChamadoScreen from '../screens/cliente/RealizarChamadoScreen';
-import ConsultarFinancasClienteScreen from '../screens/cliente/ConsultarFinancasClienteScreen';
 import SolicitacoesVisitasScreen from '../screens/vigia/SolicitacoesVisitasScreen';
+import HomeClienteScreen from '../screens/cliente/HomeClienteScreen';
 function getIcon(focused, screenName) {
-    if ('iniciarRonda' === screenName || 'acompanharRonda' === screenName) {
+    if ('homeVigia' === screenName || 'homeCliente' === screenName) {
         return focused ? require('../../images/overview_laranja_75.png') : require('../../images/overview_preto_75.png')
     } else if ('financeiro' === screenName || 'consultarFinancasCliente' === screenName) {
         return focused ? require('../../images/financeiro_laranja_75.png') : require('../../images/financeiro_preto_75.png')
@@ -37,14 +36,13 @@ export default () => {
     const { isVigia } = useContext(AuthContext)
     var screens = []
     if (isVigia) {
-        screens.push(<Screen key='iniciarRonda' name='iniciarRonda' component={HomeVigiaScreen} />)
+        screens.push(<Screen key='homeVigia' name='homeVigia' component={HomeVigiaScreen} />)
         screens.push(<Screen key='financeiro' name='financeiro' component={PerfilVigia} />)
         screens.push(<Screen key='solicitacoesVisitas' name='solicitacoesVisitas' component={SolicitacoesVisitasScreen} />)
         screens.push(<Screen key='rondaVigia' name='rondaVigia' component={RondaVigiaScreen} />)
         screens.push(<Screen key='chamados' name='chamados' component={ChamadosVigiaScreen} />)
     } else {
-        screens.push(<Screen key='acompanharRonda' name='acompanharRonda' component={AcompanharRondaScreen} />)
-        screens.push(<Screen key='consultarFinancasCliente' name='consultarFinancasCliente' component={ConsultarFinancasClienteScreen} />)
+        screens.push(<Screen key='homeCliente' name='homeCliente' component={HomeClienteScreen} />)
         screens.push(<Screen key='buscarVigia' name='buscarVigia' component={BuscarVigiaScreen} />)
         screens.push(<Screen key='realizarChamado' name='realizarChamado' component={RealizarChamadoScreen} />)
     }

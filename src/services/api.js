@@ -125,6 +125,14 @@ class WebClient {
             .catch(error => handleError(error, onError));
     }
 
+    patch(resource, body, onSuccess, onError) {
+        axiosInstance.patch(resource, body)
+            .then(response => {
+                onSuccess(response.data.value !== undefined ? response.data.value : {})
+            })
+            .catch(error => handleError(error, onError));
+    }
+
     put(resource, body, onSuccess, onError) {
         axiosInstance.put(resource, body)
             .then(response => {

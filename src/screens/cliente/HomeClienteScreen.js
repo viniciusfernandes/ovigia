@@ -4,9 +4,10 @@ import { StyleSheet, Text, View } from "react-native";
 import { useContext, useState } from "react/cjs/react.development";
 import Container from "../../components/Container";
 import HeaderBox from "../../components/HeaderBox";
+import ImageBoxRightBar from "../../components/ImageBoxRightBar";
 import VigiaRatingBox from "../../components/VigiaRatingBox";
 import AuthContext from "../../contexts/AuthContext";
-import { obterContratoAtivoCliente } from "../../services/contrato/contrato.services";
+import { cancelarContrato, obterContratoAtivoCliente } from "../../services/contrato/contrato.services";
 import matisse from "../../style/matisse";
 
 const styles = StyleSheet.create({
@@ -26,7 +27,26 @@ const styles = StyleSheet.create({
     },
     vencimentoContainer: {
         alignItems: 'flex-start'
-    }
+    },
+    rondaDescricao: {
+        color: 'white',
+        width: '100%',
+    },
+    rondaTitulo: {
+        color: 'white',
+        marginTop: 10,
+        width: '100%',
+        fontSize: 15,
+        fontWeight: 'bold'
+    },
+    dataHora: {
+        backgroundColor: 'white',
+        borderRadius: 5,
+        color: matisse.laranja,
+        fontWeight: 'bold',
+        paddingLeft: 5,
+        paddingRight: 5,
+    },
 })
 export default props => {
     const vigia = {
@@ -36,16 +56,16 @@ export default props => {
         dataInicio: '12/12/2020'
     }
     const [contratoAtivo, setContratoAtivo] = useState({})
-    const { idUsuario } = useContext(AuthContext)
+    const { idUsuario, nomeUsuario } = useContext(AuthContext)
     useFocusEffect(
         React.useCallback(() => {
             obterContratoAtivoCliente(
                 idUsuario, contrato => {
                     console.info(JSON.stringify(contrato))
                     const contratoAtivo = {
-                        idContrato: contrato.id,
+                        id: contrato.id,
                         vigia: {
-                            idVigia: contrato.idVigia,
+                            id: contrato.idVigia,
                             nome: contrato.nomeVigia,
                             avaliacao: contrato.avaliacaoVigia,
                             valor: contrato.valor,
@@ -60,13 +80,25 @@ export default props => {
     )
     return (
         <Container backgroundColor='white' >
-            <HeaderBox color='black' headers={['Suas finanças', 'na palma da mão.']} />
+            <HeaderBox color='black' headers={[`Olá, ${nomeUsuario}.`, 'Aqui você está seguro!']} />
+            <ImageBoxRightBar
+                style={{ backgroundColor: matisse.laranja, marginBottom: '5%' }}
+                imagem={require('../../../images/escudocheck_branco_75.png')}>
+                <Text style={styles.rondaTitulo}>Sua casa está segura!</Text>
+                <Text style={styles.rondaDescricao}>Seu vigia constatou que está tudo bem.</Text>
+                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                    <Text style={styles.dataHora} >Total Vigiado:</Text>
+                    <Text style={[styles.dataHora, { marginLeft: 15 }]} >12</Text>
+                </View>
+
+            </ImageBoxRightBar>
+
             <VigiaRatingBox
                 icon={require('../../../images/usuario_branco_75.png')}
                 vigia={contratoAtivo.vigia}
                 style={{ borderRadius: 0, elevation: 0 }}
                 buttonTitle='Encerrar Contrato'
-                onPress={() => { console.info('Encerrou a contratacao') }} />
+                onPress={() => cancelarContrato(contratoAtivo.id, () => setContratoAtivo({}))} />
 
             <View style={{ backgroundColor: matisse.cinzaClaro, height: 2, marginBottom: '10%', marginTop: '10%', width: '80%' }} />
             <View style={styles.vencimentoContainer}>

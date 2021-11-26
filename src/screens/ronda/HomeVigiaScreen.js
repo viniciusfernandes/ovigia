@@ -16,6 +16,7 @@ import ContratoClienteBox from '../../components/ContratoClienteBox'
 import FormArea from '../FormArea'
 import HeaderBox from '../../components/HeaderBox'
 import { obterIdVigiaSolicitado } from '../../services/solicitacaoVisita/solicitacao.visita.services'
+import { obterMensalidadesVencidas } from '../../services/mensalidade/mensalidade.service'
 
 const styles = StyleSheet.create({
     box: {
@@ -102,11 +103,11 @@ export default props => {
         )
     }
 
-    const gerarContratosBoxes = (contratos) => {
-        return contratos.map(contrato =>
-            <ContratoClienteBox 
+    const gerarMensalidadesBoxes = (mensalidades) => {
+        return mensalidades.map(mensalidade =>
+            <ContratoClienteBox
                 isVencimento
-                contrato={contrato}
+                contrato={mensalidade}
                 confirmacao={'Recebeu o valor?'}
             />
         )
@@ -115,9 +116,9 @@ export default props => {
     useFocusEffect(
         React.useCallback(() => {
             obterResumoRonda(idUsuario, resumoRonda => setResumoRonda(resumoRonda))
-            obterContratosVencidos(idUsuario, contratos => {
-                setTotalMensalidadesVencidas(contratos.length)
-                setContratosBoxes(gerarContratosBoxes(contratos))
+            obterMensalidadesVencidas(idUsuario, mensalidades => {
+                setTotalMensalidadesVencidas(mensalidades.length)
+                setContratosBoxes(gerarMensalidadesBoxes(mensalidades))
             })
         }, [])
     );
