@@ -8,6 +8,7 @@ import ImageBoxRightBar from "../../components/ImageBoxRightBar";
 import VigiaRatingBox from "../../components/VigiaRatingBox";
 import AuthContext from "../../contexts/AuthContext";
 import { cancelarContrato, obterContratoAtivoCliente } from "../../services/contrato/contrato.services";
+import { obterFrequenciaRonda } from "../../services/ronda/ronda.service";
 import matisse from "../../style/matisse";
 
 const styles = StyleSheet.create({
@@ -29,22 +30,19 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start'
     },
     rondaDescricao: {
-        color: 'white',
+        color: matisse.laranja,
         width: '100%',
     },
     rondaTitulo: {
-        color: 'white',
+        color: matisse.laranja,
         marginTop: 10,
         width: '100%',
         fontSize: 15,
         fontWeight: 'bold'
     },
-    dataHora: {
-        backgroundColor: 'white',
-        borderRadius: 5,
-        color: matisse.laranja,
+    totalVigiadoText: {
+        color: matisse.laranjaAvermelhado,
         fontWeight: 'bold',
-        paddingLeft: 5,
         paddingRight: 5,
     },
 })
@@ -56,6 +54,7 @@ export default props => {
         dataInicio: '12/12/2020'
     }
     const [contratoAtivo, setContratoAtivo] = useState({})
+    const [frequenciaRonda, setFrequenciaRonda] = useState({})
     const { idUsuario, nomeUsuario } = useContext(AuthContext)
     useFocusEffect(
         React.useCallback(() => {
@@ -76,19 +75,29 @@ export default props => {
                     }
                     setContratoAtivo(contratoAtivo)
                 })
+
+            obterFrequenciaRonda(idUsuario, frequencia => setFrequenciaRonda(frequencia))
         }, [])
     )
+    var descricaoRonda = null;
+    if (frequenciaRonda.totalRonda > 1) {
+        descricaoRonda = 'A sua casa está segura pois o vigia {"\n"} passou por aí {frequenciaRonda.totalRonda} vezes nessa data.'
+    } else {
+        descricaoRonda = 'Infelizmente o vigia não passou por aí nessa data. Veja com ele o que aconteceu!'
+    }
     return (
         <Container backgroundColor='white' >
             <HeaderBox color='black' headers={[`Olá, ${nomeUsuario}.`, 'Aqui você está seguro!']} />
             <ImageBoxRightBar
-                style={{ backgroundColor: matisse.laranja, marginBottom: '5%' }}
-                imagem={require('../../../images/escudocheck_branco_75.png')}>
-                <Text style={styles.rondaTitulo}>Sua casa está segura!</Text>
-                <Text style={styles.rondaDescricao}>Seu vigia constatou que está tudo bem.</Text>
+                style={{ backgroundColor: 'white', borderColor: matisse.laranja, borderWidth: 2, marginBottom: '5%', height: 120 }}
+                imagem={require('../../../images/escudocheck_laranja_75.png')}>
+                <Text style={styles.rondaTitulo}>Última Ronda: 12/12/2021</Text>
+                <Text style={styles.rondaDescricao}>{descricaoRonda}</Text>
+
+
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                    <Text style={styles.dataHora} >Total Vigiado:</Text>
-                    <Text style={[styles.dataHora, { marginLeft: 15 }]} >12</Text>
+                    <Text style={styles.totalVigiadoText} >Total Vigiado:</Text>
+                    <Text style={[styles.totalVigiadoText]} >{frequenciaRonda.totalRonda}</Text>
                 </View>
 
             </ImageBoxRightBar>
