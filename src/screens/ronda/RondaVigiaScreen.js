@@ -104,7 +104,7 @@ export default props => {
             RondaCoordinateSigleton.encerrarRonda()
             setState({ rondaIniciada: false, coordinates: [] })
             setModalVisible(false)
-            props.navigation.navigate('iniciarRonda')
+            props.navigation.navigate('homeVigia')
         })
 
     }

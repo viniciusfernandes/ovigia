@@ -76,7 +76,6 @@ export default props => {
         idChamado: null,
         chamadosBoxes: []
     })
-
     const [idChamado, setIdChamado] = useState(null)
     const [modalVisivel, setModalVisivel] = useState(false)
 
@@ -118,11 +117,11 @@ export default props => {
 
     return (
         <Container>
-            <ScrollView>
-                <HeaderBox headers={['Acompanhe', 'todos os chamados']} detail='Chamados Ativos'
-                    color='white' />
-                {state.chamadosBoxes}
+            <HeaderBox headers={['Acompanhe', 'todos os chamados']} detail='Chamados Ativos'
+                color='white' />
 
+            <ScrollView>
+                {state.chamadosBoxes}
                 <Modal
                     animationType="slide"
                     transparent={true}

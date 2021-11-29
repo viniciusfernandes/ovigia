@@ -138,7 +138,7 @@ export default props => {
                     {gerarBox('Chamados', resumoRonda.totalChamados)}
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                    <Text style={styles.dataHora} >{resumoRonda.hora}</Text>
+                    <Text style={styles.dataHora} >Data ronda:</Text>
                     <Text style={[styles.dataHora, { marginLeft: 15 }]} >{resumoRonda.data}</Text>
                 </View>
 

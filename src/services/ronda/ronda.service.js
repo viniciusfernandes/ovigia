@@ -5,7 +5,7 @@ export const criarRonda = (ronda, callback) => {
 }
 
 export const obterResumoRonda = (idVigia, onSuccess, onError) => {
-    WebClient.get(`/vigias/${idVigia}/rondas/resumo`, onSuccess, onError)
+    WebClient.get(`/vigias/${idVigia}/resumo-ronda`, onSuccess, onError)
 }
 
 export const obterFrequenciaRonda = (idCliente, onSuccess, onError) => {
