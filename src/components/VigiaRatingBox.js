@@ -88,6 +88,13 @@ export default props => {
         </View> : null
 
     const heightMensalidade = { height: !props.showMensalidade ? styles.container.height + 80 : styles.container.height }
+    let button;
+    if (!props.hideButton) {
+        button = <TouchableButton style={[styles.button, props.styleButton]}
+            styleText={styles.textButton}
+            title={props.buttonTitle}
+            onPress={props.onPress} />
+    }
     return (
         <View key={props.id} style={[styles.container, heightMensalidade, props.style]}>
             <View style={styles.iconContainer}>
@@ -105,10 +112,7 @@ export default props => {
                     <Text style={[styles.smallBox, { marginLeft: 15 }]} >{vigia.dataInicio}</Text>
                 </View>
                 {mensalidade}
-                <TouchableButton style={[styles.button, props.styleButton]}
-                    styleText={styles.textButton}
-                    title={props.buttonTitle}
-                    onPress={props.onPress} />
+                {button}
             </View>
 
 

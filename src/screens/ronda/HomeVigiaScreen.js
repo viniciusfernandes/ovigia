@@ -119,7 +119,6 @@ export default props => {
                                 boxesNaoSelecionados.push(boxes[i])
                             }
                         }
-                        boxes = boxesNaoSelecionados;
                         setMensalidadesBoxes(boxesNaoSelecionados)
                     })
                 }}

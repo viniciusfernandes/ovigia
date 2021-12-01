@@ -41,41 +41,39 @@ const styles = StyleSheet.create({
     },
 })
 
-const gerarSolicitacaoBoxes = (contratos, idVigia, removerSolicitacaoBox) => {
-    return contratos.map(contrato =>
-        <ContratoClienteBox key={contrato.idCliente}
-            contrato={contrato}
-            confirmacao={'Fechar Contrato?'}
-            onConfirm={() => criarContrato({
-                idCliente: contrato.idCliente,
-                nomeCliente: contrato.nomeCliente,
-                telefoneCliente: contrato.telefoneCliente,
-                idVigia: idVigia,
-                valor: 11.62
-            }, () => console.info('Criou o contato cliente: ' + contrato.idCliente))}
-            onCancel={() => {
-                removerSolicitacaoVisita(contrato.idCliente, () => removerSolicitacaoBox(contrato.idCliente))
-            }}
-        />
-    )
-}
 
 export default props => {
     const { idUsuario } = useContext(AuthContext)
     const [solicitacoesBoxes, setSolicitacoesBoxes] = useState([])
-    const removerSolicitacaoBox = keyToRemove => {
-        console.info('boxes length: ' + JSON.stringify(solicitacoesBoxes))
-        let boxes = solicitacoesBoxes.filter(box => {
-            console.info('box key: ' + box.key + ' encontrou: ' + (box.key !== keyToRemove))
-            return box.key !== keyToRemove
-        })
+
+    const gerarSolicitacaoBoxes = solicitacoes => {
+        let boxesNaoSelecionados = []
+        let boxes = solicitacoes.map(solicitacao =>
+            <ContratoClienteBox key={solicitacao.idCliente}
+                contrato={solicitacao}
+                confirmacao={'Fechar Contrato?'}
+
+                onConfirm={() => criarContrato({ ...solicitacao, idVigia: idUsuario }, () => {
+                    boxesNaoSelecionados = []
+                    for (let i = 0; i < boxes.length; i++) {
+                        if (boxes[i].key !== solicitacao.id) {
+                            boxesNaoSelecionados.push(boxes[i])
+                        }
+                    }
+                    setSolicitacoesBoxes(boxesNaoSelecionados)
+                })}
+                onCancel={() => {
+                    removerSolicitacaoVisita(solicitacao.idCliente, () => removerSolicitacaoBox(solicitacao.idCliente))
+                }}
+            />
+        )
         setSolicitacoesBoxes(boxes)
     }
+
     useFocusEffect(
         React.useCallback(() => {
             obterSolicitacoesVisitas(idUsuario, solicitacoes => {
-                var boxes = gerarSolicitacaoBoxes(solicitacoes, idUsuario, removerSolicitacaoBox)
-                setSolicitacoesBoxes(boxes)
+                gerarSolicitacaoBoxes(solicitacoes)
             })
 
         }, [])

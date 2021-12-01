@@ -1,7 +1,13 @@
 import WebClient from '../api'
 
 export const criarContrato = (contrato, onSuccess, onError) => {
-    WebClient.post('/contratos', contrato, onSuccess, onError)
+    WebClient.post('/contratos', {
+        idCliente: contrato.idCliente,
+        nomeCliente: contrato.nomeCliente,
+        telefoneCliente: contrato.telefoneCliente,
+        idVigia: contrato.idVigia,
+        valor: contrato.valor
+    }, onSuccess, onError)
 }
 
 export const cancelarContrato = (idContrato, onSuccess, onError) => {
