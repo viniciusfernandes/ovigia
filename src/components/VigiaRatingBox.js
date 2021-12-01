@@ -96,7 +96,7 @@ export default props => {
             onPress={props.onPress} />
     }
     return (
-        <View key={props.id} style={[styles.container, heightMensalidade, props.style]}>
+        <View style={[styles.container, heightMensalidade, props.style]}>
             <View style={styles.iconContainer}>
                 <Image style={styles.icon} source={props.icon} />
             </View>

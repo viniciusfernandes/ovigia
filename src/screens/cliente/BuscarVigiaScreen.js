@@ -24,51 +24,57 @@ const styles = StyleSheet.create({
 export default props => {
     const { idUsuario, nomeUsuario, telefoneUsuario, localizacao } = useContext(AuthContext)
     const [vigiaBoxes, setVigiaBoxes] = useState([])
-    const [idVigiaSolicitado, setIdVigiaSolicitado] = useState(null)
-    const obterVigias = (localizacao, idVigiaSolicitado) => obterVigiasProximos(localizacao, vigias => {
-        let boxes = []
-        var idSolicitado = idVigiaSolicitado
 
-        vigias.forEach(vigia => {
-            let idVigia = vigia.id
-            let isSolicitado = idVigia === idVigiaSolicitado
-            let box = <VigiaRatingBox id={idVigia}
-                style={styles.button}
-                styleButton={isSolicitado ? styles.cancelarButton : styles.solicitarButton}
-                icon={require('../../../images/usuario_branco_75.png')}
-                vigia={vigia}
-                buttonTitle={isSolicitado ? 'Cancelar Solicitação ' : 'Solicitar Visita'}
-                onPress={() => {
-                    let solicitacao = {
-                        idCliente: idUsuario,
-                        nomeCliente: nomeUsuario,
-                        telefoneCliente: telefoneUsuario,
-                        idVigia: vigia.id,
-                        localizacaoCliente: localizacao
-                    }
-                    criarSolicitacaoVisita(solicitacao, () => {
-                        let vigiasRestantes = []
-                        for (var i = 0; i < boxes.length; i++) {
-                            if (boxes[i].props.id !== solicitacao.idVigia) {
-                                vigiasRestantes.push(boxes[i])
-                            }
+
+    const gerarVigiasBoxes = (localizacao, idVigiaSolicitado) => obterVigiasProximos(localizacao, vigias => {
+        let boxesSelecionados = [];
+        let boxes = vigias.filter(vigia => idVigiaSolicitado === null ? true : vigia.id === idVigiaSolicitado)
+            .map(vigia => {
+                let buttonConfig
+                if (vigia.id === idVigiaSolicitado) {
+                    buttonConfig = { style: styles.cancelarButton, title: 'Cancelar Solicitação' }
+                } else {
+                    buttonConfig = { style: styles.solicitarButton, title: 'Solicitar Visita' }
+                }
+
+                return <VigiaRatingBox key={vigia.id}
+                    style={styles.button}
+                    styleButton={buttonConfig.style}
+                    icon={require('../../../images/usuario_branco_75.png')}
+                    vigia={vigia}
+                    buttonTitle={buttonConfig.title}
+                    onPress={() => {
+                        let solicitacao = {
+                            idCliente: idUsuario,
+                            nomeCliente: nomeUsuario,
+                            telefoneCliente: telefoneUsuario,
+                            idVigia: vigia.id,
+                            localizacaoCliente: localizacao
                         }
-                        console.info('total: ' + vigiasRestantes.length)
-                        setVigiaBoxes(boxes)
-                    })
-                }}
-                showMensalidade />
-            boxes.push(box)
-        })
+                        criarSolicitacaoVisita(solicitacao, () => {
+                            boxesSelecionados = []
+                            console.info('antes: ' + boxes.length)
+                            for (var i = 0; i < boxes.length; i++) {
+                                if (boxes[i].key === vigia.id) {
+                                    boxesSelecionados.push(boxes[i])
+                                }
+                            }
+                            boxes = boxesSelecionados
+                            setVigiaBoxes(boxes)
+                        })
+                    }}
+                    showMensalidade />
+
+            })
         setVigiaBoxes(boxes)
     })
 
     useFocusEffect(
         React.useCallback(() => {
             obterIdVigiaSolicitado(idUsuario, response => {
-                const idVigia = response !== null ? response.idVigia : null
-                obterVigias(localizacao, idVigia)
-                setIdVigiaSolicitado(idVigia)
+                const idVigiaSolicitado = response !== null ? response.idVigia : null
+                gerarVigiasBoxes(localizacao, idVigiaSolicitado)
+
             })
         }, [])
     )
