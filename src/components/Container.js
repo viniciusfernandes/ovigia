@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         left: '85%',
         position: 'absolute',
         top: '2%',
-        width: 50, 
+        width: 50,
     },
 
 })
@@ -36,7 +36,7 @@ export default props => {
     const { singOut } = useContext(AuthContext)
 
     const profileButton = (
-        <TouchableOpacity style={styles.perfilcontainer  } onPress={() => singOut()}  >
+        <TouchableOpacity style={styles.perfilcontainer} onPress={() => singOut()}  >
             <Image style={styles.perfil} source={require('../../images/perfil-vinicius.jpg')} />
         </TouchableOpacity>
     )

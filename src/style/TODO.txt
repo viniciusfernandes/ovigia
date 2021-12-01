@@ -1,0 +1,10 @@
+- Não existe tratamento de erro no sistema. Qualquer erro http 500 vindo da API está vazando para o usuário
+sendo que a ideia é abrir um modal alertando o usuário de alguma forma
+- Devemos armazenar os dados da ronda no disposivito e posteriormente enviá-los em lote para o servidor
+pois o vigia 
+- O token do usuário deve ser armazenado no disposivito. Devemos usar o banco de dados para 
+armazenar/recuperar essa informação
+- Devemos redirecionar o usuário para a tela de login no caso de token expirado
+- Devemos emitir uma mensagem de usário/senha inválidos
+- Devemos criar um mecanismo para "esqueci a minha senha" (ETAPA POSTERIOR)
+- Devemos conectar com as redes sociais

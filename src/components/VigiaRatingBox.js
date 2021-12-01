@@ -89,7 +89,7 @@ export default props => {
 
     const heightMensalidade = { height: !props.showMensalidade ? styles.container.height + 80 : styles.container.height }
     return (
-        <View style={[styles.container, heightMensalidade, props.style]}>
+        <View key={props.id} style={[styles.container, heightMensalidade, props.style]}>
             <View style={styles.iconContainer}>
                 <Image style={styles.icon} source={props.icon} />
             </View>

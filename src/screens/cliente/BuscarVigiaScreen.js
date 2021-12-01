@@ -25,14 +25,14 @@ export default props => {
     const { idUsuario, nomeUsuario, telefoneUsuario, localizacao } = useContext(AuthContext)
     const [vigiaBoxes, setVigiaBoxes] = useState([])
     const [idVigiaSolicitado, setIdVigiaSolicitado] = useState(null)
-    const obterVigias = (localizacao, idVigiaSolicitado) => obterVigiasProximos(localizacao, response => {
+    const obterVigias = (localizacao, idVigiaSolicitado) => obterVigiasProximos(localizacao, vigias => {
         let boxes = []
         var idSolicitado = idVigiaSolicitado
 
-        response.vigias.forEach(vigia => {
+        vigias.forEach(vigia => {
             let idVigia = vigia.id
             let isSolicitado = idVigia === idVigiaSolicitado
-            let box = <VigiaRatingBox key={idVigia}
+            let box = <VigiaRatingBox id={idVigia}
                 style={styles.button}
                 styleButton={isSolicitado ? styles.cancelarButton : styles.solicitarButton}
                 icon={require('../../../images/usuario_branco_75.png')}
@@ -47,8 +47,14 @@ export default props => {
                         localizacaoCliente: localizacao
                     }
                     criarSolicitacaoVisita(solicitacao, () => {
-                        idSolicitado = idVigia
-                        //setIdVigiaSolicitado(idVigia)
+                        let vigiasRestantes = []
+                        for (var i = 0; i < boxes.length; i++) {
+                            if (boxes[i].props.id !== solicitacao.idVigia) {
+                                vigiasRestantes.push(boxes[i])
+                            }
+                        }
+                        console.info('total: ' + vigiasRestantes.length)
+                        setVigiaBoxes(boxes)
                     })
                 }}
                 showMensalidade />

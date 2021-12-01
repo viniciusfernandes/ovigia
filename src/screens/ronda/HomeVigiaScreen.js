@@ -16,7 +16,7 @@ import ContratoClienteBox from '../../components/ContratoClienteBox'
 import FormArea from '../FormArea'
 import HeaderBox from '../../components/HeaderBox'
 import { obterIdVigiaSolicitado } from '../../services/solicitacaoVisita/solicitacao.visita.services'
-import { obterMensalidadesVencidas } from '../../services/mensalidade/mensalidade.service'
+import { obterMensalidadesVencidas, pagarMensalidade } from '../../services/mensalidade/mensalidade.service'
 
 const styles = StyleSheet.create({
     box: {
@@ -90,10 +90,10 @@ const styles = StyleSheet.create({
 
 
 export default props => {
-    const { idUsuario, nomeUsuario } = useContext(AuthContext)
-    const [contratosBoxes, setContratosBoxes] = useState([])
+    const { idUsuario } = useContext(AuthContext)
+    const [mensalidadesBoxes, setMensalidadesBoxes] = useState([])
     const [resumoRonda, setResumoRonda] = useState({})
-    const [totalMensalidadesVencidas, setTotalMensalidadesVencidas] = useState(0)
+
     const gerarBox = (titulo, valor) => {
         return (
             <View style={styles.box}>
@@ -103,31 +103,46 @@ export default props => {
         )
     }
 
-    const gerarMensalidadesBoxes = (mensalidades) => {
-        return mensalidades.map(mensalidade =>
-            <ContratoClienteBox
+    const gerarMensalidadesBoxes = mensalidades => {
+        let boxesNaoSelecionados = []
+        let boxes = mensalidades.map(mensalidade => {
+            return <ContratoClienteBox
+                key={mensalidade.id}
                 isVencimento
                 contrato={mensalidade}
                 confirmacao={'Recebeu o valor?'}
+                onConfirm={() => {
+                    pagarMensalidade(mensalidade.id, () => {
+                        boxesNaoSelecionados = []
+                        for (let i = 0; i < boxes.length; i++) {
+                            if (boxes[i].key !== mensalidade.id) {
+                                boxesNaoSelecionados.push(boxes[i])
+                            }
+                        }
+                        boxes = boxesNaoSelecionados;
+                        setMensalidadesBoxes(boxesNaoSelecionados)
+                    })
+                }}
             />
+        }
         )
+        setMensalidadesBoxes(boxes)
     }
+
 
     useFocusEffect(
         React.useCallback(() => {
             obterResumoRonda(idUsuario, resumoRonda => setResumoRonda(resumoRonda))
             obterMensalidadesVencidas(idUsuario, mensalidades => {
-                setTotalMensalidadesVencidas(mensalidades.length)
-                setContratosBoxes(gerarMensalidadesBoxes(mensalidades))
+                gerarMensalidadesBoxes(mensalidades)
             })
         }, [])
     );
 
-
     return (
-        <Container backgroundColor='white'>
+        <Container name='vigia' backgroundColor='white'>
             <HeaderBox color='black' headers={['Resumo da Ronda']} detail='e as suas mensalidades.' />
-            <ImageBoxRightBar
+            <ImageBoxRightBar id='resumoronda'
                 imagem={require('../../../images/escudocheck_laranja_75.png')}
                 style={{ borderColor: matisse.laranja, borderWidth: 2, borderColor: matisse.laranja, height: 120, marginBottom: '5%' }}>
                 <Text style={styles.rondaTitulo}>Resumo da Última Ronda!</Text>
@@ -145,9 +160,9 @@ export default props => {
             </ImageBoxRightBar>
 
             <View style={{ backgroundColor: matisse.cinzaClaro, height: 3, marginBottom: '5%', width: '80%' }} />
-            <Text style={styles.textMensalidades}>Suas Mensalidades Vencidas. Total: {totalMensalidadesVencidas}</Text>
+            <Text style={styles.textMensalidades}>Suas Mensalidades Vencidas. Total: {mensalidadesBoxes.length}</Text>
             <ScrollView style={{ width: '100%' }}>
-                {contratosBoxes}
+                {mensalidadesBoxes}
             </ScrollView>
         </Container>
 

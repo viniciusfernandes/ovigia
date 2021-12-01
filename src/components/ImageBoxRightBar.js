@@ -58,7 +58,6 @@ export default props => {
                 <View style={styles.rightBar} />
             </>
     }
-
     return (
         <View key={props.id} style={[styles.container, props.style]}>
             <View style={styles.imagem}>
