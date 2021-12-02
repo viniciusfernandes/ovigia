@@ -7,7 +7,7 @@ import HeaderBox from "../../components/HeaderBox";
 import ImageBoxRightBar from "../../components/ImageBoxRightBar";
 import VigiaRatingBox from "../../components/VigiaRatingBox";
 import AuthContext from "../../contexts/AuthContext";
-import { cancelarContrato, obterContratoAtivoCliente } from "../../services/contrato/contrato.services";
+import { cancelarContrato } from "../../services/contrato/contrato.services";
 import { obterFrequenciaRonda } from "../../services/ronda/ronda.service";
 import matisse from "../../style/matisse";
 
@@ -47,50 +47,19 @@ const styles = StyleSheet.create({
     },
 })
 export default props => {
-    const [contratoAtivo, setContratoAtivo] = useState({})
-    const [vigia, setVigia] = useState({})
+    const contrato = props.contrato
+    const vigia = props.vigia
     const [frequenciaRonda, setFrequenciaRonda] = useState({})
     const { idUsuario, nomeUsuario } = useContext(AuthContext)
     useFocusEffect(
         React.useCallback(() => {
-            obterContratoAtivoCliente(
-                idUsuario, contrato => {
-                    let vigia
-                    if (contrato != null) {
-                        setContratoAtivo(contrato)
-                        vigia = {
-                            id: contrato.idVigia,
-                            nome: contrato.nomeVigia,
-                            avaliacao: contrato.avaliacaoVigia,
-                            valor: contrato.valor,
-                            dataInicio: contrato.dataInicio,
-                            telefone: contrato.telefoneVigia,
-                        }
-                    } else {
-                        vigia = {
-                            id: null,
-                            nome: 'Seu vigia aparecerá aqui!',
-                            avaliacao: 0.0,
-                            valor: '0.00',
-                            dataInicio: '',
-                            telefone: '',
-                        }
-                    }
-                    setVigia(vigia)
-                })
-
             obterFrequenciaRonda(idUsuario, frequencia => setFrequenciaRonda(frequencia))
         }, [])
     )
 
-    let pagamentoStyle;
     let pagamento;
-    const emptyContrato = contratoAtivo.dataVencimento === undefined
     let mensagemRonda;
-
-    if (emptyContrato) {
-        mensagemRonda = { descricao: `Ah, você ainda não contratou um vigia. {"\n"}Vá até o menu e busque os vigias mais próximos!` }
-    } else if (frequenciaRonda.totalRonda > 1) {
+    if (frequenciaRonda.totalRonda > 1) {
         mensagemRonda = {
             titulo: 'Última Ronda: 12/12/2021',
             descricao: `A sua casa está segura pois o vigia ${"\n"} passou por aí ${frequenciaRonda.totalRonda} vezes nessa data.`
@@ -103,25 +72,18 @@ export default props => {
     }
 
 
-    if (emptyContrato) {
-        pagamento = {
-            mensagem: 'Você ainda não contratou um vigia.',
-            vencimento: 'Solicite uma visita assim que puder!'
-        }
-        pagamentoStyle = styles.textEmDia
-    }
-    else if (!contratoAtivo.isVencido) {
+    if (!contrato.isVencido) {
         pagamento = {
             mensagem: 'Você está em atraso',
-            vencimento: `O vencimento foi dia ${contratoAtivo.dataVencimento}.`
+            vencimento: `O vencimento foi dia ${contrato.dataVencimento}.`,
+            style: styles.textAtrasado
         }
-        pagamentoStyle = styles.textAtrasado
     } else {
         pagamento = {
             mensagem: 'Você está em dia.',
-            vencimento: `O vencimento será dia ${contratoAtivo.dataVencimento}.`
+            vencimento: `O vencimento será dia ${contrato.dataVencimento}.`,
+            style: styles.textEmDia
         }
-        pagamentoStyle = styles.textEmDia
     }
     return (
         <Container backgroundColor='white' >
@@ -144,15 +106,14 @@ export default props => {
                 icon={require('../../../images/usuario_branco_75.png')}
                 vigia={vigia}
                 style={{ borderRadius: 0, elevation: 0 }}
-                buttonTitle='Encerrar Contrato'
-                hideButton={emptyContrato}
-                onPress={() => cancelarContrato(contratoAtivo.id, () => setContratoAtivo({}))} />
+                buttonTitle='Cancelar Contrato'
+                onPress={() => cancelarContrato(contrato.id, () => props.onCancelarContrato())} />
 
             <View style={{ backgroundColor: matisse.cinzaClaro, height: 2, marginBottom: '10%', marginTop: '10%', width: '80%' }} />
             <View style={styles.vencimentoContainer}>
                 <Text style={{ fontSize: 15, fontWeight: 'bold' }} >Pagamento</Text>
-                <Text style={pagamentoStyle}>{pagamento.mensagem}</Text>
-                <Text style={pagamentoStyle}>{pagamento.vencimento}</Text>
+                <Text style={pagamento.style}>{pagamento.mensagem}</Text>
+                <Text style={pagamento.style}>{pagamento.vencimento}</Text>
             </View>
 
         </Container>

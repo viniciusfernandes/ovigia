@@ -64,7 +64,7 @@ export default props => {
                 icon={require('../../../images/usuario_branco_75.png')}
                 vigia={vigia}
                 style={{ borderRadius: 0, elevation: 0 }}
-                hideButton={true}
+                hideButton
             />
 
             <View style={{ backgroundColor: matisse.cinzaClaro, height: 2, marginBottom: '10%', marginTop: '10%', width: '80%' }} />

@@ -80,51 +80,14 @@ export default props => {
                     }
                     setVigia(vigia)
                 })
-
-            obterFrequenciaRonda(idUsuario, frequencia => setFrequenciaRonda(frequencia))
         }, [])
     )
-
-    let pagamentoStyle;
-    let pagamento;
     const emptyContrato = contratoAtivo.dataVencimento === undefined
-    let mensagemRonda;
-
-    if (emptyContrato) {
-        mensagemRonda = { descricao: `Ah, você ainda não contratou um vigia. {"\n"}Vá até o menu e busque os vigias mais próximos!` }
-    } else if (frequenciaRonda.totalRonda > 1) {
-        mensagemRonda = {
-            titulo: 'Última Ronda: 12/12/2021',
-            descricao: `A sua casa está segura pois o vigia ${"\n"} passou por aí ${frequenciaRonda.totalRonda} vezes nessa data.`
-        }
-    } else {
-        mensagemRonda = {
-            titulo: 'Última Ronda: 12/12/2021',
-            descricao: 'Infelizmente o vigia não passou por aí nessa data. Veja com ele o que aconteceu!'
-        }
-    }
-
-
-    if (emptyContrato) {
-        pagamento = {
-            mensagem: 'Você ainda não contratou um vigia.',
-            vencimento: 'Solicite uma visita assim que puder!'
-        }
-        pagamentoStyle = styles.textEmDia
-    }
-    else if (!contratoAtivo.isVencido) {
-        pagamento = {
-            mensagem: 'Você está em atraso',
-            vencimento: `O vencimento foi dia ${contratoAtivo.dataVencimento}.`
-        }
-        pagamentoStyle = styles.textAtrasado
-    } else {
-        pagamento = {
-            mensagem: 'Você está em dia.',
-            vencimento: `O vencimento será dia ${contratoAtivo.dataVencimento}.`
-        }
-        pagamentoStyle = styles.textEmDia
-    }
-
-    return emptyContrato ? <HomeClienteSemContratoScreen /> : <HomeClienteComContratoScreen />
+    return emptyContrato ? <HomeClienteSemContratoScreen /> :
+        <HomeClienteComContratoScreen
+            contrato={contratoAtivo}
+            vigia={vigia}
+            onCancelarContrato={
+                () => setContratoAtivo({})
+            } />
 }
