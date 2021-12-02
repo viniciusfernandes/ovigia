@@ -46,24 +46,27 @@ export default props => {
     const { idUsuario } = useContext(AuthContext)
     const [solicitacoesBoxes, setSolicitacoesBoxes] = useState([])
 
+    let boxes
+    let boxesNaoSelecionados
+    const removerSolicitacaoBox = solicitacao => {
+        boxesNaoSelecionados = []
+        for (let i = 0; i < boxes.length; i++) {
+            if (boxes[i].key !== solicitacao.idCliente) {
+                boxesNaoSelecionados.push(boxes[i])
+            }
+        }
+        boxes = boxesNaoSelecionados
+        setSolicitacoesBoxes(boxes)
+    }
+
     const gerarSolicitacaoBoxes = solicitacoes => {
-        let boxesNaoSelecionados = []
-        let boxes = solicitacoes.map(solicitacao =>
+        boxes = solicitacoes.map(solicitacao =>
             <ContratoClienteBox key={solicitacao.idCliente}
                 contrato={solicitacao}
                 confirmacao={'Fechar Contrato?'}
-
-                onConfirm={() => criarContrato({ ...solicitacao, idVigia: idUsuario }, () => {
-                    boxesNaoSelecionados = []
-                    for (let i = 0; i < boxes.length; i++) {
-                        if (boxes[i].key !== solicitacao.id) {
-                            boxesNaoSelecionados.push(boxes[i])
-                        }
-                    }
-                    setSolicitacoesBoxes(boxesNaoSelecionados)
-                })}
+                onConfirm={() => criarContrato({ ...solicitacao, idVigia: idUsuario }, () => removerSolicitacaoBox(solicitacao))}
                 onCancel={() => {
-                    removerSolicitacaoVisita(solicitacao.idCliente, () => removerSolicitacaoBox(solicitacao.idCliente))
+                    removerSolicitacaoVisita(solicitacao.idCliente, () => removerSolicitacaoBox(solicitacao))
                 }}
             />
         )
