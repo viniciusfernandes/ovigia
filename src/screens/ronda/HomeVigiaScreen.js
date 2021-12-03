@@ -16,7 +16,7 @@ import ContratoClienteBox from '../../components/ContratoClienteBox'
 import FormArea from '../FormArea'
 import HeaderBox from '../../components/HeaderBox'
 import { obterIdVigiaSolicitado } from '../../services/solicitacaoVisita/solicitacao.visita.services'
-import { obterMensalidadesVencidas, pagarMensalidade } from '../../services/mensalidade/mensalidade.service'
+import { obterMensalidadesVencidas, obterValorRecebido, pagarMensalidade } from '../../services/mensalidade/mensalidade.service'
 
 const styles = StyleSheet.create({
     box: {
@@ -104,7 +104,7 @@ export default props => {
         )
     }
 
-    const gerarMensalidadesBoxes = mensalidades => {
+    const gerarMensalidadesBoxes = (mensalidades, valorRecebido) => {
         let boxesNaoSelecionados = []
         let valorAReceber = 0.0
         let boxes = mensalidades.map(mensalidade => {
@@ -115,8 +115,10 @@ export default props => {
                 contrato={mensalidade}
                 confirmacao={'Recebeu o valor?'}
                 onConfirm={() => {
-                    pagarMensalidade(mensalidade.id, () => {
+                    const pagamento = { idMensalidade: mensalidade.id, idVigia: idUsuario, valor: mensalidade.valor }
+                    pagarMensalidade(pagamento, () => {
                         valorAReceber -= mensalidade.valor
+                        valorRecebido += mensalidade.valor
                         boxesNaoSelecionados = []
                         for (let i = 0; i < boxes.length; i++) {
                             if (boxes[i].key !== mensalidade.id) {
@@ -125,13 +127,15 @@ export default props => {
                         }
                         boxes = boxesNaoSelecionados
                         setMensalidadesBoxes(boxes)
-                        setValores({ ...valores, valorAReceber })
+                        setValores({ valorAReceber, valorRecebido })
                     })
                 }}
             />
         }
         )
-        setValores({ valorAReceber })
+
+        console.info({ valorAReceber, valorRecebido })
+        setValores({ valorAReceber, valorRecebido })
         setMensalidadesBoxes(boxes)
     }
 
@@ -140,8 +144,12 @@ export default props => {
         React.useCallback(() => {
             obterResumoRonda(idUsuario, resumoRonda => setResumoRonda(resumoRonda))
             obterMensalidadesVencidas(idUsuario, mensalidades => {
-                gerarMensalidadesBoxes(mensalidades)
+                obterValorRecebido(idUsuario, response => {
+                    let valorRecebido = response != null ? response.valorRecebido : 0.0
+                    gerarMensalidadesBoxes(mensalidades, valorRecebido)
+                })
             })
+
         }, [])
     );
 
@@ -172,7 +180,7 @@ export default props => {
             </View>
             <View style={{ flexDirection: 'row', marginBottom: '3%' }}>
                 <Text style={{ marginRight: '5%', fontWeight: 'bold' }}  >À Receber: R$ {valores.valorAReceber}</Text>
-                <Text style={{ marginLeft: '5%', fontWeight: 'bold' }} >Recebido: R$ {'0.00'}</Text>
+                <Text style={{ marginLeft: '5%', fontWeight: 'bold' }} >Recebido: R$ {valores.valorRecebido}</Text>
             </View>
             <ScrollView style={{ width: '100%' }}>
                 {mensalidadesBoxes}
