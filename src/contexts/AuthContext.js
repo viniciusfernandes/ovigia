@@ -16,7 +16,6 @@ export const AuthContextProvider = ({ children }) => {
             tipoUsuario: usuario.tipoUsuario,
             signed: navegarHome,
             localizacao: usuario.localizacao,
-            chamado: null,
         })
     }
 
@@ -73,9 +72,7 @@ export const AuthContextProvider = ({ children }) => {
             signed: !!usuario && usuario.signed,
             autenticar: signin,
             cadastrar: signon,
-            singOut: () => setUsuario(null),
-            chamadoAtivo: !!usuario ? usuario.chamado : null,
-            setChamadoAtivo: chamado => setUsuario({ ...usuario, chamado: chamado })
+            singOut: () => setUsuario(null)
         }}>
             {children}
         </AuthContext.Provider>

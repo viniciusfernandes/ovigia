@@ -3,12 +3,14 @@ import { useFocusEffect } from '@react-navigation/core';
 import React, { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 import _BackgroundTimer from 'react-native-background-timer';
+import { useState } from 'react/cjs/react.development';
 import Container from '../../components/Container';
 import HeaderBox from '../../components/HeaderBox';
 import MapBox, { DEFAULT_POSITION } from '../../components/MapBox';
 import TouchableButton from '../../components/TouchableButton';
 import AuthContext from '../../contexts/AuthContext';
-import { cancelarChamado, criarChamado, obterChamadoAtivoCliente, obterChamadosAtivos } from '../../services/chamado/chamado.service';
+import { cancelarChamado, criarChamado, obterChamadoAtivoCliente, } from '../../services/chamado/chamado.service';
+import { obterIdVigiaCliente } from '../../services/cliente/cliente.service';
 import matisse from '../../style/matisse';
 
 const styles = StyleSheet.create({
@@ -45,57 +47,50 @@ const styles = StyleSheet.create({
 });
 
 export default props => {
-    const { idUsuario, nomeUsuario, chamadoAtivo, setChamadoAtivo } = useContext(AuthContext)
-    const currentPosition = DEFAULT_POSITION
-    const idVigia = '9f2cd1fb-435f-48cf-8f6e-2a19dc4b0381'
-    const logradouro = 'Avenida Paulista 1234, cj 66'
-    var botao = null
-
-    if (!chamadoAtivo) {
-
-        useFocusEffect(
-            React.useCallback(() => {
-                obterChamadoAtivoCliente(idUsuario, chamado => {
-                    console.info('chamado obtido: ' + JSON.stringify(chamado))
-                    setChamadoAtivo(chamado)
-                })
-            }, [])
-        );
-
-        botao = <TouchableButton style={styles.realizarButton} styleText={styles.textButton}
-            title='Realizar Chamado'
-            onPress={() => {
-                criarChamado({
-                    idCliente: idUsuario,
-                    idVigia: idVigia,
-                    nomeCliente: nomeUsuario,
-                    logradouro: logradouro,
-                    localizacao: {
-                        latitude: currentPosition.latitude,
-                        longitude: currentPosition.longitude,
-                    }
-                }, chamado => {
-                    setChamadoAtivo(chamado)
-                })
-            }}
-        />
-    } else {
-        botao = <TouchableButton style={styles.cancelarButton} styleText={styles.textButton}
-            title='Cancelar Chamado'
-            onPress={() => {
-                cancelarChamado(chamadoAtivo.id, () => setChamadoAtivo(null))
-            }}
-        />
+    const { idUsuario, nomeUsuario, localizacao } = useContext(AuthContext)
+    const [idVigia, setIdVigia] = useState(null)
+    const [botaoChamado, setBotaoChamado] = useState(null)
+    const gerarBotaoChamado = chamado => {
+        let botao = null
+        if (!chamado) {
+            botao = <TouchableButton style={styles.realizarButton} styleText={styles.textButton}
+                title='Realizar Chamado'
+                onPress={() => {
+                    criarChamado({
+                        idCliente: idUsuario,
+                        idVigia: idVigia,
+                        nomeCliente: nomeUsuario,
+                        localizacao: localizacao
+                    }, chamado => gerarBotaoChamado(chamado))
+                }}
+            />
+        } else {
+            botao = <TouchableButton style={styles.cancelarButton} styleText={styles.textButton}
+                title='Cancelar Chamado'
+                onPress={() => {
+                    cancelarChamado(chamado.id, () => gerarBotaoChamado(null))
+                }}
+            />
+        }
+        setBotaoChamado(botao)
     }
+
+    useFocusEffect(
+        React.useCallback(() => {
+            obterChamadoAtivoCliente(idUsuario, chamado => {
+                gerarBotaoChamado(chamado)
+            })
+            obterIdVigiaCliente(idUsuario, response => setIdVigia(response.idVigia))
+        }, [])
+    );
+
     return (
         <Container>
             <HeaderBox headers={['Olá, ' + nomeUsuario, 'quer um chamado agora?']} detail='Localização do seu vigia' />
             <View style={styles.botoesContainer}>
-                {botao}
+                {botaoChamado}
             </View>
-            <View style={styles.mapaContainer}>
-                <MapBox coordinates={[currentPosition]} style={{ width: '100%', height: '100%', }} />
-            </View>
+
         </Container>
     );
 }

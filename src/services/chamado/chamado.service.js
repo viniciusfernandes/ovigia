@@ -1,15 +1,11 @@
 import WebClient from '../api'
 
-export const criarChamado = (chamado, callback) => {
-    WebClient.post(`/clientes/${chamado.idCliente}/chamados`, {
-        nomeCliente: chamado.nomeCliente,
-        idVigia: chamado.idVigia,
-        localizacao: chamado.localizacao
-    }, callback)
+export const criarChamado = (chamado, onSuccess) => {
+    WebClient.post(`/clientes/${chamado.idCliente}/chamados`, chamado, onSuccess)
 }
 
 export const obterChamadosAtivosVigia = (idVigia, onSuccess) => {
-    WebClient.get(`/vigias/${idVigia}/chamados/ativos`, onSuccess)
+    WebClient.get(`/vigias/${idVigia}/chamados-ativos`, onSuccess)
 }
 
 export const obterChamadoAtivoCliente = (idCliente, onSuccess) => {

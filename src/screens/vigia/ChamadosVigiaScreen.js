@@ -74,18 +74,16 @@ export default props => {
         idVigia: null,
         modalVisible: false,
         idChamado: null,
-        chamadosBoxes: []
     })
     const [idChamado, setIdChamado] = useState(null)
     const [modalVisivel, setModalVisivel] = useState(false)
+    const [chamadosBoxes, setChamadosBoxes] = useState([])
 
-    const obterChamados = () => obterChamadosAtivosVigia(idUsuario, chamados => {
-        var boxes = []
-        const total = chamados.length
-        for (let i = 0; i < total; i++) {
-            let chamado = chamados[i]
+    const gerarChamadosBoxes = idUsuario => obterChamadosAtivosVigia(idUsuario, chamados => {
+        let boxes = chamados.map(chamado => {
+            console.info('chamdos=' + chamados.length)
             let situacaoStyle = { backgroundColor: isChamadoAtivo(chamado) ? 'green' : matisse.laranjaAvermelhado }
-            let box =
+            return (
                 <ImageBoxRightBar
                     key={chamado.id}
                     iconStyle={{ backgroundColor: matisse.cinzaClaro }}
@@ -103,15 +101,16 @@ export default props => {
                         <Text style={[styles.dataHora, { marginLeft: 10 }, situacaoStyle]} >{chamado.situacao}</Text>
                     </View>
                 </ImageBoxRightBar>
+            )
+        })
+        console.info('boxes=' + boxes.length)
 
-            boxes.push(box)
-        }
-        setState({ ...state, chamadosBoxes: boxes })
+        setChamadosBoxes(boxes)
     })
 
     useFocusEffect(
         React.useCallback(() => {
-            obterChamados()
+            gerarChamadosBoxes(idUsuario)
         }, [])
     );
 
@@ -121,7 +120,7 @@ export default props => {
                 color='white' />
 
             <ScrollView>
-                {state.chamadosBoxes}
+                {chamadosBoxes}
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -134,9 +133,8 @@ export default props => {
                             <TouchableButton title='Sim' style={modalStyles.simButton}
                                 styleText={modalStyles.simText} onPress={() => {
                                     aceitarChamado(idChamado, () => {
-                                        console.info('aceitando o chamado: ' + idChamado)
                                         setModalVisivel(false)
-                                        obterChamados(state.idVigia, boxes => setState({ ...state, chamadosBoxes: boxes }))
+                                        gerarChamadosBoxes(state.idVigia, boxes => setState({ ...state, chamadosBoxes: boxes }))
                                     })
                                 }
                                 } />
