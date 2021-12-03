@@ -53,6 +53,7 @@ export default props => {
     const [vigia, setVigia] = useState({})
     const [frequenciaRonda, setFrequenciaRonda] = useState({})
     const { idUsuario, nomeUsuario } = useContext(AuthContext)
+
     useFocusEffect(
         React.useCallback(() => {
             obterContratoAtivoCliente(

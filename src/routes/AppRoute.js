@@ -10,7 +10,6 @@ import HomeVigiaScreen from '../screens/ronda/HomeVigiaScreen';
 import matisse from '../style/matisse';
 import AuthContext from '../contexts/AuthContext';
 import BuscarVigiaScreen from '../screens/cliente/BuscarVigiaScreen';
-import RealizarChamadoScreen from '../screens/cliente/RealizarChamadoScreen';
 import SolicitacoesVisitasScreen from '../screens/vigia/SolicitacoesVisitasScreen';
 import HomeClienteScreen from '../screens/cliente/HomeClienteScreen';
 function getIcon(focused, screenName) {
@@ -41,7 +40,6 @@ export default () => {
     } else {
         screens.push(<Screen key='homeCliente' name='homeCliente' component={HomeClienteScreen} />)
         screens.push(<Screen key='buscarVigia' name='buscarVigia' component={BuscarVigiaScreen} />)
-        screens.push(<Screen key='realizarChamado' name='realizarChamado' component={RealizarChamadoScreen} />)
     }
     return (
         <Navigator
