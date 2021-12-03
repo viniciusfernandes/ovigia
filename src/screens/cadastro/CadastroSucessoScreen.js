@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, Text, Image } from 'react-native'
+import React from 'react'
+import { StyleSheet, Text, Image } from 'react-native'
 import { useContext } from 'react/cjs/react.development'
 import Container from '../../components/Container'
-import LabelInput from '../../components/LabelInput'
 import TouchableButton from '../../components/TouchableButton'
 import { larguraPercentual } from '../../constantes/medidas/Medidas'
 import AuthContext from '../../contexts/AuthContext'
-import { criarVigia } from '../../services/vigia/vigia.services'
 import matisse from '../../style/matisse'
 const styles = StyleSheet.create({
     botao: {

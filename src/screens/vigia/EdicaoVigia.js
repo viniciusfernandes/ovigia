@@ -15,7 +15,7 @@ export default props => {
     return (
         <FormArea >
             <ImagemPerfil />
-            <LabelInput style={{ label: { marginTop: '2%' } }} titulo={'E-mail'}
+            <LabelInput labelStyle={{ marginTop: '2%' }} titulo={'E-mail'}
                 valor={vigia.email} onChangeText={email => setVigia({ ...vigia, email })} />
             <LabelInput titulo={'Celular'} valor={vigia.telefone} />
             <LabelInput titulo={'Senha'} valor={vigia.senha} />

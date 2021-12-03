@@ -1,7 +1,8 @@
-import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import matisse from "../style/matisse";
 import ImageBoxRightBar from "./ImageBoxRightBar";
+import LabelInput from '../components/LabelInput'
 
 const styles = StyleSheet.create({
     info: {
@@ -24,6 +25,7 @@ const styles = StyleSheet.create({
         marginLeft: '5%',
         marginTop: '5%'
     },
+
 })
 export default props => {
     var contrato = props.contrato
@@ -44,7 +46,7 @@ export default props => {
     }
     return (
         <ImageBoxRightBar
-            style={{ backgroundColor: matisse.laranja, height: 125 }}
+            style={{ backgroundColor: matisse.laranja, height: 145 }}
             iconStyle={{ backgroundColor: matisse.cinzaClaro, height: 80 }}
             imagem={require('../../images/usuario_branco_75.png')}>
             <Text style={styles.nomeCliente}>{contrato.nomeCliente}</Text>
@@ -55,15 +57,22 @@ export default props => {
 
             {dataBox}
 
-            <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                <Text style={{ color: 'white', fontWeight: 'bold' }} >{props.confirmacao}</Text>
-                <TouchableOpacity style={{ marginLeft: '10%' }} onPress={props.onConfirm}>
-                    <Image source={require('../../images/check_branco_75.png')} />
-                </TouchableOpacity>
-                <TouchableOpacity style={{ marginLeft: '5%' }} onPress={props.onCancel}>
-                    <Image source={require('../../images/x_branco_75.png')} />
-                </TouchableOpacity>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, width: '100%' }}>
+                <LabelInput style={{ width: '60%' }} titulo='Confirma o valor?'
+                    labelStyle={{ fontSize: 15, color: 'white' }}
+                    inputStyle={{ fontSize: 12, height: 30, paddingBottom: 0, paddingTop: 0 }}
+                    onChangeText={props.onChangeValorContrato} />
+                <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity style={{ marginLeft: '10%' }} onPress={props.onConfirm}>
+                        <Image source={require('../../images/check_branco_75.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ marginLeft: '5%' }} onPress={props.onCancel}>
+                        <Image source={require('../../images/x_branco_75.png')} />
+                    </TouchableOpacity>
+                </View>
+
             </View>
+
         </ImageBoxRightBar>
     )
 }

@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
         marginLeft: '5%',
         marginTop: '5%'
     },
+
 })
 
 
@@ -64,6 +65,7 @@ export default props => {
             <ContratoClienteBox key={solicitacao.idCliente}
                 contrato={solicitacao}
                 confirmacao={'Fechar Contrato?'}
+                onChangeValorContrato={valor => solicitacao = { ...solicitacao, valor }}
                 onConfirm={() => criarContrato({ ...solicitacao, idVigia: idUsuario }, () => removerSolicitacaoBox(solicitacao))}
                 onCancel={() => {
                     removerSolicitacaoVisita(solicitacao.idCliente, () => removerSolicitacaoBox(solicitacao))

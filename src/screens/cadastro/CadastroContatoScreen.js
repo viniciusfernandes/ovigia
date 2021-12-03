@@ -15,8 +15,8 @@ export default (props) => {
         tipoUsuario: 'VIGIA'
     })
 
-    const { isVigia,   cadastrar } = useContext(AuthContext)
-
+    const { isVigia, cadastrar } = useContext(AuthContext)
+    const labelStyle = { marginTop: 20 }
     return (
         <Container backgroundColor='white'>
             <Text style={styles.textoTitulo}>Contato</Text>
@@ -27,13 +27,16 @@ export default (props) => {
                 onChangeText={nome => setUsuario({ ...usuario, nome })} />
             <LabelInput titulo='Celular'
                 valor={usuario.telefone}
-                onChangeText={telefone => setUsuario({ ...usuario, telefone })} />
+                onChangeText={telefone => setUsuario({ ...usuario, telefone })}
+                labelStyle={labelStyle} />
             <LabelInput titulo='E-mail'
                 valor={usuario.email}
-                onChangeText={email => setUsuario({ ...usuario, email })} />
+                onChangeText={email => setUsuario({ ...usuario, email })}
+                labelStyle={labelStyle} />
             <LabelInput titulo='Senha'
                 valor={usuario.password}
-                onChangeText={senha => setUsuario({ ...usuario, senha })} />
+                onChangeText={senha => setUsuario({ ...usuario, senha })}
+                labelStyle={labelStyle} />
 
             <View style={styles.botoesBar}>
                 <TouchableButton title='Voltar' style={styles.botaoCinza}

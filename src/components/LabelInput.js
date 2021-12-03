@@ -21,22 +21,18 @@ const styles = StyleSheet.create({
         color: matisse.cinzaEscuro,
         fontSize: 15,
         fontWeight: 'bold',
-        //marginTop: 20,
         width: '100%'
     },
 
 })
 
 export default props => {
-    let labelStyle = props.style !== undefined ? props.style.label : {}
-    let inputStyle = props.style !== undefined ? props.style.input : {}
-    const label = !props.hiddenLabel ? <Text style={[styles.titulo, labelStyle]}>{props.titulo}</Text> : null
-    return (
-        //<View style={[...styles.container, props.style]}>
-        <View style={styles.container }>
-            {label}
-                <TextInput value={props.valor} style={[styles.input, inputStyle]} onChangeText={props.onChangeText} />
-        </View>
 
+    const label = !props.hiddenLabel ? <Text style={[styles.titulo, props.labelStyle]}>{props.titulo}</Text> : null
+    return (
+        <View style={[styles.container, props.style]}>
+            {label}
+            <TextInput value={props.valor} style={[styles.input, props.inputStyle]} onChangeText={props.onChangeText} />
+        </View>
     )
 }
