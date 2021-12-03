@@ -49,8 +49,7 @@ const styles = StyleSheet.create({
     },
 })
 export default props => {
-    const [contratoAtivo, setContratoAtivo] = useState({})
-    const [vigia, setVigia] = useState({})
+    const [contrato, setContrato] = useState({})
     const [frequenciaRonda, setFrequenciaRonda] = useState({})
     const { idUsuario, nomeUsuario } = useContext(AuthContext)
 
@@ -58,37 +57,17 @@ export default props => {
         React.useCallback(() => {
             obterContratoAtivoCliente(
                 idUsuario, contrato => {
-                    let vigia
                     if (contrato != null) {
-                        setContratoAtivo(contrato)
-                        vigia = {
-                            id: contrato.idVigia,
-                            nome: contrato.nomeVigia,
-                            avaliacao: contrato.avaliacaoVigia,
-                            valor: contrato.valor,
-                            dataInicio: contrato.dataInicio,
-                            telefone: contrato.telefoneVigia,
-                        }
-                    } else {
-                        vigia = {
-                            id: null,
-                            nome: 'Seu vigia aparecerá aqui!',
-                            avaliacao: 0.0,
-                            valor: '0.00',
-                            dataInicio: '',
-                            telefone: '',
-                        }
+                        setContrato(contrato)
                     }
-                    setVigia(vigia)
                 })
         }, [])
     )
-    const emptyContrato = contratoAtivo.dataVencimento === undefined
+    const emptyContrato = contrato.dataVencimento === undefined
     return emptyContrato ? <HomeClienteSemContratoScreen /> :
         <HomeClienteComContratoScreen
-            contrato={contratoAtivo}
-            vigia={vigia}
+            contrato={contrato}
             onCancelarContrato={
-                () => setContratoAtivo({})
+                () => setContrato({})
             } />
 }

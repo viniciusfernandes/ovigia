@@ -53,7 +53,6 @@ export default props => {
                         }
                         criarSolicitacaoVisita(solicitacao, () => {
                             boxesSelecionados = []
-                            console.info('antes: ' + boxes.length)
                             for (var i = 0; i < boxes.length; i++) {
                                 if (boxes[i].key === vigia.id) {
                                     boxesSelecionados.push(boxes[i])

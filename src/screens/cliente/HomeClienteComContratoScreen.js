@@ -66,7 +66,15 @@ const styles = StyleSheet.create({
 })
 export default props => {
     const contrato = props.contrato
-    const vigia = props.vigia
+    const vigia = {
+        id: contrato.idVigia,
+        nome: contrato.nomeVigia,
+        avaliacao: contrato.avaliacaoVigia,
+        valor: contrato.valor,
+        dataInicio: contrato.dataInicio,
+        telefone: contrato.telefoneVigia,
+    }
+
     const [frequenciaRonda, setFrequenciaRonda] = useState({})
     const { idUsuario, nomeUsuario, localizacao } = useContext(AuthContext)
     const [botaoChamado, setBotaoChamado] = useState(null)
