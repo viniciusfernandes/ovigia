@@ -81,7 +81,6 @@ export default props => {
 
     const gerarChamadosBoxes = idUsuario => obterChamadosAtivosVigia(idUsuario, chamados => {
         let boxes = chamados.map(chamado => {
-            console.info('chamdos=' + chamados.length)
             let situacaoStyle = { backgroundColor: isChamadoAtivo(chamado) ? 'green' : matisse.laranjaAvermelhado }
             return (
                 <ImageBoxRightBar
@@ -103,8 +102,6 @@ export default props => {
                 </ImageBoxRightBar>
             )
         })
-        console.info('boxes=' + boxes.length)
-
         setChamadosBoxes(boxes)
     })
 

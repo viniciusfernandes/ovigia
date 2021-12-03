@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import matisse from "../style/matisse";
 import ImageBoxRightBar from "./ImageBoxRightBar";
 import LabelInput from '../components/LabelInput'
@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
 
 })
 export default props => {
-    var contrato = props.contrato
+    let contrato = props.contrato
+    const [valorContrato, setValorContrato] = useState(contrato && contrato.valor ? '' + contrato.valor : '0.0')
     let dataBox = null;
     if (props.isVencimento) {
         dataBox =
@@ -58,10 +59,14 @@ export default props => {
             {dataBox}
 
             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, width: '100%' }}>
-                <LabelInput style={{ width: '60%' }} titulo='Confirma o valor?'
+                <LabelInput style={{ width: '60%' }} titulo='Confirma o valor (R$)?'
+                    valor={valorContrato}
                     labelStyle={{ fontSize: 15, color: 'white' }}
-                    inputStyle={{ fontSize: 12, height: 30, paddingBottom: 0, paddingTop: 0 }}
-                    onChangeText={props.onChangeValorContrato} />
+                    inputStyle={{ fontSize: 17, height: 30, paddingBottom: 0, paddingTop: 0 }}
+                    onChangeText={valor => {
+                        setValorContrato(valor)
+                        props.onChangeValorContrato(valor)
+                    }} />
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity style={{ marginLeft: '10%' }} onPress={props.onConfirm}>
                         <Image source={require('../../images/check_branco_75.png')} />

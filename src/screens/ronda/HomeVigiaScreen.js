@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 15,
         fontWeight: 'bold',
-        marginBottom: '5%',
+        marginBottom: '2%',
         width: '80%',
         textAlign: 'left'
     },
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
 export default props => {
     const { idUsuario } = useContext(AuthContext)
     const [mensalidadesBoxes, setMensalidadesBoxes] = useState([])
+    const [valores, setValores] = useState({})
     const [resumoRonda, setResumoRonda] = useState({})
 
     const gerarBox = (titulo, valor) => {
@@ -105,7 +106,9 @@ export default props => {
 
     const gerarMensalidadesBoxes = mensalidades => {
         let boxesNaoSelecionados = []
+        let valorAReceber = 0.0
         let boxes = mensalidades.map(mensalidade => {
+            valorAReceber += mensalidade.valor
             return <ContratoClienteBox
                 key={mensalidade.id}
                 isVencimento
@@ -113,18 +116,22 @@ export default props => {
                 confirmacao={'Recebeu o valor?'}
                 onConfirm={() => {
                     pagarMensalidade(mensalidade.id, () => {
+                        valorAReceber -= mensalidade.valor
                         boxesNaoSelecionados = []
                         for (let i = 0; i < boxes.length; i++) {
                             if (boxes[i].key !== mensalidade.id) {
                                 boxesNaoSelecionados.push(boxes[i])
                             }
                         }
-                        setMensalidadesBoxes(boxesNaoSelecionados)
+                        boxes = boxesNaoSelecionados
+                        setMensalidadesBoxes(boxes)
+                        setValores({ ...valores, valorAReceber })
                     })
                 }}
             />
         }
         )
+        setValores({ valorAReceber })
         setMensalidadesBoxes(boxes)
     }
 
@@ -159,7 +166,14 @@ export default props => {
             </ImageBoxRightBar>
 
             <View style={{ backgroundColor: matisse.cinzaClaro, height: 3, marginBottom: '5%', width: '80%' }} />
-            <Text style={styles.textMensalidades}>Suas Mensalidades Vencidas. Total: {mensalidadesBoxes.length}</Text>
+
+            <View style={{ alignItems: 'center' }}>
+                <Text style={styles.textMensalidades}>Suas Mensalidades Vencidas. Total: {mensalidadesBoxes.length}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', marginBottom: '3%' }}>
+                <Text style={{ marginRight: '5%', fontWeight: 'bold' }}  >À Receber: R$ {valores.valorAReceber}</Text>
+                <Text style={{ marginLeft: '5%', fontWeight: 'bold' }} >Recebido: R$ {'0.00'}</Text>
+            </View>
             <ScrollView style={{ width: '100%' }}>
                 {mensalidadesBoxes}
             </ScrollView>
