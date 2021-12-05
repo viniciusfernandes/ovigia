@@ -113,19 +113,27 @@ export default props => {
         }, [])
     )
 
-    let pagamento;
-    let mensagemRonda;
-    if (frequenciaRonda.totalRonda > 1) {
-        mensagemRonda = {
-            titulo: 'Última Ronda: 12/12/2021',
-            descricao: `A sua casa está segura pois o vigia ${"\n"} passou por aí ${frequenciaRonda.totalRonda} vezes nessa data.`
+    let pagamento
+    const dataUltimaRonda = frequenciaRonda.dataUltimaRonda
+    const mensagemRonda = {
+        titulo: `Última Ronda: ${frequenciaRonda.dataUltimaRonda}`,
+        descricao: null
+    }
+
+    if (dataUltimaRonda != null) {
+        mensagemRonda.titulo = `Última Ronda: ${frequenciaRonda.dataUltimaRonda}`
+
+        if (frequenciaRonda.totalRonda > 1) {
+            mensagemRonda.descricao = `A sua casa está segura pois o vigia ${"\n"} passou por aí ${frequenciaRonda.totalRonda} vezes nessa data.`
+
+        } else {
+            mensagemRonda.descricao = 'Infelizmente o vigia não passou por aí nessa data!'
         }
     } else {
-        mensagemRonda = {
-            titulo: 'Última Ronda: 12/12/2021',
-            descricao: 'Infelizmente o vigia não passou por aí nessa data!'
-        }
+        mensagemRonda.titulo = `Ops, ainda não foi feita uma ${"\n"}ronda na sua área!`
+        mensagemRonda.descricao = ""
     }
+
 
 
     if (!contrato.isVencido) {
