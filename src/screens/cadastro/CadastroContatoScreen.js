@@ -15,7 +15,7 @@ export default (props) => {
         tipoUsuario: 'VIGIA'
     })
 
-    const { isVigia, cadastrar } = useContext(AuthContext)
+    const { signOn } = useContext(AuthContext)
     const labelStyle = { marginTop: 20 }
     return (
         <Container backgroundColor='white'>
@@ -44,7 +44,7 @@ export default (props) => {
                     onPress={() => props.navigation.goBack()} />
                 <TouchableButton title='Salvar' style={styles.botaoLaranja}
                     styleText={[styles.textoBotao, , styles.textoBotaoLaranja]}
-                    onPress={() => cadastrar(usuario, () => props.navigation.navigate('cadastroSucesso'))} />
+                    onPress={() => signOn(usuario, () => props.navigation.navigate('cadastroSucesso'))} />
 
             </View>
         </Container>

@@ -9,7 +9,7 @@ import AuthContext from '../../contexts/AuthContext';
 
 export default props => {
   const [credencial, setCredencial] = useState({ email: 'cliente2@gmail.com', password: '1234' })
-  const { autenticar } = useContext(AuthContext)
+  const { signIn } = useContext(AuthContext)
 
   return (
     <Container hideProfile={true}>
@@ -37,7 +37,7 @@ export default props => {
         </TouchableOpacity>
 
       </View>
-      <TouchableOpacity style={styles.botaoContainer} onPress={() => autenticar(credencial)}>
+      <TouchableOpacity style={styles.botaoContainer} onPress={() => signIn(credencial)}>
         <Text style={styles.botao}>Entrar
         </Text>
       </TouchableOpacity>

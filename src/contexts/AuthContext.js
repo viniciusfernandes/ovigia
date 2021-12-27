@@ -70,8 +70,8 @@ export const AuthContextProvider = ({ children }) => {
                 }
             },
             signed: !!usuario && usuario.signed,
-            autenticar: signin,
-            cadastrar: signon,
+            signIn: signin,
+            signOn: signon,
             singOut: () => setUsuario(null)
         }}>
             {children}
