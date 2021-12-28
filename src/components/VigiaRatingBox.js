@@ -104,7 +104,7 @@ export default props => {
             <View>
                 <Text style={styles.nome}>{vigia.nome}</Text>
                 <View style={{ flexDirection: 'row' }}>
-                    <RatingStars rate={vigia.avaliacao} />
+                    <RatingStars rate={vigia.avaliacao} onRating={rate => console.info('this is the rate: ' + rate)} />
                     <Text style={styles.rateBox} >{vigia.avaliacao}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>

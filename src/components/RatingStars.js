@@ -1,5 +1,6 @@
 import React from "react"
 import { Image, StyleSheet, Text, View } from "react-native"
+import { TouchableOpacity } from "react-native-gesture-handler"
 
 const styles = StyleSheet.create({
     container: {
@@ -14,7 +15,29 @@ const styles = StyleSheet.create({
     }
 })
 
-const gerarRate = rate => {
+const START_STATUS = {
+    FULL: 'FULL', EMPTY: 'EMPTY', HALF: 'HALF'
+}
+
+const gerarStar = (id, status, onPress) => {
+    var star = null;
+    if (status === START_STATUS.FULL) {
+        star = require('../../images/star_orange.png')
+    } else if (status === START_STATUS.HALF) {
+        star = require('../../images/star_orange_gray.png')
+    } else {
+        star = require('../../images/star_gray.png')
+    }
+
+    return (
+        <TouchableOpacity key={id} style={styles.star}
+            onPress={onPress}>
+            <Image style={styles.star} source={star} />
+        </TouchableOpacity>
+    )
+}
+
+const gerarRate = (rate, onRate) => {
     var stars = []
     const roundedRate = Math.floor(rate)
     var rest = rate - roundedRate
@@ -27,46 +50,51 @@ const gerarRate = rate => {
     }
 
     const hasRest = rest >= 0.45
-    const maxRate = 5
+    const starValues = new Map()
+    starValues.set(0, 1)
+    starValues.set(1, 2)
+    starValues.set(2, 3)
+    starValues.set(3, 4)
+    starValues.set(4, 5)
+
     var startKey = null
+
     if (roundedRate <= 0) {
-        if (hasRest) {
-            stars[0] = <Image key={'start-0'} style={styles.star} source={require('../../images/star_orange_gray.png')} />
-        }
-        else {
-            stars[0] = <Image key={'start-0'} style={styles.star} source={require('../../images/star_gray.png')} />
-        }
-        for (var rt = 1; rt < maxRate; rt++) {
-            startKey = 'start-' + rt
-            stars[rt] = <Image key={startKey} style={styles.star} source={require('../../images/star_gray.png')} />
+        const status = hasRest ? START_STATUS.HALF : START_STATUS.EMPTY
+        stars[0] = gerarStar('start-0', status, () => onRate(starValues.get(0)))
+
+        for (let idx = 1; idx < starValues.size; idx++) {
+            startKey = 'start-' + idx
+            stars[idx] = gerarStar(startKey, START_STATUS.EMPTY, () => onRate(starValues.get(idx)))
         }
     } else {
-        for (var rt = 1; rt <= maxRate; rt++) {
-            startKey = 'start-' + rt
-            if (rt < roundedRate) {
-                stars[rt] = <Image key={startKey} style={styles.star} source={require('../../images/star_orange.png')} />
-            } else if (rt == roundedRate) {
-                stars[rt] = <Image key={startKey} style={styles.star} source={require('../../images/star_orange.png')} />
-                if (hasRest) {
-                    rt++
-                    startKey = 'start-' + rt
-                    stars[rt] = <Image key={startKey} style={styles.star} source={require('../../images/star_orange_gray.png')} />
+        let rating = null
+        const maxRate = starValues.get(starValues.size - 1)
+        for (let idx = 0; idx < starValues.size; idx++) {
+            rating = starValues.get(idx)
+            startKey = 'start-' + idx
+            if (rating < roundedRate) {
+                stars[idx] = gerarStar(startKey, START_STATUS.FULL, () => onRate(rating))
+            } else if (rating == roundedRate) {
+                stars[idx] = gerarStar(startKey, START_STATUS.FULL, () => onRate(rating))
+                if (hasRest && rating < maxRate) {
+                    idx++
+                    startKey = 'start-' + idx
+                    stars[idx] = gerarStar(startKey, START_STATUS.HALF, () => onRate(rating))
                 }
             } else {
-                stars[rt] = <Image key={startKey} style={styles.star} source={require('../../images/star_gray.png')} />
-
+                stars[idx] = gerarStar(startKey, START_STATUS.EMPTY, () => onRate(rating))
             }
 
         }
     }
-
     return stars
 }
 
 export default props => {
     return (
         <View style={styles.container}>
-            {gerarRate(props.rate)}
+            {gerarRate(props.rate, props.onRate)}
         </View>
     )
 }
