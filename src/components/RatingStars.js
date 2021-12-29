@@ -1,9 +1,12 @@
 import React from "react"
 import { Image, StyleSheet, Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
+import matisse from "../style/matisse"
+import TouchableButton from './TouchableButton'
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: 'green',
         flexDirection: 'row',
         justifyContent: 'center',
         width: 100,
@@ -11,7 +14,8 @@ const styles = StyleSheet.create({
     },
     star: {
         width: 20,
-        height: 20
+        height: 20,
+        borderRadius: 0,
     }
 })
 
@@ -21,8 +25,10 @@ const START_STATUS = {
 
 const gerarStar = (id, status, onPress) => {
     var star = null;
+    var style = null
     if (status === START_STATUS.FULL) {
         star = require('../../images/star_orange.png')
+        style = { fontSize: 20, fontWeight: 'bold', color: matisse.amareloDourado }
     } else if (status === START_STATUS.HALF) {
         star = require('../../images/star_orange_gray.png')
     } else {
@@ -30,10 +36,10 @@ const gerarStar = (id, status, onPress) => {
     }
 
     return (
-        <TouchableOpacity key={id} style={styles.star}
-            onPress={onPress}>
-            <Image style={styles.star} source={star} />
-        </TouchableOpacity>
+        // <TouchableOpacity key={id} style={styles.star} onPress={() => console.info('xxxxxxxxx')}>
+        //      <Image style={{ width: '100%', height: '100%' }} source={star} />
+        //  </TouchableOpacity>
+        <TouchableButton key={id} style={[styles.star, style]} title={id + 1} onPress={onPress} />
     )
 }
 
@@ -57,33 +63,28 @@ const gerarRate = (rate, onRate) => {
     starValues.set(3, 4)
     starValues.set(4, 5)
 
-    var startKey = null
-
     if (roundedRate <= 0) {
         const status = hasRest ? START_STATUS.HALF : START_STATUS.EMPTY
-        stars[0] = gerarStar('start-0', status, () => onRate(starValues.get(0)))
+        stars[0] = gerarStar(0, status, () => onRate(starValues.get(0)))
 
         for (let idx = 1; idx < starValues.size; idx++) {
-            startKey = 'start-' + idx
-            stars[idx] = gerarStar(startKey, START_STATUS.EMPTY, () => onRate(starValues.get(idx)))
+            stars[idx] = gerarStar(idx, START_STATUS.EMPTY, () => onRate(starValues.get(idx)))
         }
     } else {
-        let rating = null
         const maxRate = starValues.get(starValues.size - 1)
         for (let idx = 0; idx < starValues.size; idx++) {
-            rating = starValues.get(idx)
-            startKey = 'start-' + idx
+            const rating = starValues.get(idx)
             if (rating < roundedRate) {
-                stars[idx] = gerarStar(startKey, START_STATUS.FULL, () => onRate(rating))
+                stars[idx] = gerarStar(idx, START_STATUS.FULL, () => onRate(rating))
             } else if (rating == roundedRate) {
-                stars[idx] = gerarStar(startKey, START_STATUS.FULL, () => onRate(rating))
+                stars[idx] = gerarStar(idx, START_STATUS.FULL, () => onRate(rating))
                 if (hasRest && rating < maxRate) {
                     idx++
-                    startKey = 'start-' + idx
-                    stars[idx] = gerarStar(startKey, START_STATUS.HALF, () => onRate(rating))
+                    rating = starValues.get(idx)
+                    stars[idx] = gerarStar(idx, START_STATUS.HALF, () => onRate(rating))
                 }
             } else {
-                stars[idx] = gerarStar(startKey, START_STATUS.EMPTY, () => onRate(rating))
+                stars[idx] = gerarStar(idx, START_STATUS.EMPTY, () => onRate(rating))
             }
 
         }

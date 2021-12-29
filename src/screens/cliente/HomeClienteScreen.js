@@ -2,13 +2,8 @@ import { useFocusEffect } from "@react-navigation/core";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useContext, useState } from "react/cjs/react.development";
-import Container from "../../components/Container";
-import HeaderBox from "../../components/HeaderBox";
-import ImageBoxRightBar from "../../components/ImageBoxRightBar";
-import VigiaRatingBox from "../../components/VigiaRatingBox";
 import AuthContext from "../../contexts/AuthContext";
-import { cancelarContrato, obterContratoAtivoCliente } from "../../services/contrato/contrato.services";
-import { obterFrequenciaRonda } from "../../services/ronda/ronda.service";
+import { obterContratoAtivoCliente } from "../../services/contrato/contrato.services";
 import matisse from "../../style/matisse";
 import HomeClienteComContratoScreen from "./HomeClienteComContratoScreen";
 import HomeClienteSemContratoScreen from "./HomeClienteSemContratoScreen";
@@ -50,13 +45,11 @@ const styles = StyleSheet.create({
 })
 export default props => {
     const [contrato, setContrato] = useState({})
-    const [frequenciaRonda, setFrequenciaRonda] = useState({})
-    const { idUsuario, nomeUsuario } = useContext(AuthContext)
+    const { idUsuario } = useContext(AuthContext)
 
     useFocusEffect(
         React.useCallback(() => {
-            obterContratoAtivoCliente(
-                idUsuario, contrato => {
+            obterContratoAtivoCliente(idUsuario, contrato => {
                     if (contrato != null) {
                         setContrato(contrato)
                     }

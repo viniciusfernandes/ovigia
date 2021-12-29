@@ -157,12 +157,6 @@ export default props => {
                 imagem={require('../../../images/escudocheck_laranja_75.png')}>
                 <Text style={styles.rondaTitulo}>{mensagemRonda.titulo}</Text>
                 <Text style={styles.rondaDescricao}>{mensagemRonda.descricao}</Text>
-
-                {/* 
-                <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                    <Text style={styles.totalVigiadoText} >Total Vigiado:</Text>
-                    <Text style={[styles.totalVigiadoText]} >{frequenciaRonda.totalRonda}</Text>
-                </View> */}
                 <View style={styles.botaoChamadoContainer}>
                     {botaoChamado}
                 </View>

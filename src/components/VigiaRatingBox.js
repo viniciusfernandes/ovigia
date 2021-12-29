@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Image, Text, StyleSheet, View, } from 'react-native'
 import matisse from '../style/matisse'
 import RatingStars from './RatingStars'
 import TouchableButton from './TouchableButton'
+import { atualizarAvaliacaoVigia } from '../services/vigia/vigia.services'
+import { useFocusEffect } from '@react-navigation/native'
 
 const larguraIconContainer = 70
 const larguraIcon = larguraIconContainer - 20
@@ -72,6 +74,7 @@ const styles = StyleSheet.create({
     }
 })
 
+
 export default props => {
     const vigia = props.vigia ? props.vigia : {
         nome: 'Não definido',
@@ -80,6 +83,7 @@ export default props => {
         dataInicio: 'Não definido',
         valor: 0.0
     }
+    const [valorAvaliacao, setValorAvaliacao] = useState(0.00)
 
     const mensalidade = !props.showMensalidade ?
         <View style={{ marginTop: 30 }}>
@@ -95,6 +99,16 @@ export default props => {
             title={props.buttonTitle}
             onPress={props.onPress} />
     }
+
+    useFocusEffect(
+        React.useCallback(() => setValorAvaliacao(vigia.avaliacao), [])
+    )
+
+    const atualizarValorAvaliacao = (vigia, valorAvaliacao) => {
+        atualizarAvaliacaoVigia(vigia.id, valorAvaliacao, novoValor => setValorAvaliacao(novoValor))
+    }
+
+
     return (
         <View style={[styles.container, heightMensalidade, props.style]}>
             <View style={styles.iconContainer}>
@@ -104,8 +118,9 @@ export default props => {
             <View>
                 <Text style={styles.nome}>{vigia.nome}</Text>
                 <View style={{ flexDirection: 'row' }}>
-                    <RatingStars rate={vigia.avaliacao} onRating={rate => console.info('this is the rate: ' + rate)} />
-                    <Text style={styles.rateBox} >{vigia.avaliacao}</Text>
+                    <RatingStars rate={vigia.avaliacao}
+                        onRate={valorAvaliacao => atualizarValorAvaliacao(vigia, valorAvaliacao)} />
+                    <Text style={styles.rateBox} >{valorAvaliacao}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
                     <Text style={styles.smallBox} >{vigia.telefone}</Text>
