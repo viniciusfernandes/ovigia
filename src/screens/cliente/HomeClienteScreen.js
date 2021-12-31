@@ -51,6 +51,7 @@ export default props => {
         React.useCallback(() => {
             obterContratoAtivoCliente(idUsuario, contrato => {
                     if (contrato != null) {
+                        console.info('atualizando o contrato='+JSON.stringify(contrato))
                         setContrato(contrato)
                     }
                 })

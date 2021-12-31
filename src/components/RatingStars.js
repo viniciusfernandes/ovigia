@@ -25,27 +25,35 @@ const START_STATUS = {
 
 const gerarStar = (id, status, onPress) => {
     var star = null;
-    var style = null
+    var styleText = null
+    var styleBackground = null
     if (status === START_STATUS.FULL) {
         star = require('../../images/star_orange.png')
-        style = { fontSize: 20, fontWeight: 'bold', color: matisse.amareloDourado }
     } else if (status === START_STATUS.HALF) {
         star = require('../../images/star_orange_gray.png')
     } else {
         star = require('../../images/star_gray.png')
     }
 
+    if (status === START_STATUS.FULL) {
+        styleText = { color: 'white' }
+        styleBackground = { backgroundColor: matisse.amareloDourado }
+    } else {
+        styleText = { color: 'black' }
+        styleBackground = { backgroundColor: 'white' }
+    }
+
     return (
         // <TouchableOpacity key={id} style={styles.star} onPress={() => console.info('xxxxxxxxx')}>
         //      <Image style={{ width: '100%', height: '100%' }} source={star} />
         //  </TouchableOpacity>
-        <TouchableButton key={id} style={[styles.star, style]} title={id + 1} onPress={onPress} />
+        <TouchableButton key={id} style={[styles.star, styleBackground]} styleText={styleText} title={id + 1} onPress={onPress} />
     )
 }
 
 const gerarRate = (rate, onRate) => {
     var stars = []
-    const roundedRate = Math.floor(rate)
+    let roundedRate = Math.floor(rate)
     var rest = rate - roundedRate
 
     if (rest >= 0.9) {

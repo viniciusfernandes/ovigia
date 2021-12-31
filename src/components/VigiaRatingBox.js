@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, Text, StyleSheet, View, } from 'react-native'
+import { Image, Text, StyleSheet, View, ImageBackground, } from 'react-native'
 import matisse from '../style/matisse'
 import RatingStars from './RatingStars'
 import TouchableButton from './TouchableButton'
@@ -78,13 +78,12 @@ const styles = StyleSheet.create({
 export default props => {
     const vigia = props.vigia ? props.vigia : {
         nome: 'Não definido',
-        avaliacao: 0,
+        avaliacao: 0.00,
         telefone: 'Não definido',
         dataInicio: 'Não definido',
         valor: 0.0
     }
-    const [valorAvaliacao, setValorAvaliacao] = useState(0.00)
-
+    const [valorAvaliacao, setValorAvaliacao] = useState(vigia.avaliacao)
     const mensalidade = !props.showMensalidade ?
         <View style={{ marginTop: 30 }}>
             <Text style={{ fontSize: 15, color: matisse.laranjaAvermelhado }} >Valor Mensalidade:</Text>
@@ -100,14 +99,9 @@ export default props => {
             onPress={props.onPress} />
     }
 
-    useFocusEffect(
-        React.useCallback(() => setValorAvaliacao(vigia.avaliacao), [])
-    )
-
     const atualizarValorAvaliacao = (vigia, valorAvaliacao) => {
         atualizarAvaliacaoVigia(vigia.id, valorAvaliacao, novoValor => setValorAvaliacao(novoValor))
     }
-
 
     return (
         <View style={[styles.container, heightMensalidade, props.style]}>
@@ -118,7 +112,7 @@ export default props => {
             <View>
                 <Text style={styles.nome}>{vigia.nome}</Text>
                 <View style={{ flexDirection: 'row' }}>
-                    <RatingStars rate={vigia.avaliacao}
+                    <RatingStars rate={valorAvaliacao}
                         onRate={valorAvaliacao => atualizarValorAvaliacao(vigia, valorAvaliacao)} />
                     <Text style={styles.rateBox} >{valorAvaliacao}</Text>
                 </View>
