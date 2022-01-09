@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useState } from "react/cjs/react.development";
 
 export const axiosInstance = axios.create({
     baseURL: 'http://172.18.0.1:8080/ovigia',
@@ -16,17 +15,14 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(function (response) {
     // Qualquer código de status que esteja dentro do intervalo de 2xx faz com que esta função seja acionada
     // Faça algo com dados de resposta
-    // console.log ('resposta interceptada:', response.data)
+    //console.log('resposta interceptada:', JSON.stringify(response))
     return response
 
 }, function (error) {
     // Qualquer código de status que esteja fora do intervalo de 2xx faz com que esta função seja acionada
     // Faça algo com erro de resposta
-    console.error('resposta interceptada:' + error)
-
-    let errorObj = error
-
-    switch (errorObj.status) {
+    //console.error('erro interceptado:' + JSON.stringify(error))
+    switch (error.status) {
         case 401:
             handle401();
             break;
@@ -34,27 +30,27 @@ axiosInstance.interceptors.response.use(function (response) {
             handle403();
             break;
         case 422:
-            handle422(errorObj);
+            handle422(error);
             break;
         default:
-            handleDefaultError(errorObj);
+            handleDefaultError(error);
             break;
     }
 
-    function handleDefaultError(errorObj) {
+    function handleDefaultError(error) {
         console.log(
-            `DEFAULT ERROR: ${errorObj.status} : ${errorObj.error}, message: ${errorObj.message}`
+            `DEFAULT ERROR: ${error.status} : ${error.error}, message: ${error.message}`
         );
     }
-    function handle422(errorObj) {
+    function handle422(error) {
         console.log(
-            `DEFAULT ERROR: ${errorObj.status} : ${errorObj.error
-            }, errors: ${listErrors(errorObj.errors)}`
+            `DEFAULT ERROR: ${error.status} : ${error.error
+            }, errors: ${listErrors(error.errors)}`
         );
     }
     function handle401() {
         console.log(
-            `ERROR: ${errorObj.status} : ${errorObj.error}, message: ${errorObj.message}`
+            `Usuario não autorizado: ${error.status} : ${error.error}, message: ${error.message}`
         );
     }
     function handle403() {

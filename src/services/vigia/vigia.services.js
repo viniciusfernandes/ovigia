@@ -5,6 +5,9 @@ export const obterVigiasProximos = (localizacao, onSuccess, onError) => {
 }
 
 export const atualizarAvaliacaoVigia = (idVigia, valorAvaliacao, onSuccess, onError) => {
+    if (idVigia === null || valorAvaliacao === null) {
+        return
+    }
     const avaliacao = {
         valorAvaliacao: valorAvaliacao
     }
