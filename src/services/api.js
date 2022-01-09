@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: 'http://172.18.0.1:8080/ovigia',
+    baseURL: 'http://10.0.2.2:8080/ovigia',
+    //baseURL: 'http://172.18.0.1:8080/ovigia',
     headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -84,7 +85,7 @@ export function updateToken(token) {
 
 function handleError(error, onError) {
     if (onError !== undefined) {
-        onError(error)
+        onError()
     }
     console.error(error)
     console.trace()

@@ -1,15 +1,14 @@
 import { useFocusEffect } from '@react-navigation/core'
-import React, { useEffect } from 'react'
-import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useContext, useState } from 'react/cjs/react.development'
-import CloseButton from '../../components/CloseButton'
 import Container from '../../components/Container'
 import HeaderBox from '../../components/HeaderBox'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
-import TouchableButton from '../../components/TouchableButton'
+import ModalBox from '../../components/ModalBox'
 import AuthContext from '../../contexts/AuthContext'
 import { aceitarChamado, obterChamadosAtivosVigia } from '../../services/chamado/chamado.service'
-import { isChamadoAtivo, TipoSituacaoChamado } from '../../services/constantes'
+import { isChamadoAtivo } from '../../services/constantes'
 import matisse from '../../style/matisse'
 
 const styles = StyleSheet.create({
@@ -33,40 +32,6 @@ const styles = StyleSheet.create({
         paddingRight: 5,
     }
 })
-
-const modalStyles = StyleSheet.create({
-    modalContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    modal: {
-        backgroundColor: "white",
-        borderRadius: 20,
-        elevation: 3,
-        alignItems: "center",
-        width: '50%',
-    },
-    simButton: {
-        backgroundColor: matisse.laranja,
-        color: 'white',
-        marginBottom: '10%',
-        width: '50%'
-    },
-    simText: {
-        color: "white",
-        fontSize: 15,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    modalText: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        marginBottom: '10%',
-        marginTop: '10%',
-        textAlign: "center"
-    }
-});
 
 export default props => {
     const { idUsuario } = useContext(AuthContext)
@@ -118,26 +83,18 @@ export default props => {
 
             <ScrollView>
                 {chamadosBoxes}
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisivel}
-                >
-                    <View style={modalStyles.modalContainer}>
-                        <View style={modalStyles.modal}>
-                            <Text style={modalStyles.modalText}>Confirma mesmo?</Text>
-                            <CloseButton onPress={() => setModalVisivel(false)} />
-                            <TouchableButton title='Sim' style={modalStyles.simButton}
-                                styleText={modalStyles.simText} onPress={() => {
-                                    aceitarChamado(idChamado, () => {
-                                        setModalVisivel(false)
-                                        gerarChamadosBoxes(state.idVigia, boxes => setState({ ...state, chamadosBoxes: boxes }))
-                                    })
-                                }
-                                } />
-                        </View>
-                    </View>
-                </Modal>
+                <ModalBox visible={modalVisivel}
+                    onClose={() => setModalVisivel(false)}
+                    onConfirm={() => {
+                        aceitarChamado(idChamado,
+                            () => {
+                                setModalVisivel(false)
+                                gerarChamadosBoxes(state.idVigia, boxes => setState({ ...state, chamadosBoxes: boxes }))
+                            }
+                        )
+                    }
+                    }
+                />
 
             </ScrollView>
 

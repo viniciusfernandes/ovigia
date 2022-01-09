@@ -19,11 +19,12 @@ export const AuthContextProvider = ({ children }) => {
         })
     }
 
-    const signin = credential => signIn(
+    const signin = (credential, onError) => signIn(
         credential,
         usuario => habilitarHome(usuario, true),
-        error => {
+        () => {
             setUsuario(null)
+            onError()
         }
     )
 

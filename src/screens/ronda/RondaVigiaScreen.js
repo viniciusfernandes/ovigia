@@ -3,13 +3,13 @@ import React, { useContext } from 'react';
 import { useState } from 'react';
 import { Modal, StyleSheet, Text, View } from 'react-native';
 import _BackgroundTimer from 'react-native-background-timer';
-import CloseButton from '../../components/CloseButton';
 import MapBox from '../../components/MapBox';
 import TouchableButton from '../../components/TouchableButton';
 import AuthContext from '../../contexts/AuthContext';
 import { criarRonda } from '../../services/ronda/ronda.service';
 import matisse from '../../style/matisse';
 import RondaCoordinateSigleton from './RondaCoordinatesSigleton'
+import ModalBox from '../../components/ModalBox';
 
 const styles = StyleSheet.create({
     botoesContainer: {
@@ -36,41 +36,7 @@ const styles = StyleSheet.create({
         marginTop: '2%',
         width: '45%',
     },
-});
-
-const modalStyles = StyleSheet.create({
-    modalContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    modal: {
-        backgroundColor: "white",
-        borderRadius: 20,
-        elevation: 3,
-        alignItems: "center",
-        width: '50%',
-    },
-    simButton: {
-        backgroundColor: matisse.laranja,
-        color: 'white',
-        marginBottom: '10%',
-        width: '50%'
-    },
-    simText: {
-        color: "white",
-        fontSize: 15,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    modalText: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        marginBottom: '10%',
-        marginTop: '10%',
-        textAlign: "center"
-    }
-});
+})
 
 export default props => {
     const [modalVisible, setModalVisible] = useState(false)
@@ -130,25 +96,12 @@ export default props => {
             </View>
             <View style={styles.mapaContainer}>
                 <MapBox id='rondaScreen' coordinates={[...state.coordinates]} fullScreen drawLines />
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-
-                >
-                    <View style={modalStyles.modalContainer}>
-                        <View style={modalStyles.modal}>
-                            <Text style={modalStyles.modalText}>Confirma mesmo?</Text>
-                            <CloseButton onPress={() => setModalVisible(false)} />
-                            <TouchableButton title='Sim' style={modalStyles.simButton}
-                                styleText={modalStyles.simText} onPress={() => {
-                                    setModalVisible(false)
-                                    encerrarRonda()
-                                }
-                                } />
-                        </View>
-                    </View>
-                </Modal>
+                <ModalBox visible={modalVisible}
+                    onClose={() => setModalVisible(false)}
+                    onConfirm={() => {
+                        setModalVisible(false)
+                        encerrarRonda()
+                    }} />
             </View>
         </>
     );

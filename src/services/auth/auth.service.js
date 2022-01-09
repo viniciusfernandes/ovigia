@@ -1,10 +1,11 @@
 import WebClient from '../api'
-export const signIn = (credencial, onSuccess) => {
-    WebClient.post('/auth/signin', credencial, 
-    usuario => {
-        WebClient.setToken(usuario.token)
-        onSuccess(usuario)
-    },
+export const signIn = (credencial, onSuccess, onError) => {
+    WebClient.post('/auth/signin', credencial,
+        usuario => {
+            WebClient.setToken(usuario.token)
+            onSuccess(usuario)
+        },
+        onError
     )
 }
 

@@ -1,21 +1,45 @@
 import React from 'react'
-import {  Modal, StyleSheet, Text, View } from 'react-native'
-import { CloseButton } from './CloseButton'
-import { TouchableButton } from './TouchableButton'
-import matisse from '../style/matisse';
+import {
+    Modal,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native'
+import matisse from '../style/matisse'
+import CloseButton from './CloseButton'
+import TouchableButton from './TouchableButton'
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
+    button: {
         alignItems: 'center',
+        backgroundColor: 'white',
+        borderRadius: 25,
+        fontSize: 20,
+        fontWeight: 'bold',
+        justifyContent: 'center',
+        padding: '2%',
+        paddingTop: '2%',
+        elevation: 3,
+    },
+    buttonText: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+})
+
+
+const modalStyles = StyleSheet.create({
+    modalContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
     modal: {
-        backgroundColor: 'white',
+        backgroundColor: "white",
         borderRadius: 20,
         elevation: 3,
-        alignItems: 'center',
+        alignItems: "center",
         width: '50%',
     },
     simButton: {
@@ -25,36 +49,32 @@ const styles = StyleSheet.create({
         width: '50%'
     },
     simText: {
-        color: 'white',
+        color: "white",
         fontSize: 15,
-        fontWeight: 'bold',
-        textAlign: 'center',
+        fontWeight: "bold",
+        textAlign: "center",
     },
     modalText: {
         fontSize: 15,
         fontWeight: 'bold',
         marginBottom: '10%',
         marginTop: '10%',
-        textAlign: 'center'
-    },
-
-});
+        textAlign: "center"
+    }
+})
 
 export default props => {
-    return (
-        <Modal
-            animationType='slide'
-            transparent={true}
-            visible={props.modalOpened}
-        >
-            <View style={styles.container}>
-                <View style={styles.modal}>
-                    <Text style={styles.modalText}>Confirma mesmo?</Text>
-                    <CloseButton onPress={props.onClose} />
-                    <TouchableButton title='Sim' style={styles.simButton}
-                        styleText={styles.simText} onPress={props.onConfirm} />
-                </View>
+    return (<Modal
+        animationType="slide"
+        transparent={true}
+        visible={props.visible}>
+        <View style={modalStyles.modalContainer}>
+            <View style={modalStyles.modal}>
+                <Text style={modalStyles.modalText}>Confirma mesmo?</Text>
+                <CloseButton onPress={props.onClose} />
+                <TouchableButton title='Sim' style={modalStyles.simButton}
+                    styleText={modalStyles.simText} onPress={props.onConfirm} />
             </View>
-        </Modal>
-    )
+        </View>
+    </Modal>);
 }

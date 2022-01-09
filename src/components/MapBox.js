@@ -46,7 +46,6 @@ export const DEFAULT_POSITION = {
 
 export default props => {
     const coordinates = props.coordinates !== undefined && props.coordinates.length > 0 ? props.coordinates : [DEFAULT_POSITION]
-    var markers = []
     const startPosition = coordinates[0]
     const endPosition = coordinates[coordinates.length - 1]
 

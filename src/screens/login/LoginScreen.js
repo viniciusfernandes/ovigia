@@ -8,9 +8,10 @@ import styles from './styles/login.styles'
 import AuthContext from '../../contexts/AuthContext';
 
 export default props => {
+  //const [credencial, setCredencial] = useState({ email: 'vigia2@gmail.com', password: '1234' })
   const [credencial, setCredencial] = useState({ email: 'cliente2@gmail.com', password: '1234' })
   const { signIn } = useContext(AuthContext)
-
+  const [modalVisible] = useState(false)
   return (
     <Container hideProfile={true}>
       <Image
@@ -37,9 +38,8 @@ export default props => {
         </TouchableOpacity>
 
       </View>
-      <TouchableOpacity style={styles.botaoContainer} onPress={() => signIn(credencial)}>
-        <Text style={styles.botao}>Entrar
-        </Text>
+      <TouchableOpacity style={styles.botaoContainer} onPress={() => signIn(credencial, () => modalVisible(true))}>
+        <Text style={styles.botao}>Entrar</Text>
       </TouchableOpacity>
 
       <Text style={[styles.label, styles.mensagemEntrarCom]}>Entrar com as redes</Text>
@@ -65,6 +65,7 @@ export default props => {
         </TouchableOpacity>
 
       </View>
+
 
     </Container>
 
