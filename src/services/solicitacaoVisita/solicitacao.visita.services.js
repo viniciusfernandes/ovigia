@@ -11,7 +11,7 @@ export const criarSolicitacaoVisita = (solicitacao, onSuccess, onError) => {
         onError)
 }
 
-export const obterIdVigiaSolicitado = (idCliente, onSuccess, onError) => {
+export const obterVigiaSolicitado = (idCliente, onSuccess, onError) => {
     WebClient.get(`/solicitacoes-visitas/clientes/${idCliente}/vigia-solicitado`, onSuccess, onError)
 }
 

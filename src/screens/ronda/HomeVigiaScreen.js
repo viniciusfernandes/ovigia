@@ -15,7 +15,7 @@ import { obterContratosVencidos } from '../../services/contrato/contrato.service
 import ContratoClienteBox from '../../components/ContratoClienteBox'
 import FormArea from '../FormArea'
 import HeaderBox from '../../components/HeaderBox'
-import { obterIdVigiaSolicitado } from '../../services/solicitacaoVisita/solicitacao.visita.services'
+import { obterVigiaSolicitado } from '../../services/solicitacaoVisita/solicitacao.visita.services'
 import { obterMensalidadesVencidas, obterValorRecebido, pagarMensalidade } from '../../services/mensalidade/mensalidade.service'
 
 const styles = StyleSheet.create({

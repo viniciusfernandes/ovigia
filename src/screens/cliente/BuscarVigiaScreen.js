@@ -6,7 +6,7 @@ import Container from "../../components/Container"
 import HeaderBox from "../../components/HeaderBox"
 import VigiaRatingBox from "../../components/VigiaRatingBox"
 import AuthContext from "../../contexts/AuthContext"
-import { criarSolicitacaoVisita, obterIdVigiaSolicitado, removerSolicitacaoVisita } from "../../services/solicitacaoVisita/solicitacao.visita.services"
+import { criarSolicitacaoVisita, obterVigiaSolicitado, removerSolicitacaoVisita } from "../../services/solicitacaoVisita/solicitacao.visita.services"
 import { obterVigiasProximos } from "../../services/vigia/vigia.services"
 
 import matisse from "../../style/matisse"
@@ -24,61 +24,73 @@ const styles = StyleSheet.create({
 export default props => {
     const { idUsuario, nomeUsuario, telefoneUsuario, localizacao } = useContext(AuthContext)
     const [vigiaBoxes, setVigiaBoxes] = useState([])
+    const gerarVigiaBox = (vigia, titulo, style, onPress) => {
+        return <VigiaRatingBox key={vigia.id}
+            style={styles.button}
+            styleButton={style}
+            icon={require('../../../images/usuario_branco_75.png')}
+            vigia={vigia}
+            buttonTitle={titulo}
+            onPress={onPress}
+            showMensalidade />
+    }
 
-    //ISSO TEM QUE SER REFEITO POIS ESSE METODO CHAMA O gerarVigiasBoxes E O gerarVigiasBoxes CHAMA ESSE METODO
-    // NAO EH UMA BOA PRATICA TER ESSAS CHAMADAS CICLICAS POIS PODEMOS INCORRER EM UM STACKOVERFLOW
-    const obterTodososVigiasSolicitados = () => obterIdVigiaSolicitado(idUsuario, response => {
-        const idVigiaSolicitado = response !== null ? response.idVigia : null
-        gerarVigiasBoxes(localizacao, idVigiaSolicitado)
-    })
+    const gerarCancelamentoSolicitacaoVigiaBox = (vigia) => {
+        return <VigiaRatingBox key={vigia.id}
+            style={styles.button}
+            styleButton={styles.cancelarButton}
+            icon={require('../../../images/usuario_branco_75.png')}
+            vigia={vigia}
+            buttonTitle={'Cancelar Solicitação'}
+            onPress={() => removerSolicitacaoVisita(idUsuario, () => obterVigias())}
+            showMensalidade />
+    }
 
-    const gerarVigiasBoxes = (localizacao, idVigiaSolicitado) => obterVigiasProximos(localizacao, vigias => {
-        let boxesSelecionados = [];
-        let boxes = vigias.filter(vigia => idVigiaSolicitado === null ? true : vigia.id === idVigiaSolicitado)
-            .map(vigia => {
-                let buttonConfig
-                let onPress
-                if (vigia.id === idVigiaSolicitado) {
-                    buttonConfig = { style: styles.cancelarButton, title: 'Cancelar Solicitação' }
-                    onPress = () => removerSolicitacaoVisita(idUsuario, () => obterTodososVigiasSolicitados())
-                } else {
-                    buttonConfig = { style: styles.solicitarButton, title: 'Solicitar Visita' }
-                    onPress = () => {
-                        let solicitacao = {
-                            idCliente: idUsuario,
-                            nomeCliente: nomeUsuario,
-                            telefoneCliente: telefoneUsuario,
-                            idVigia: vigia.id,
-                            localizacaoCliente: localizacao
-                        }
+    const gerarSolicitacao = vigia => {
+        return {
+            idCliente: idUsuario,
+            nomeCliente: nomeUsuario,
+            telefoneCliente: telefoneUsuario,
+            idVigia: vigia.id,
+            localizacaoCliente: localizacao
+        }
+    }
+
+    const obterVigias = () => obterVigiaSolicitado(idUsuario, vigiaSolicitado => {
+        if (vigiaSolicitado !== null) {
+            const vigiaBox = gerarCancelamentoSolicitacaoVigiaBox(vigiaSolicitado)
+            setVigiaBoxes([vigiaBox])
+        }
+        else {
+            obterVigiasProximos(localizacao, vigias => {
+                let boxesSelecionados = [];
+                let boxes = vigias.map(vigia => {
+                    let onPress = () => {
+                        const solicitacao = gerarSolicitacao(vigia)
                         criarSolicitacaoVisita(solicitacao, () => {
                             boxesSelecionados = []
                             for (var i = 0; i < boxes.length; i++) {
                                 if (boxes[i].key === vigia.id) {
-                                    boxesSelecionados.push(boxes[i])
+                                    const boxSelecionado = gerarCancelamentoSolicitacaoVigiaBox(vigia)
+                                    boxesSelecionados.push(boxSelecionado)
+                                    break
                                 }
                             }
                             boxes = boxesSelecionados
                             setVigiaBoxes(boxes)
                         })
                     }
-                }
 
-                return <VigiaRatingBox key={vigia.id}
-                    style={styles.button}
-                    styleButton={buttonConfig.style}
-                    icon={require('../../../images/usuario_branco_75.png')}
-                    vigia={vigia}
-                    buttonTitle={buttonConfig.title}
-                    onPress={onPress}
-                    showMensalidade />
+                    return gerarVigiaBox(vigia, 'Solicitar Visita', styles.solicitarButton, onPress)
+                })
 
+                setVigiaBoxes(boxes)
             })
-        setVigiaBoxes(boxes)
+        }
     })
 
     useFocusEffect(
-        React.useCallback(() => obterTodososVigiasSolicitados(), [])
+        React.useCallback(() => obterVigias(), [])
     )
 
     return (
