@@ -5,6 +5,7 @@ import { useContext, useState } from "react/cjs/react.development";
 import Container from "../../components/Container";
 import HeaderBox from "../../components/HeaderBox";
 import ImageBoxRightBar from "../../components/ImageBoxRightBar";
+import ModalBox from "../../components/ConfirmacaoModalBox";
 import TouchableButton from "../../components/TouchableButton";
 import VigiaRatingBox from "../../components/VigiaRatingBox";
 import AuthContext from "../../contexts/AuthContext";
@@ -78,6 +79,7 @@ export default props => {
     const [frequenciaRonda, setFrequenciaRonda] = useState({})
     const { idUsuario, nomeUsuario, localizacao } = useContext(AuthContext)
     const [botaoChamado, setBotaoChamado] = useState(null)
+    const [modalVisible, setModalVisible] = useState(false)
 
     const gerarBotaoChamado = chamado => {
         let botao = null
@@ -90,7 +92,9 @@ export default props => {
                         idVigia: vigia.id,
                         nomeCliente: nomeUsuario,
                         localizacao: localizacao
-                    }, chamado => gerarBotaoChamado(chamado))
+                    },
+                        chamado => gerarBotaoChamado(chamado)),
+                        () => setModalVisible(true)
                 }}
             />
         } else {
@@ -136,7 +140,7 @@ export default props => {
 
 
 
-    if (!contrato.isVencido) {
+    if (contrato.isVencido) {
         pagamento = {
             mensagem: 'Você está em atraso',
             vencimento: `O vencimento foi dia ${contrato.dataVencimento}.`,
@@ -175,7 +179,7 @@ export default props => {
                 <Text style={pagamento.style}>{pagamento.mensagem}</Text>
                 <Text style={pagamento.style}>{pagamento.vencimento}</Text>
             </View>
-
+            <ModalBox visible={modalVisible} />
         </Container>
     )
 }

@@ -1,7 +1,5 @@
-import { throwStatement } from "@babel/types"
 import Geolocation from "@react-native-community/geolocation"
 import _BackgroundTimer from "react-native-background-timer"
-import { call } from "react-native-reanimated"
 
 class RondaCoordinatesSingleton {
 

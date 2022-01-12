@@ -133,8 +133,6 @@ export default props => {
             />
         }
         )
-
-        console.info({ valorAReceber, valorRecebido })
         setValores({ valorAReceber, valorRecebido })
         setMensalidadesBoxes(boxes)
     }

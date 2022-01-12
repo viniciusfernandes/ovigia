@@ -5,6 +5,7 @@ import {
     Text,
     View,
 } from 'react-native'
+import { useState } from 'react/cjs/react.development'
 import matisse from '../style/matisse'
 import CloseButton from './CloseButton'
 import TouchableButton from './TouchableButton'
@@ -64,17 +65,22 @@ const modalStyles = StyleSheet.create({
 })
 
 export default props => {
-    return (<Modal
-        animationType="slide"
-        transparent={true}
-        visible={props.visible}>
-        <View style={modalStyles.modalContainer}>
-            <View style={modalStyles.modal}>
-                <Text style={modalStyles.modalText}>Confirma mesmo?</Text>
-                <CloseButton onPress={props.onClose} />
-                <TouchableButton title='Sim' style={modalStyles.simButton}
-                    styleText={modalStyles.simText} onPress={props.onConfirm} />
+    let closeButton
+    if (props.onClose !== null && props.onClose !== undefined) {
+        closeButton = <CloseButton onPress={props.onClose} />
+    }
+    return (
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={props.visible}>
+            <View style={modalStyles.modalContainer}>
+                <View style={modalStyles.modal}>
+                    <Text style={modalStyles.modalText}>{props.message}</Text>
+                    {closeButton}
+                    {props.children}
+                </View>
             </View>
-        </View>
-    </Modal>);
+        </Modal>
+    );
 }

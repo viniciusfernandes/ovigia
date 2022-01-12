@@ -5,7 +5,7 @@ import { useContext, useState } from 'react/cjs/react.development'
 import Container from '../../components/Container'
 import HeaderBox from '../../components/HeaderBox'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
-import ModalBox from '../../components/ModalBox'
+import ConfirmacaoModalBox from '../../components/ConfirmacaoModalBox'
 import AuthContext from '../../contexts/AuthContext'
 import { aceitarChamado, obterChamadosAtivosVigia } from '../../services/chamado/chamado.service'
 import { isChamadoAtivo } from '../../services/constantes'
@@ -83,7 +83,7 @@ export default props => {
 
             <ScrollView>
                 {chamadosBoxes}
-                <ModalBox visible={modalVisivel}
+                <ConfirmacaoModalBox visible={modalVisivel}
                     onClose={() => setModalVisivel(false)}
                     onConfirm={() => {
                         aceitarChamado(idChamado,

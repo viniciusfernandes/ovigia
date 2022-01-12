@@ -9,7 +9,7 @@ import AuthContext from '../../contexts/AuthContext';
 import { criarRonda } from '../../services/ronda/ronda.service';
 import matisse from '../../style/matisse';
 import RondaCoordinateSigleton from './RondaCoordinatesSigleton'
-import ModalBox from '../../components/ModalBox';
+import ModalBox from '../../components/ConfirmacaoModalBox';
 
 const styles = StyleSheet.create({
     botoesContainer: {

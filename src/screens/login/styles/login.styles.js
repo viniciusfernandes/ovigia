@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: '5%',
         textAlign: 'center',
-
     },
     input: {
         borderBottomColor: matisse.laranja,
@@ -85,7 +84,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         marginTop: '8%'
-    }
+    },
+    usuarioInvalido: {
+        color: matisse.laranjaAvermelhado,
+        fontSize: 17,
+        fontWeight: 'bold',
+        marginBottom: '2%',
+        textAlign: 'center',
+    },
 })
 
 export default styles

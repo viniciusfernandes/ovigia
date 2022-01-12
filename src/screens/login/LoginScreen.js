@@ -8,10 +8,11 @@ import styles from './styles/login.styles'
 import AuthContext from '../../contexts/AuthContext';
 
 export default props => {
-  //const [credencial, setCredencial] = useState({ email: 'vigia2@gmail.com', password: '1234' })
-  const [credencial, setCredencial] = useState({ email: 'cliente2@gmail.com', password: '1234' })
+  const [credencial, setCredencial] = useState({ email: 'vigia2@gmail.com', password: '1234' })
+  // const [credencial, setCredencial] = useState({ email: 'cliente2@gmail.com', password: '1234' })
   const { signIn } = useContext(AuthContext)
-  const [modalVisible] = useState(false)
+  const [usuarioInvalido, setUsuarioInvalido] = useState(false)
+  const usuarioInvalidoText = usuarioInvalido ? <Text style={styles.usuarioInvalido}>Ops, usuário/senha inválidos!</Text> : null
   return (
     <Container hideProfile={true}>
       <Image
@@ -34,11 +35,12 @@ export default props => {
           onChangeText={password => setCredencial({ ...credencial, password })} />
 
         <TouchableOpacity>
+          {usuarioInvalidoText}
           <Text style={styles.esqueciSenha}>Esqueci minha senha</Text>
         </TouchableOpacity>
 
       </View>
-      <TouchableOpacity style={styles.botaoContainer} onPress={() => signIn(credencial, () => modalVisible(true))}>
+      <TouchableOpacity style={styles.botaoContainer} onPress={() => signIn(credencial, () => setUsuarioInvalido(true))}>
         <Text style={styles.botao}>Entrar</Text>
       </TouchableOpacity>
 
@@ -65,8 +67,6 @@ export default props => {
         </TouchableOpacity>
 
       </View>
-
-
     </Container>
 
   )

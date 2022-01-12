@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: 'http://10.0.2.2:8080/ovigia',
-    //baseURL: 'http://172.18.0.1:8080/ovigia',
+    // baseURL: 'http://10.0.2.2:8080/ovigia',
+    baseURL: 'http://172.18.0.1:8080/ovigia',
     headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
@@ -45,7 +45,7 @@ axiosInstance.interceptors.response.use(function (response) {
     }
     function handle422(error) {
         console.log(
-            `DEFAULT ERROR: ${error.status} : ${error.error
+            `422 ERROR: ${error.status} : ${error.error
             }, errors: ${listErrors(error.errors)}`
         );
     }
@@ -88,8 +88,6 @@ function handleError(error, onError) {
         onError()
     }
     console.error(error)
-    console.trace()
-
 }
 
 

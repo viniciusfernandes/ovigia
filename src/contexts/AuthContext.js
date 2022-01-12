@@ -19,14 +19,6 @@ export const AuthContextProvider = ({ children }) => {
         })
     }
 
-    const signin = (credential, onError) => signIn(
-        credential,
-        usuario => habilitarHome(usuario, true),
-        () => {
-            setUsuario(null)
-            onError()
-        }
-    )
 
     const signon = (credential, onSuccess) => {
         credential.tipoUsuario = usuario.tipoUsuario
@@ -71,7 +63,14 @@ export const AuthContextProvider = ({ children }) => {
                 }
             },
             signed: !!usuario && usuario.signed,
-            signIn: signin,
+            signIn: (credential, onError) => signIn(
+                credential,
+                usuario => habilitarHome(usuario, true),
+                () => {
+                    setUsuario(null)
+                    onError()
+                }
+            ),
             signOn: signon,
             singOut: () => setUsuario(null)
         }}>
