@@ -1,7 +1,54 @@
 import WebClient from '../api'
+const BATCH_SIZE = 20000
+const clonarRonda = (ronda, localizacoes) => {
+    return {
+        idVigia: ronda.idVigia,
+        localizacoes: localizacoes,
+        inicio: ronda.inicio,
+        fim: ronda.fim
+    }
+}
+const gerarBatchsRonda = ronda => {
+    const locals = ronda.localizacoes
+    let rondas = []
+    if (locals.length <= BATCH_SIZE) {
+        rondas.push(ronda)
+        return rondas
+    }
 
-export const criarRonda = (ronda, callback) => {
-    WebClient.post(`/vigias/${ronda.idVigia}/rondas`, ronda, callback)
+    let localizacoes = []
+    for (let i = 0; i < locals.length; i++) {
+        localizacoes.push(locals[i])
+        if (localizacoes.length == BATCH_SIZE) {
+            let novaRonda = clonarRonda(ronda, localizacoes)
+            rondas.push(novaRonda)
+            localizacoes = []
+        }
+    }
+
+    if (localizacoes.length > 0) {
+        rondas.push(clonarRonda(ronda, localizacoes))
+    }
+    return rondas
+}
+export const criarRonda = (ronda, onSuccess) => {
+    const rondas = gerarBatchsRonda(ronda)
+    console.info('batchs: ' + rondas.length)
+    const ULTIMO = rondas.length - 1
+
+    let batchIdx = 0;
+    function criarRondasEmBatch() {
+        setTimeout(() => {
+            console.info('enviou ronda ' + batchIdx)
+            WebClient.post(`/vigias/${ronda.idVigia}/rondas`, rondas[batchIdx], batchIdx == ULTIMO ? onSuccess : reponse => { })
+            batchIdx++;
+            if (batchIdx < rondas.length) {
+                criarRondasEmBatch();
+            }
+        }, 600)
+    }
+
+    criarRondasEmBatch();
 }
 
 export const obterResumoRonda = (idVigia, onSuccess, onError) => {

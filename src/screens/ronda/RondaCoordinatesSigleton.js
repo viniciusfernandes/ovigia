@@ -20,7 +20,7 @@ class RondaCoordinatesSingleton {
         }
 
         this.rondaIniciada = true
-        const delta = 0.00010
+        const delta = 0.00020
 
         _BackgroundTimer.runBackgroundTimer(() => {
             Geolocation.getCurrentPosition(
@@ -42,7 +42,7 @@ class RondaCoordinatesSingleton {
                 error => console.error(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
             )
         },
-            1000);
+            500);
     }
 
     pausarRonda = () => {
