@@ -1,7 +1,6 @@
+import React, { useContext, useState } from "react";
 import { useFocusEffect } from "@react-navigation/core";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { useContext, useState } from "react/cjs/react.development";
+import { StyleSheet } from "react-native";
 import AuthContext from "../../contexts/AuthContext";
 import { obterContratoAtivoCliente } from "../../services/contrato/contrato.services";
 import matisse from "../../style/matisse";
@@ -50,10 +49,10 @@ export default props => {
     useFocusEffect(
         React.useCallback(() => {
             obterContratoAtivoCliente(idUsuario, contrato => {
-                    if (contrato != null) {
-                        setContrato(contrato)
-                    }
-                })
+                if (contrato != null) {
+                    setContrato(contrato)
+                }
+            })
         }, [])
     )
     const emptyContrato = contrato.dataVencimento === undefined

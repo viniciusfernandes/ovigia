@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { Image, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import PerfilVigia from '../screens/vigia/PerfilVigia'
 import styles from './styles/app.routes.styles'
 import RondaVigiaScreen from '../screens/ronda/RondaVigiaScreen';
 import ChamadosVigiaScreen from '../screens/vigia/ChamadosVigiaScreen';
@@ -39,7 +38,6 @@ export default () => {
         screens.push(<Screen key='rondaVigia' name='rondaVigia' component={RondaVigiaScreen} />)
         screens.push(<Screen key='chamados' name='chamados' component={ChamadosVigiaScreen} />)
     } else {
-        screens.push(<Screen key='testeLogin' name='testeLogin' component={TesteLoginScreen} />)
         screens.push(<Screen key='homeCliente' name='homeCliente' component={HomeClienteScreen} />)
         screens.push(<Screen key='buscarVigia' name='buscarVigia' component={BuscarVigiaScreen} />)
     }

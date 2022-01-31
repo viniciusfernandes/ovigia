@@ -5,11 +5,8 @@ import {
     Text,
     View,
 } from 'react-native'
-import { useState } from 'react/cjs/react.development'
 import matisse from '../style/matisse'
 import CloseButton from './CloseButton'
-import TouchableButton from './TouchableButton'
-
 
 const styles = StyleSheet.create({
     button: {

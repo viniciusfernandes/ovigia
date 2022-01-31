@@ -1,7 +1,6 @@
+import React, { useContext, useState } from "react";
 import { useFocusEffect } from "@react-navigation/core";
-import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useContext, useState } from "react/cjs/react.development";
 import Container from "../../components/Container";
 import HeaderBox from "../../components/HeaderBox";
 import ImageBoxRightBar from "../../components/ImageBoxRightBar";
@@ -76,9 +75,24 @@ export default props => {
         telefone: contrato.telefoneVigia,
     }
 
-    const [frequenciaRonda, setFrequenciaRonda] = useState({})
+    const [frequenciaRonda, setFrequenciaRonda] = useState({
+        dataUltimaRonda: 'Data não definida',
+        totalRonda: 0
+    })
     const { idUsuario, nomeUsuario, localizacao } = useContext(AuthContext)
-    const [botaoChamado, setBotaoChamado] = useState(null)
+    const [botaoChamado, setBotaoChamado] = useState(<TouchableButton style={[styles.chamadoButton, { backgroundColor: matisse.laranja }]} styleText={styles.chamadoTextButton}
+        title='Realizar Chamado'
+        onPress={() => {
+            criarChamado({
+                idCliente: idUsuario,
+                idVigia: vigia.id,
+                nomeCliente: nomeUsuario,
+                localizacao: localizacao
+            },
+                chamado => gerarBotaoChamado(chamado)),
+                () => setModalVisible(true)
+        }}
+    />)
     const [modalVisible, setModalVisible] = useState(false)
 
     const gerarBotaoChamado = chamado => {

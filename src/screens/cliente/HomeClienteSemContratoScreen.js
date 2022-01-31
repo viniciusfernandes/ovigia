@@ -1,14 +1,9 @@
-import { useFocusEffect } from "@react-navigation/core";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { useContext, useState } from "react/cjs/react.development";
+import React, { useContext } from "react";
+import { StyleSheet, View } from "react-native";
 import Container from "../../components/Container";
 import HeaderBox from "../../components/HeaderBox";
-import ImageBoxRightBar from "../../components/ImageBoxRightBar";
 import VigiaRatingBox from "../../components/VigiaRatingBox";
 import AuthContext from "../../contexts/AuthContext";
-import { cancelarContrato, obterContratoAtivoCliente } from "../../services/contrato/contrato.services";
-import { obterFrequenciaRonda } from "../../services/ronda/ronda.service";
 import matisse from "../../style/matisse";
 
 const styles = StyleSheet.create({

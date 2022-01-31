@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text, Image } from 'react-native'
-import { useContext } from 'react/cjs/react.development'
 import Container from '../../components/Container'
 import TouchableButton from '../../components/TouchableButton'
 import { larguraPercentual } from '../../constantes/medidas/Medidas'

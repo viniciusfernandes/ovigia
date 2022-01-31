@@ -1,7 +1,6 @@
 import { useFocusEffect } from "@react-navigation/core"
-import React from "react"
+import React, { useContext, useState } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
-import { useContext, useState } from "react/cjs/react.development"
 import Container from "../../components/Container"
 import HeaderBox from "../../components/HeaderBox"
 import VigiaRatingBox from "../../components/VigiaRatingBox"
