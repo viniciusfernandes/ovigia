@@ -1,5 +1,4 @@
-import React from 'react'
-import { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import Container from '../../components/Container'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
@@ -8,7 +7,7 @@ import TouchableButton from '../../components/TouchableButton'
 import AuthContext from '../../contexts/AuthContext'
 import matisse from '../../style/matisse'
 
-import { useState } from 'react/cjs/react.development'
+
 import { obterResumoRonda } from '../../services/ronda/ronda.service'
 import { useFocusEffect } from '@react-navigation/core'
 import { obterContratosVencidos } from '../../services/contrato/contrato.services'
@@ -92,8 +91,14 @@ const styles = StyleSheet.create({
 export default props => {
     const { idUsuario } = useContext(AuthContext)
     const [mensalidadesBoxes, setMensalidadesBoxes] = useState([])
-    const [valores, setValores] = useState({})
-    const [resumoRonda, setResumoRonda] = useState({})
+    const [valores, setValores] = useState({ valorAReceber: 0.0, valorRecebido: 0.0 })
+    const [resumoRonda, setResumoRonda] = useState({
+        distancia: 0.0,
+        escalaTempo: 'h',
+        tempo: 0,
+        totalChamados: 0,
+        data: 'Data não definido'
+    })
 
     const gerarBox = (titulo, valor) => {
         return (
@@ -184,6 +189,7 @@ export default props => {
                 {mensalidadesBoxes}
             </ScrollView>
         </Container>
+
 
     )
 }

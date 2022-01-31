@@ -40,10 +40,10 @@ export default props => {
             <Image style={styles.perfil} source={require('../../images/perfil-vinicius.jpg')} />
         </TouchableOpacity>
     )
-    const profilePhoto = props.hideProfile === undefined ? profileButton : null
+    // const profilePhoto = props.hideProfile === undefined ? profileButton : null
     return (
         <SafeAreaView style={customStyle}>
-            {profilePhoto}
+            {profileButton}
             {props.children}
         </SafeAreaView>
     )

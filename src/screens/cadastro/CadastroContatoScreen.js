@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { View, Text } from 'react-native'
-import { useContext } from 'react/cjs/react.development'
 import Container from '../../components/Container'
 import LabelInput from '../../components/LabelInput'
 import TouchableButton from '../../components/TouchableButton'

@@ -6,6 +6,7 @@ import {
 import Container from '../../components/Container';
 import styles from './styles/login.styles'
 import AuthContext from '../../contexts/AuthContext';
+import { useNavigation } from '@react-navigation/native';
 
 export default props => {
   const [credencial, setCredencial] = useState({ email: 'vigia2@gmail.com', password: '1234' })
@@ -13,6 +14,7 @@ export default props => {
   const { signIn } = useContext(AuthContext)
   const [usuarioInvalido, setUsuarioInvalido] = useState(false)
   const usuarioInvalidoText = usuarioInvalido ? <Text style={styles.usuarioInvalido}>Ops, usuário/senha inválidos!</Text> : null
+  useNavigation
   return (
     <Container hideProfile={true}>
       <Image
@@ -40,7 +42,9 @@ export default props => {
         </TouchableOpacity>
 
       </View>
-      <TouchableOpacity style={styles.botaoContainer} onPress={() => signIn(credencial, () => setUsuarioInvalido(true))}>
+      <TouchableOpacity style={styles.botaoContainer} onPress={() => signIn(credencial, () => props.navigation.navigate('homeVigia'))}>
+
+
         <Text style={styles.botao}>Entrar</Text>
       </TouchableOpacity>
 

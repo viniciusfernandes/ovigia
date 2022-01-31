@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     input: {
         borderBottomColor: matisse.laranja,
         borderBottomWidth: 2,
+        color: 'black',
         height: 40,
         marginLeft: 20,
         marginRight: 20,

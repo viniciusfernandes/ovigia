@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useContext } from "react/cjs/react.development";
+import React, { useState, useContext } from "react";
+import { StyleSheet } from "react-native";
 import Container from "../../components/Container";
 import HeaderBox from "../../components/HeaderBox";
-import ImageBoxRightBar from "../../components/ImageBoxRightBar";
 import AuthContext from "../../contexts/AuthContext";
 import matisse from "../../style/matisse";
 import { obterSolicitacoesVisitas, removerSolicitacaoVisita } from "../../services/solicitacaoVisita/solicitacao.visita.services"

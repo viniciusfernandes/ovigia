@@ -12,6 +12,7 @@ import AuthContext from '../contexts/AuthContext';
 import BuscarVigiaScreen from '../screens/cliente/BuscarVigiaScreen';
 import SolicitacoesVisitasScreen from '../screens/vigia/SolicitacoesVisitasScreen';
 import HomeClienteScreen from '../screens/cliente/HomeClienteScreen';
+
 function getIcon(focused, screenName) {
     if ('homeVigia' === screenName || 'homeCliente' === screenName) {
         return focused ? require('../../images/overview_laranja_75.png') : require('../../images/overview_preto_75.png')
@@ -38,6 +39,7 @@ export default () => {
         screens.push(<Screen key='rondaVigia' name='rondaVigia' component={RondaVigiaScreen} />)
         screens.push(<Screen key='chamados' name='chamados' component={ChamadosVigiaScreen} />)
     } else {
+        screens.push(<Screen key='testeLogin' name='testeLogin' component={TesteLoginScreen} />)
         screens.push(<Screen key='homeCliente' name='homeCliente' component={HomeClienteScreen} />)
         screens.push(<Screen key='buscarVigia' name='buscarVigia' component={BuscarVigiaScreen} />)
     }
