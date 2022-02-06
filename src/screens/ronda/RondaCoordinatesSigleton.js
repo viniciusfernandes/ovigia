@@ -7,20 +7,17 @@ class RondaCoordinatesSingleton {
         this.instance = null
         this.coordinates = []
         this.rondaIniciada = false
-        this.callbacks = []
     }
 
     getCoordinates = () => {
         return this.coordinates
     }
 
-    iniciarRonda = (callback) => {
-        if (callback !== undefined) {
-            this.callbacks.push(callback)
-        }
+    iniciarRonda = onGetLocation => {
+
 
         this.rondaIniciada = true
-        const delta = 0.00020
+        const delta = 0.00010
 
         _BackgroundTimer.runBackgroundTimer(() => {
             Geolocation.getCurrentPosition(
@@ -34,15 +31,14 @@ class RondaCoordinatesSingleton {
                         longitudeDelta: 0.001,
                         velocidade: coords.speed
                     })
-                    if (this.callbacks.length > 0) {
-                        this.callbacks.forEach(call => call(this.coordinates))
-                    }
+                    console.info('ongetlocaltion')
+                    onGetLocation(this.coordinates)
 
                 },
                 error => console.error(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
             )
         },
-            500);
+            3000);
     }
 
     pausarRonda = () => {

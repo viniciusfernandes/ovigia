@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
         backgroundColor: matisse.cinzaTransparente,
         borderColor: 'white',
         borderRadius: 20,
-        borderStyle:'solid',
-        borderWidth:4   ,
+        borderStyle: 'solid',
+        borderWidth: 4,
         elevation: 5,
         height: '30%',
         justifyContent: 'center',
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     },
     fullMapaContainer: {
         alignItems: 'center',
-      
+
         height: '100%',
         justifyContent: 'center',
         width: '100%',
@@ -54,7 +54,7 @@ export default props => {
     const pinTitle = props.titlePin ? props.titlePin : 'Você partiu daqui.'
     return (
         <View key={props.id} style={[containerStyle, props.style]}>
-            <MapView style={mapaStyle} initialRegion={endPosition} region={endPosition}>
+            <MapView style={mapaStyle} initialRegion={endPosition} region={endPosition} loadingEnabled={true}>
                 <Marker key='startMarker'
                     coordinate={startPosition}
                     pinColor={'yellow'}
@@ -64,12 +64,12 @@ export default props => {
                     coordinate={endPosition}
                     title={'Você está aqui!'}
                 />
-                <Polyline
+                {/* <Polyline
                     coordinates={coordinates}
                     strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
                     strokeColors={['#7F0000']}
                     strokeWidth={2}
-                />
+                /> */}
             </MapView>
         </View>
     )

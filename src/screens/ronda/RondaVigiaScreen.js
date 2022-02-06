@@ -1,7 +1,7 @@
 
 import React, { useContext } from 'react';
 import { useState } from 'react';
-import { Modal, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import _BackgroundTimer from 'react-native-background-timer';
 import MapBox from '../../components/MapBox';
 import TouchableButton from '../../components/TouchableButton';
@@ -47,8 +47,10 @@ export default props => {
 
     const { idUsuario } = useContext(AuthContext)
 
+    console.info('rerender ronda vigia. coordinates: ' + state.coordinates.length)
     const iniciarRonda = () => {
         RondaCoordinateSigleton.iniciarRonda(coordinates => {
+            console.info('setting acumulated coordinates')
             setState({ rondaIniciada: true, coordinates: coordinates })
         })
     }
@@ -95,7 +97,7 @@ export default props => {
                 />
             </View>
             <View style={styles.mapaContainer}>
-                <MapBox id='rondaScreen' coordinates={[...state.coordinates]} fullScreen drawLines />
+                <MapBox id='rondaScreen' coordinates={state.coordinates.slice()} fullScreen drawLines />
                 <ModalBox visible={modalVisible}
                     onClose={() => setModalVisible(false)}
                     onConfirm={() => {
