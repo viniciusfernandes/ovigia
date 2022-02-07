@@ -42,7 +42,7 @@ export default props => {
         </TouchableOpacity>
 
       </View>
-      <TouchableOpacity style={styles.botaoContainer} onPress={() => signIn(credencial, () => props.navigation.navigate('homeVigia'))}>
+      <TouchableOpacity style={styles.botaoContainer} onPress={() => signIn(credencial, () => setUsuarioInvalido(true))}>
 
 
         <Text style={styles.botao}>Entrar</Text>
