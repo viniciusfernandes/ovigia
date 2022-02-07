@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
         marginLeft: '5%',
         marginRight: '5%',
         marginTop: '5%',
-        height: 90
     },
     icon: {
         borderRadius: 10,

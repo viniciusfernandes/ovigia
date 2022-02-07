@@ -19,3 +19,7 @@ export function isChamadoAtivo(chamado) {
     return TipoSituacaoChamado.ATIVO === chamado.situacao
 }
 
+export function isChamadoAceito(chamado) {
+    return TipoSituacaoChamado.ACEITO === chamado.situacao
+}
+

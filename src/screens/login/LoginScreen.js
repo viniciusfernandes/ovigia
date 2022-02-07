@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export default props => {
   const [credencial, setCredencial] = useState({ email: 'vigia1@gmail.com', password: '1234' })
-  // const [credencial, setCredencial] = useState({ email: 'cliente2@gmail.com', password: '1234' })
+  //const [credencial, setCredencial] = useState({ email: 'cliente1@gmail.com', password: '1234' })
   const { signIn } = useContext(AuthContext)
   const [usuarioInvalido, setUsuarioInvalido] = useState(false)
   const usuarioInvalidoText = usuarioInvalido ? <Text style={styles.usuarioInvalido}>Ops, usuário/senha inválidos!</Text> : null

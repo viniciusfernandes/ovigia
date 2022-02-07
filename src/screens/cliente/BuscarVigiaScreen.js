@@ -17,7 +17,10 @@ const styles = StyleSheet.create({
         backgroundColor: matisse.laranja
     },
     button: {
-        marginBottom: 10
+        backgroundColor: 'white',
+        borderColor: matisse.laranja,
+        borderWidth: 2,
+        marginBottom: '5%',
     }
 })
 export default props => {
@@ -93,10 +96,10 @@ export default props => {
     )
 
     return (
-        <Container>
-            <HeaderBox style={{ marginBottom: 10 }} headers={['Encontre o vigia mais', 'próximo a você.']}
+        <Container backgroundColor='white'>
+            <HeaderBox color='black' style={{ marginBottom: 10 }} headers={['Encontre o vigia mais', 'próximo a você.']}
                 detail={'Solicite seus valores. Vamos lá!'}
-                color='white' />
+            />
             <ScrollView style={{ width: '100%' }}>
                 <View style={{ alignItems: 'center' }}>
                     {vigiaBoxes}
