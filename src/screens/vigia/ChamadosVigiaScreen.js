@@ -60,7 +60,7 @@ export default props => {
     })
 
     const removerChamado = (chamado, boxes) => {
-        const boxesSelecionados = boxes.filter(box => box.key !== chamado.id)
+        const boxesSelecionados = boxes.length == 1 ? [] : boxes.filter(box => box.key !== chamado.id)
         setState({ ...state, chamadosBoxes: boxesSelecionados })
     }
 

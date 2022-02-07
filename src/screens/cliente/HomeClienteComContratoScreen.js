@@ -99,7 +99,7 @@ export default props => {
         let botao = null
         if (!chamado) {
             botao = <TouchableButton style={[styles.chamadoButton, { backgroundColor: matisse.laranja }]} styleText={styles.chamadoTextButton}
-                title='Realizar Chamado'
+                title='Chamar Vigia'
                 onPress={() => {
                     criarChamado({
                         idCliente: idUsuario,
