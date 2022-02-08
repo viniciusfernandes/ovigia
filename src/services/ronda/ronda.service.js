@@ -33,13 +33,11 @@ const gerarBatchsRonda = ronda => {
 }
 export const criarRonda = (ronda, onSuccess) => {
     const rondas = gerarBatchsRonda(ronda)
-    console.info('batchs: ' + rondas.length)
     const ULTIMO = rondas.length - 1
 
     let batchIdx = 0;
     function criarRondasEmBatch() {
         setTimeout(() => {
-            console.info('enviou ronda ' + batchIdx)
             WebClient.post(`/vigias/${ronda.idVigia}/rondas`, rondas[batchIdx], batchIdx == ULTIMO ? onSuccess : reponse => { })
             batchIdx++;
             if (batchIdx < rondas.length) {

@@ -44,9 +44,6 @@ const gerarStar = (id, status, onPress) => {
     }
 
     return (
-        // <TouchableOpacity key={id} style={styles.star} onPress={() => console.info('xxxxxxxxx')}>
-        //      <Image style={{ width: '100%', height: '100%' }} source={star} />
-        //  </TouchableOpacity>
         <TouchableButton key={id} style={[styles.star, styleBackground]} styleText={styleText} title={id + 1} onPress={onPress} />
     )
 }

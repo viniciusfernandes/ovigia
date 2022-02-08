@@ -25,15 +25,15 @@ class RondaCoordinatesSingleton {
                     var coords = position.coords
                     this.coordinates.push({
                         timestamp: new Date().getTime(),
-                        latitude: Math.random() > 0.5 ? coords.latitude + delta : coords.latitude - delta,
-                        longitude: Math.random() > 0.5 ? coords.longitude - delta : coords.longitude + delta,
+                        // latitude: Math.random() > 0.5 ? coords.latitude + delta : coords.latitude - delta,
+                        // longitude: Math.random() > 0.5 ? coords.longitude - delta : coords.longitude + delta,
+                        latitude: coords.latitude,
+                        longitude: coords.longitude,
                         latitudeDelta: 0.001,
                         longitudeDelta: 0.001,
                         velocidade: coords.speed
                     })
-                    console.info('ongetlocaltion')
                     onGetLocation(this.coordinates)
-
                 },
                 error => console.error(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
             )

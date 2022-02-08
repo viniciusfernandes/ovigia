@@ -46,11 +46,8 @@ export default props => {
     })
 
     const { idUsuario } = useContext(AuthContext)
-
-    console.info('rerender ronda vigia. coordinates: ' + state.coordinates.length)
     const iniciarRonda = () => {
         RondaCoordinateSigleton.iniciarRonda(coordinates => {
-            console.info('setting acumulated coordinates')
             setState({ rondaIniciada: true, coordinates: coordinates })
         })
     }
