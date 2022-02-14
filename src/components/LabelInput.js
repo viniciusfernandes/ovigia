@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
 import {
     StyleSheet,
-    Text, TextInput, View
+    Text, View
 } from 'react-native';
 import matisse from '../style/matisse';
+import Input from './Input';
 
 const styles = StyleSheet.create({
     container: {
         width: '80%'
-    },
-    input: {
-        backgroundColor: 'white',
-        height: 40,
-        paddingLeft: 20,
-        borderRadius: 20,
-        elevation: 3,
-        width: '100%'
     },
     titulo: {
         color: matisse.cinzaEscuro,
@@ -32,7 +25,7 @@ export default props => {
     return (
         <View style={[styles.container, props.style]}>
             {label}
-            <TextInput value={props.valor} style={[styles.input, props.inputStyle]} onChangeText={props.onChangeText} />
+            <Input value={props.valor} style={[styles.input, props.inputStyle]} onChangeText={props.onChangeText} />
         </View>
     )
 }

@@ -13,8 +13,10 @@ const styles = StyleSheet.create({
     },
     formulario: {
         backgroundColor: 'white',
-        elevation: 5,
         borderRadius: 30,
+        elevation: 5,
+        paddingLeft: '5%',
+        paddingRight: '5%',
         width: '80%'
     },
     esqueciSenha: {
@@ -25,10 +27,10 @@ const styles = StyleSheet.create({
     input: {
         borderBottomColor: matisse.laranja,
         borderBottomWidth: 2,
+        borderRadius: 0,
         color: 'black',
+        elevation: 0,
         height: 40,
-        marginLeft: 20,
-        marginRight: 20,
         paddingBottom: 0,
     },
     label: {
