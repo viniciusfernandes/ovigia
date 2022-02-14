@@ -9,7 +9,8 @@ import AuthContext from '../../contexts/AuthContext';
 import { criarRonda } from '../../services/ronda/ronda.service';
 import matisse from '../../style/matisse';
 import RondaCoordinateSigleton from './RondaCoordinatesSigleton'
-import ModalBox from '../../components/ConfirmacaoModalBox';
+import ConfirmacaoModalBox from '../../components/ConfirmacaoModalBox';
+import ModalBox from '../../components/ModalBox';
 
 const styles = StyleSheet.create({
     botoesContainer: {
@@ -39,22 +40,28 @@ const styles = StyleSheet.create({
 })
 
 export default props => {
-    const [modalVisible, setModalVisible] = useState(false)
     const [state, setState] = useState({
         rondaIniciada: RondaCoordinateSigleton.rondaIniciada,
-        coordinates: RondaCoordinateSigleton.coordinates
+        coordinates: RondaCoordinateSigleton.coordinates,
+        modalVisible: false
     })
 
     const { idUsuario } = useContext(AuthContext)
+    console.info('entrando na tela ronda vigia: ' + new Date())
+
     const iniciarRonda = () => {
         RondaCoordinateSigleton.iniciarRonda(coordinates => {
-            setState({ rondaIniciada: true, coordinates: coordinates })
+            console.info('atualizando coordenadas: ' + new Date())
+            setState({ rondaIniciada: true, modalVisible: false, coordinates: coordinates })
+            console.info('atualizou coordenadas: ' + new Date())
         })
     }
 
     const pausarRonda = () => {
-        setState({ rondaIniciada: false, coordinates: state.coordinates })
-        RondaCoordinateSigleton.pausarRonda()
+        RondaCoordinateSigleton.pausarRonda(() => setState({
+            rondaIniciada: false,
+            coordinates: state.coordinates
+        }))
     }
 
     const encerrarRonda = () => {
@@ -66,13 +73,14 @@ export default props => {
         }
 
         criarRonda(ronda, response => {
-            RondaCoordinateSigleton.encerrarRonda()
-            setState({ rondaIniciada: false, coordinates: [] })
-            setModalVisible(false)
-            props.navigation.navigate('homeVigia')
+            RondaCoordinateSigleton.encerrarRonda(() => {
+                setState({ rondaIniciada: false, modalVisible: false, coordinates: [] })
+                props.navigation.navigate('homeVigia')
+            })
         })
 
     }
+
     return (
         <>
             <View style={styles.botoesContainer}>
@@ -89,16 +97,15 @@ export default props => {
                 <TouchableButton style={styles.concluirButton} styleText={{ fontSize: 20 }}
                     title='Concluir Ronda' onPress={() => {
                         pausarRonda()
-                        setModalVisible(true)
+                        setState({ ...state, modalVisible: true })
                     }}
                 />
             </View>
             <View style={styles.mapaContainer}>
                 <MapBox id='rondaScreen' coordinates={state.coordinates.slice()} fullScreen drawLines />
-                <ModalBox visible={modalVisible}
-                    onClose={() => setModalVisible(false)}
+                <ConfirmacaoModalBox visible={state.modalVisible}
+                    onClose={() => setState({ ...state, modalVisible: false })}
                     onConfirm={() => {
-                        setModalVisible(false)
                         encerrarRonda()
                     }} />
             </View>

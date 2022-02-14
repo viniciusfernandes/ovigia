@@ -64,12 +64,12 @@ export default props => {
                     coordinate={endPosition}
                     title={'Você está aqui!'}
                 />
-                {/* <Polyline
+                <Polyline
                     coordinates={coordinates}
                     strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
                     strokeColors={['#7F0000']}
                     strokeWidth={2}
-                /> */}
+                />
             </MapView>
         </View>
     )

@@ -34,7 +34,6 @@ const gerarBatchsRonda = ronda => {
 export const criarRonda = (ronda, onSuccess) => {
     const rondas = gerarBatchsRonda(ronda)
     const ULTIMO = rondas.length - 1
-
     let batchIdx = 0;
     function criarRondasEmBatch() {
         setTimeout(() => {

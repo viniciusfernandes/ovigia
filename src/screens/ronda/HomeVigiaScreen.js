@@ -16,6 +16,7 @@ import FormArea from '../FormArea'
 import HeaderBox from '../../components/HeaderBox'
 import { obterVigiaSolicitado } from '../../services/solicitacaoVisita/solicitacao.visita.services'
 import { obterMensalidadesVencidas, obterValorRecebido, pagarMensalidade } from '../../services/mensalidade/mensalidade.service'
+import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace'
 
 const styles = StyleSheet.create({
     box: {
@@ -85,19 +86,19 @@ const styles = StyleSheet.create({
     },
 })
 
-
-
-
 export default props => {
     const { idUsuario } = useContext(AuthContext)
-    const [mensalidadesBoxes, setMensalidadesBoxes] = useState([])
-    const [valores, setValores] = useState({ valorAReceber: 0.0, valorRecebido: 0.0 })
-    const [resumoRonda, setResumoRonda] = useState({
-        distancia: 0.0,
-        escalaTempo: 'h',
-        tempo: 0,
-        totalChamados: 0,
-        data: 'Data não definido'
+    const [state, setState] = useState({
+        valorAReceber: 0.0,
+        valorRecebido: 0.0,
+        mensalidadesBoxes: [],
+        resumoRonda: {
+            distancia: 0.0,
+            escalaTempo: 'h',
+            tempo: 0,
+            totalChamados: 0,
+            data: 'Data não definido'
+        }
     })
 
     const gerarBox = (titulo, valor) => {
@@ -131,21 +132,33 @@ export default props => {
                             }
                         }
                         boxes = boxesNaoSelecionados
-                        setMensalidadesBoxes(boxes)
-                        setValores({ valorAReceber, valorRecebido })
+                        setState({
+                            ...state,
+                            valorAReceber: valorAReceber.toFixed(2),
+                            valorRecebido: valorRecebido.toFixed(2),
+                            mensalidadesBoxes: boxes
+                        })
                     })
                 }}
             />
         }
         )
-        setValores({ valorAReceber, valorRecebido })
-        setMensalidadesBoxes(boxes)
+        setState({
+            ...state,
+            valorAReceber: valorAReceber,
+            valorRecebido: valorRecebido,
+            mensalidadesBoxes: boxes
+        })
     }
+    console.info('init: ' + JSON.stringify(state.resumoRonda))
 
 
     useFocusEffect(
         React.useCallback(() => {
-            obterResumoRonda(idUsuario, resumoRonda => setResumoRonda(resumoRonda))
+            obterResumoRonda(idUsuario, resumoRonda => {
+                console.info(JSON.stringify({ ...state, resumoRonda: resumoRonda }))
+                setState({ ...state, resumoRonda: resumoRonda })
+            })
             obterMensalidadesVencidas(idUsuario, mensalidades => {
                 obterValorRecebido(idUsuario, response => {
                     let valorRecebido = response != null ? response.valorRecebido : 0.0
@@ -165,13 +178,13 @@ export default props => {
                 <Text style={styles.rondaTitulo}>Resumo da Última Ronda!</Text>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    {gerarBox('Distância (km)', resumoRonda.distancia)}
-                    {gerarBox(`Tempo (${resumoRonda.escalaTempo})`, resumoRonda.tempo)}
-                    {gerarBox('Chamados', resumoRonda.totalChamados)}
+                    {gerarBox('Distância (km)', state.resumoRonda.distancia)}
+                    {gerarBox(`Tempo (${state.resumoRonda.escalaTempo})`, state.resumoRonda.tempo)}
+                    {gerarBox('Chamados', state.resumoRonda.totalChamados)}
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 5 }}>
                     <Text style={styles.dataHora} >Data ronda:</Text>
-                    <Text style={[styles.dataHora, { marginLeft: 15 }]} >{resumoRonda.data}</Text>
+                    <Text style={[styles.dataHora, { marginLeft: 15 }]} >{state.resumoRonda.data}</Text>
                 </View>
 
             </ImageBoxRightBar>
@@ -179,14 +192,14 @@ export default props => {
             <View style={{ backgroundColor: matisse.cinzaClaro, height: 3, marginBottom: '5%', width: '80%' }} />
 
             <View style={{ alignItems: 'center' }}>
-                <Text style={styles.textMensalidades}>Suas Mensalidades Vencidas. Total: {mensalidadesBoxes.length}</Text>
+                <Text style={styles.textMensalidades}>Suas Mensalidades Vencidas. Total: {state.mensalidadesBoxes.length}</Text>
             </View>
             <View style={{ flexDirection: 'row', marginBottom: '3%' }}>
-                <Text style={{ marginRight: '5%', fontWeight: 'bold' }}  >À Receber: R$ {valores.valorAReceber}</Text>
-                <Text style={{ marginLeft: '5%', fontWeight: 'bold' }} >Recebido: R$ {valores.valorRecebido}</Text>
+                <Text style={{ marginRight: '5%', fontWeight: 'bold' }}  >À Receber: R$ {state.valorAReceber}</Text>
+                <Text style={{ marginLeft: '5%', fontWeight: 'bold' }} >Recebido: R$ {state.valorRecebido}</Text>
             </View>
             <ScrollView style={{ width: '100%' }}>
-                {mensalidadesBoxes}
+                {state.mensalidadesBoxes}
             </ScrollView>
         </Container>
 

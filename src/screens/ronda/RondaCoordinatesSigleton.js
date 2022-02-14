@@ -4,9 +4,10 @@ import _BackgroundTimer from "react-native-background-timer"
 class RondaCoordinatesSingleton {
 
     constructor() {
-        this.instance = null
         this.coordinates = []
         this.rondaIniciada = false
+        this.timerId = null
+        this.timerDelay = 3000
     }
 
     getCoordinates = () => {
@@ -14,19 +15,24 @@ class RondaCoordinatesSingleton {
     }
 
     iniciarRonda = onGetLocation => {
-
-
+        console.info('iniciar ronda: ' + this.timerId + ' data: ' + new Date())
         this.rondaIniciada = true
         const delta = 0.00010
 
-        _BackgroundTimer.runBackgroundTimer(() => {
+        if (this.timerId !== null) {
+            console.info('limpando o timer: ' + this.timerId + ' data: ' + new Date())
+            _BackgroundTimer.clearInterval(this.timerId)
+        }
+
+        this.timerId = _BackgroundTimer.setInterval(() => {
+            console.info('executando o timer: ' + this.timerId + ' data: ' + new Date())
             Geolocation.getCurrentPosition(
                 position => {
                     var coords = position.coords
                     this.coordinates.push({
                         timestamp: new Date().getTime(),
-                        // latitude: Math.random() > 0.5 ? coords.latitude + delta : coords.latitude - delta,
-                        // longitude: Math.random() > 0.5 ? coords.longitude - delta : coords.longitude + delta,
+                        //latitude: Math.random() > 0.5 ? coords.latitude + delta : coords.latitude - delta,
+                        //longitude: Math.random() > 0.5 ? coords.longitude - delta : coords.longitude + delta,
                         latitude: coords.latitude,
                         longitude: coords.longitude,
                         latitudeDelta: 0.001,
@@ -38,20 +44,24 @@ class RondaCoordinatesSingleton {
                 error => console.error(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
             )
         },
-            3000);
+            this.timerDelay);
     }
 
-    pausarRonda = () => {
+    pausarRonda = callback => {
         this.rondaIniciada = false
-        _BackgroundTimer.stopBackgroundTimer()
+        _BackgroundTimer.clearInterval(this.timerId)
+        this.timerId = null
+        callback()
+        console.info('pausar ronda: ' + this.timerId + ' data: ' + new Date())
     }
 
     encerrarRonda = callback => {
         this.coordinates = []
-        _BackgroundTimer.stopBackgroundTimer()
-        if (callback != undefined) {
-            callback()
-        }
+        _BackgroundTimer.clearInterval(this.timerId)
+        this.timerId = null
+        this.rondaIniciada = false
+        callback()
+        console.info('encerrar ronda: ' + this.timerId + ' data: ' + new Date())
     }
 
     obterDataInicioRonda() {

@@ -65,6 +65,7 @@ export default props => {
                     inputStyle={{ fontSize: 17, height: 30, paddingBottom: 0, paddingTop: 0 }}
                     onChangeText={valor => {
                         setValorContrato(valor)
+                        props.onChangeValorContrato(valor)
                     }} />
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity style={{ marginLeft: '10%' }} onPress={props.onConfirm}>

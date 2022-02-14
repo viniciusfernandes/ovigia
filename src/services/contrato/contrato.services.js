@@ -1,6 +1,7 @@
 import WebClient from '../api'
 
 export const criarContrato = (contrato, onSuccess, onError) => {
+    console.info(JSON.stringify(contrato))
     WebClient.post('/contratos', contrato, onSuccess, onError)
 }
 
