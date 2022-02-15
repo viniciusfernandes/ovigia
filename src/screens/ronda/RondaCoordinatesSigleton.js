@@ -15,24 +15,24 @@ class RondaCoordinatesSingleton {
     }
 
     iniciarRonda = onGetLocation => {
-        console.info('iniciar ronda: ' + this.timerId + ' data: ' + new Date())
+        // console.info('iniciar ronda: ' + this.timerId + ' data: ' + new Date())
         this.rondaIniciada = true
         const delta = 0.00010
 
         if (this.timerId !== null) {
-            console.info('limpando o timer: ' + this.timerId + ' data: ' + new Date())
+            // console.info('limpando o timer: ' + this.timerId + ' data: ' + new Date())
             _BackgroundTimer.clearInterval(this.timerId)
         }
 
         this.timerId = _BackgroundTimer.setInterval(() => {
-            console.info('executando o timer: ' + this.timerId + ' data: ' + new Date())
+            // console.info('executando o timer: ' + this.timerId + ' data: ' + new Date())
             Geolocation.getCurrentPosition(
                 position => {
                     var coords = position.coords
                     this.coordinates.push({
                         timestamp: new Date().getTime(),
-                        //latitude: Math.random() > 0.5 ? coords.latitude + delta : coords.latitude - delta,
-                        //longitude: Math.random() > 0.5 ? coords.longitude - delta : coords.longitude + delta,
+                        // latitude: Math.random() > 0.5 ? coords.latitude + delta : coords.latitude - delta,
+                        // longitude: Math.random() > 0.5 ? coords.longitude - delta : coords.longitude + delta,
                         latitude: coords.latitude,
                         longitude: coords.longitude,
                         latitudeDelta: 0.001,

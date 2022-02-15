@@ -2,21 +2,13 @@ import React, { useContext, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import Container from '../../components/Container'
 import ImageBoxRightBar from '../../components/ImageBoxRightBar'
-import { DEFAULT_POSITION } from '../../components/MapBox'
-import TouchableButton from '../../components/TouchableButton'
 import AuthContext from '../../contexts/AuthContext'
 import matisse from '../../style/matisse'
-
-
 import { obterResumoRonda } from '../../services/ronda/ronda.service'
 import { useFocusEffect } from '@react-navigation/core'
-import { obterContratosVencidos } from '../../services/contrato/contrato.services'
 import ContratoClienteBox from '../../components/ContratoClienteBox'
-import FormArea from '../FormArea'
 import HeaderBox from '../../components/HeaderBox'
-import { obterVigiaSolicitado } from '../../services/solicitacaoVisita/solicitacao.visita.services'
 import { obterMensalidadesVencidas, obterValorRecebido, pagarMensalidade } from '../../services/mensalidade/mensalidade.service'
-import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace'
 
 const styles = StyleSheet.create({
     box: {
@@ -150,13 +142,10 @@ export default props => {
             mensalidadesBoxes: boxes
         })
     }
-    console.info('init: ' + JSON.stringify(state.resumoRonda))
-
 
     useFocusEffect(
         React.useCallback(() => {
             obterResumoRonda(idUsuario, resumoRonda => {
-                console.info(JSON.stringify({ ...state, resumoRonda: resumoRonda }))
                 setState({ ...state, resumoRonda: resumoRonda })
             })
             obterMensalidadesVencidas(idUsuario, mensalidades => {

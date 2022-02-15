@@ -10,7 +10,7 @@ import { criarRonda } from '../../services/ronda/ronda.service';
 import matisse from '../../style/matisse';
 import RondaCoordinateSigleton from './RondaCoordinatesSigleton'
 import ConfirmacaoModalBox from '../../components/ConfirmacaoModalBox';
-import ModalBox from '../../components/ModalBox';
+import LoadingModalBox from '../../components/LoadingModalBox';
 
 const styles = StyleSheet.create({
     botoesContainer: {
@@ -41,26 +41,42 @@ const styles = StyleSheet.create({
 
 export default props => {
     const [state, setState] = useState({
-        rondaIniciada: RondaCoordinateSigleton.rondaIniciada,
-        coordinates: RondaCoordinateSigleton.coordinates,
-        modalVisible: false
+        rondaIniciada: false,
+        coordinates: [],
+        modalVisible: false,
+        modalLoadVisible: false,
+        capturandoCoordenadas: false
     })
 
     const { idUsuario } = useContext(AuthContext)
     console.info('entrando na tela ronda vigia: ' + new Date())
 
-    const iniciarRonda = () => {
+    const iniciarRonda = modalVisible => {
+        if (!state.capturandoCoordenadas) {
+            console.info('clicou no botao iniciando ronda: ' + new Date())
+            setState({
+                ...state,
+                rondaIniciada: true,
+                modalVisible: modalVisible,
+                modalLoadVisible: !state.rondaIniciada
+            })
+        }
+    }
+
+    if (state.rondaIniciada && !state.capturandoCoordenadas) {
+        console.info('disparando as coordenadas: ' + new Date())
         RondaCoordinateSigleton.iniciarRonda(coordinates => {
-            console.info('atualizando coordenadas: ' + new Date())
-            setState({ rondaIniciada: true, modalVisible: false, coordinates: coordinates })
+            setState({ ...state, capturandoCoordenadas: true, modalLoadVisible: false, coordinates: coordinates })
             console.info('atualizou coordenadas: ' + new Date())
         })
     }
 
-    const pausarRonda = () => {
+    const pausarRonda = modalVisible => {
         RondaCoordinateSigleton.pausarRonda(() => setState({
+            ...state,
             rondaIniciada: false,
-            coordinates: state.coordinates
+            capturandoCoordenadas: false,
+            modalVisible: modalVisible
         }))
     }
 
@@ -74,7 +90,13 @@ export default props => {
 
         criarRonda(ronda, response => {
             RondaCoordinateSigleton.encerrarRonda(() => {
-                setState({ rondaIniciada: false, modalVisible: false, coordinates: [] })
+                setState({
+                    rondaIniciada: false,
+                    modalVisible: false,
+                    modalLoadVisible: false,
+                    capturandoCoordenadas: false,
+                    coordinates: []
+                })
                 props.navigation.navigate('homeVigia')
             })
         })
@@ -88,26 +110,26 @@ export default props => {
                     title={state.rondaIniciada ? 'Pausar Ronda' : 'Iniciar Ronda'}
                     onPress={() => {
                         if (state.rondaIniciada) {
-                            pausarRonda()
+                            pausarRonda(false)
                         } else {
-                            iniciarRonda()
+                            iniciarRonda(false)
                         }
                     }}
                 />
                 <TouchableButton style={styles.concluirButton} styleText={{ fontSize: 20 }}
                     title='Concluir Ronda' onPress={() => {
-                        pausarRonda()
-                        setState({ ...state, modalVisible: true })
+                        pausarRonda(true)
                     }}
                 />
             </View>
             <View style={styles.mapaContainer}>
                 <MapBox id='rondaScreen' coordinates={state.coordinates.slice()} fullScreen drawLines />
                 <ConfirmacaoModalBox visible={state.modalVisible}
-                    onClose={() => setState({ ...state, modalVisible: false })}
+                    onClose={() => iniciarRonda(false)}
                     onConfirm={() => {
                         encerrarRonda()
                     }} />
+                <LoadingModalBox visible={state.modalLoadVisible} message="LOCALIZANDO...!" />
             </View>
         </>
     );

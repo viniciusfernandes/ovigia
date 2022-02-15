@@ -72,8 +72,8 @@ export default props => {
             transparent={true}
             visible={props.visible}>
             <View style={modalStyles.modalContainer}>
-                <View style={modalStyles.modal}>
-                    <Text style={modalStyles.modalText}>{props.message}</Text>
+                <View style={[modalStyles.modal, props.style]}>
+                    <Text style={[modalStyles.modalText, props.textStyle]}>{props.message}</Text>
                     {closeButton}
                     {props.children}
                 </View>
