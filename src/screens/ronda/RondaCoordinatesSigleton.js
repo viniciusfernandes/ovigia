@@ -35,8 +35,8 @@ class RondaCoordinatesSingleton {
                         // longitude: Math.random() > 0.5 ? coords.longitude - delta : coords.longitude + delta,
                         latitude: coords.latitude,
                         longitude: coords.longitude,
-                        latitudeDelta: 0.001,
-                        longitudeDelta: 0.001,
+                        latitudeDelta: 0.00000001,
+                        longitudeDelta: 0.00000001,
                         velocidade: coords.speed
                     })
                     onGetLocation(this.coordinates)

@@ -4,7 +4,11 @@ import ModalBox from './ModalBox'
 
 export default props => {
     return (
-        <ModalBox style={{ backgroundColor: matisse.cinzaEscuro }}
+        <ModalBox style={{
+            backgroundColor: matisse.cinzaEscuro,
+            borderWidth: 2,
+            borderColor: matisse.cinzaClaro
+        }}
             textStyle={{ color: 'white' }}
             visible={props.visible} message={props.message} />
     );

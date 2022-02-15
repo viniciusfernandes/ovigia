@@ -7,7 +7,12 @@ export const obterMensalidadesVencidas = (idVigia, onSuccess, onError) => {
 
 
 export const obterValorRecebido = (idVigia, onSuccess, onError) => {
-    WebClient.get(`/vigias/${idVigia}/valor-recebido`, onSuccess, onError)
+    WebClient.get(`/vigias/${idVigia}/valor-recebido`,
+        response => {
+            let valorRecebido = response && response.valorRecebido ? response.valorRecebido : 0.0
+            onSuccess(valorRecebido)
+        },
+        onError)
 }
 
 export const pagarMensalidade = (pagamento, onSuccess, onError) => {

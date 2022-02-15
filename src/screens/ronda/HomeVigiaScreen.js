@@ -135,25 +135,24 @@ export default props => {
             />
         }
         )
-        setState({
-            ...state,
+        return ({
             valorAReceber: valorAReceber,
             valorRecebido: valorRecebido,
             mensalidadesBoxes: boxes
         })
-    }
 
+    }
     useFocusEffect(
         React.useCallback(() => {
             obterResumoRonda(idUsuario, resumoRonda => {
-                setState({ ...state, resumoRonda: resumoRonda })
-            })
-            obterMensalidadesVencidas(idUsuario, mensalidades => {
-                obterValorRecebido(idUsuario, response => {
-                    let valorRecebido = response != null ? response.valorRecebido : 0.0
-                    gerarMensalidadesBoxes(mensalidades, valorRecebido)
+                obterMensalidadesVencidas(idUsuario, mensalidades => {
+                    obterValorRecebido(idUsuario, valorRecebido => {
+                        var valores = gerarMensalidadesBoxes(mensalidades, valorRecebido)
+                        setState({ ...state, ...valores, resumoRonda: resumoRonda })
+                    })
                 })
             })
+
 
         }, [])
     );
