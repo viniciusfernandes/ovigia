@@ -7,9 +7,9 @@ import AuthContext from '../../contexts/AuthContext'
 import styles from './styles/cadastro.styles'
 export default (props) => {
     const [usuario, setUsuario] = useState({
-        email: 'cliente@gmail.com',
+        email: 'vigia@gmail.com',
         password: '1234',
-        nome: 'Cliente 1  ',
+        nome: 'Vigia Teste',
         telefone: '5555555',
         tipoUsuario: 'VIGIA'
     })
