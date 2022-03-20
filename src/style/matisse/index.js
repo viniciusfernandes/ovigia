@@ -8,7 +8,11 @@ const matisse = {
     laranjaAvermelhado: '#D14B1F',
     laranjaEscuro: '#BF5818',
     laranjaClaro: '#FFEEE0',
-    laranjaTransparente: '#FFF2E8'
+    laranjaTransparente: '#FFF2E8',
+    verdeClaro: '#93C49E',
+    verde: '#44A342',
+    verdeEscuro: '#1E6615',
+    
 }
 
 export default matisse

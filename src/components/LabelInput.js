@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     StyleSheet,
     Text, View
@@ -22,10 +22,11 @@ const styles = StyleSheet.create({
 export default props => {
 
     const label = !props.hiddenLabel ? <Text style={[styles.titulo, props.labelStyle]}>{props.titulo}</Text> : null
+
     return (
         <View style={[styles.container, props.style]}>
             {label}
-            <Input value={props.valor} style={[styles.input, props.inputStyle]} onChangeText={props.onChangeText} />
+            <Input currency value={props.valor} onChangeText={props.onChangeText} />
         </View>
     )
 }

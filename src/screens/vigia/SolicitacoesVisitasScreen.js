@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import Container from "../../components/Container";
 import HeaderBox from "../../components/HeaderBox";
 import AuthContext from "../../contexts/AuthContext";
 import matisse from "../../style/matisse";
 import { obterSolicitacoesVisitas, removerSolicitacaoVisita } from "../../services/solicitacaoVisita/solicitacao.visita.services"
 import { useFocusEffect } from "@react-navigation/core";
-import { criarContrato } from "../../services/contrato/contrato.services";
+import { cancelarContrato, criarContrato, obterContratosAtivosVigia } from "../../services/contrato/contrato.services";
 import ContratoClienteBox from "../../components/ContratoClienteBox";
 
 const styles = StyleSheet.create({
@@ -37,56 +37,71 @@ const styles = StyleSheet.create({
         marginLeft: '5%',
         marginTop: '5%'
     },
-
+    mensagemContratoNovo: {
+        color: matisse.verdeClaro,
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginTop: 10
+    }
 })
 
 
-export default props => {
+export default () => {
     const { idUsuario } = useContext(AuthContext)
-    const [solicitacoesBoxes, setSolicitacoesBoxes] = useState([])
-
-    let boxes
-    let boxesNaoSelecionados
-    const removerSolicitacaoBox = solicitacao => {
-        boxesNaoSelecionados = []
-        for (let i = 0; i < boxes.length; i++) {
-            if (boxes[i].key !== solicitacao.idCliente) {
-                boxesNaoSelecionados.push(boxes[i])
+    const [contratos, setContratos] = useState([])
+    let encontrouClienteNovo = false
+    let contratosBoxes
+    let contratosNaoSelecionados
+    let mensagemContratoNovo
+    const removerContrato = contrato => {
+        contratosNaoSelecionados = []
+        for (let i = 0; i < contratosBoxes.length; i++) {
+            if (contratosBoxes[i].key !== contrato.idCliente) {
+                contratosNaoSelecionados.push(contratosBoxes[i])
             }
         }
-        boxes = boxesNaoSelecionados
-        setSolicitacoesBoxes(boxes)
+        contratosBoxes = contratosNaoSelecionados
+        setContratos(contratosBoxes)
     }
 
-    const gerarSolicitacaoBoxes = solicitacoes => {
-        boxes = solicitacoes.map(solicitacao =>
-            <ContratoClienteBox key={solicitacao.idCliente}
-                contrato={solicitacao}
-                confirmacao={'Fechar Contrato?'}
-                onChangeValorContrato={valor => solicitacao = { ...solicitacao, valor }}
-                onConfirm={() => criarContrato({ ...solicitacao, idVigia: idUsuario }, () => removerSolicitacaoBox(solicitacao))}
-                onCancel={() => {
-                    removerSolicitacaoVisita(solicitacao.idCliente, () => removerSolicitacaoBox(solicitacao))
-                }}
-            />
+    const gerarContratosBoxes = contratosAtivos => {
+        contratosBoxes = contratosAtivos.map(contrato => {
+            if (contrato.dataVencimento === null) {
+                encontrouClienteNovo = true
+            }
+            console.info("hasClienteNovo=" + encontrouClienteNovo + ' => ' + new Date())
+            return (<ContratoClienteBox key={contrato.idCliente}
+                contrato={contrato}
+                confirmacao={'Cancelar Contrato?'}
+                onChangeValorContrato={valor => { contrato = { ...contrato, valor } }}
+                onConfirm={() => criarContrato({ ...contrato, idVigia: idUsuario }, () => removerContrato(contrato))}
+                onCancel={() =>
+                    cancelarContrato(contrato.id, () => removerContrato(contrato))
+                }
+            />)
+        }
         )
-        setSolicitacoesBoxes(boxes)
+        setContratos(contratosBoxes)
     }
 
     useFocusEffect(
         React.useCallback(() => {
-            obterSolicitacoesVisitas(idUsuario, solicitacoes => {
-                gerarSolicitacaoBoxes(solicitacoes)
-            })
-
+            obterContratosAtivosVigia(idUsuario, contratos => {
+                gerarContratosBoxes(contratos)
+                if (encontrouClienteNovo) {
+                    mensagemContratoNovo = <Text style={styles.mensagemContratoNovo}>Maravilha, você tem um cliente novo!</Text>
+                }
+            }
+            )
         }, [])
-    )
-
+    );
 
     return (
         <Container backgroundColor='white' >
-            <HeaderBox headers={['Tudo sobre seus', 'novos clientes.']} detail='Clientes para Visitar' color='black' />
-            {solicitacoesBoxes}
+            <HeaderBox headers={['Tudo sobre seus clientes']} detail='Contratos dos Clientes' color='black' />
+            {mensagemContratoNovo}
+            <Text style={styles.mensagemContratoNovo}>Maravilha, você tem um cliente novo!</Text>
+            {contratos}
         </Container>
     )
 }
