@@ -26,7 +26,7 @@ export default props => {
     return (
         <View style={[styles.container, props.style]}>
             {label}
-            <Input currency value={props.valor} onChangeText={props.onChangeText} />
+            <Input value={props.valor} onChangeText={props.onChangeText} />
         </View>
     )
 }

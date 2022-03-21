@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import matisse from "../style/matisse";
 import ImageBoxRightBar from "./ImageBoxRightBar";
-import LabelInput from '../components/LabelInput'
 import Input from "./Input";
 
 const styles = StyleSheet.create({
@@ -30,25 +29,9 @@ const styles = StyleSheet.create({
 export default props => {
     let contrato = props.contrato
     const [valorContrato, setValorContrato] = useState(contrato && contrato.valor ? '' + contrato.valor : '0.0')
-    let dataBox = null;
-    if (props.isVencimento) {
-        dataBox =
-            <View style={{ flexDirection: 'row' }}>
-                <Text style={{ fontWeight: 'bold', color: 'white' }}>Vencimento: </Text>
-                <Text style={styles.info} >{contrato.dataVencimento}</Text>
-            </View>
-    } else {
-        dataBox =
-            <View style={{ flexDirection: 'row' }}>
-                <Text style={{ fontWeight: 'bold', color: 'white' }}>Data: </Text>
-                <Text style={styles.info} >{contrato.data}</Text>
-                <Text style={[styles.info, { marginLeft: '5%' }]} >{contrato.hora} (hs)</Text>
-            </View>
-    }
-
     return (
         <ImageBoxRightBar
-            style={{ backgroundColor: !contrato.dataVencimento ? matisse.laranja : matisse.verde, height: 145 }}
+            style={{ backgroundColor: contrato.dataVencimento !== null ? matisse.laranja : matisse.verde, height: 145 }}
             iconStyle={{ backgroundColor: matisse.cinzaClaro, height: 80 }}
             imagem={require('../../images/usuario_branco_75.png')}>
             <Text style={styles.nomeCliente}>{contrato.nomeCliente}</Text>
@@ -57,7 +40,10 @@ export default props => {
                 <Text style={styles.info}>{contrato.telefoneCliente}</Text>
             </View>
 
-            {dataBox}
+            <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontWeight: 'bold', color: 'white' }}>Vencimento: </Text>
+                <Text style={styles.info} >{contrato.dataVencimento}</Text>
+            </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, width: '100%' }}>
             </View>
