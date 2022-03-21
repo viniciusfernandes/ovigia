@@ -5,13 +5,15 @@ import CurrencyInput from 'react-native-currency-input';
 const styles = StyleSheet.create({
     input: {
         backgroundColor: 'white',
-        color: 'black',
-        height: 30,
-        paddingLeft: 20,
         borderRadius: 20,
+        color: 'black',
         elevation: 3,
+        fontSize: 16,
+        height: 30,
+        padding: 0,
+        paddingLeft: 20,
         width: '100%',
-        padding: 0
+
     }
 })
 

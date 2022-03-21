@@ -75,10 +75,9 @@ export default () => {
     const gerarContratosBoxes = contratosAtivos => {
         let encontrouClienteNovo
         contratosBoxes = contratosAtivos.map(contrato => {
-            console.info('contrato=' + contrato.id)
+            console.info('contrato=' + JSON.stringify(contrato ))
 
             if (contrato.id === null) {
-                console.info('XXXXX')
                 encontrouClienteNovo = true
             }
             return (<ContratoClienteBox key={contrato.idCliente}
