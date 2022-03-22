@@ -51,7 +51,10 @@ export default props => {
                 <Text style={{ fontWeight: 'bold', color: 'white', marginBottom: 5 }}>Confirma o valor do contrato?</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
-                <Input currency style={{ width: '40%' }} value={valorContrato}  onChangeText={valor => setValorContrato(valor)}/>
+                <Input currency style={{ width: '40%' }} value={valorContrato} onChangeText={valor => {
+                    setValorContrato(valor)
+                    props.onChangeValorContrato(valor)
+                }} />
                 <TouchableOpacity style={{ marginLeft: '10%' }} onPress={props.onConfirm}>
                     <Image source={require('../../images/check_branco_75.png')} />
                 </TouchableOpacity>

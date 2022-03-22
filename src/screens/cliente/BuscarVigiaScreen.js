@@ -82,10 +82,8 @@ export default props => {
                             setVigiaBoxes(boxes)
                         })
                     }
-
-                    return gerarVigiaBox(vigia, 'Solicitar Visita', styles.solicitarButton, onPress)
+                    return gerarVigiaBox(vigia, 'Solicitar Valores', styles.solicitarButton, onPress)
                 })
-
                 setVigiaBoxes(boxes)
             })
         }

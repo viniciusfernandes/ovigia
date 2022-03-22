@@ -66,6 +66,7 @@ export default () => {
 
     const criarOuAlterarContrato = contrato => {
         if (contrato.id === null) {
+            console.info(JSON.stringify(contrato))
             criarContrato({ ...contrato, idVigia: idUsuario }, () => obterTodosContratos())
         } else {
             atualizarValorContrato(contrato.id, contrato.valor)
@@ -75,7 +76,7 @@ export default () => {
     const gerarContratosBoxes = contratosAtivos => {
         let encontrouClienteNovo
         contratosBoxes = contratosAtivos.map(contrato => {
-            console.info('contrato=' + JSON.stringify(contrato ))
+            console.info('contrato=' + JSON.stringify(contrato))
 
             if (contrato.id === null) {
                 encontrouClienteNovo = true
@@ -83,7 +84,12 @@ export default () => {
             return (<ContratoClienteBox key={contrato.idCliente}
                 contrato={contrato}
                 confirmacao={'Cancelar Contrato?'}
-                onChangeValorContrato={valor => { contrato = { ...contrato, valor } }}
+                onChangeValorContrato={valor => {
+                    console.info("antes=" + JSON.stringify(contrato))
+                    contrato.valor = valor
+                    console.info("depois=" + contrato.valor)
+                }
+                }
                 onConfirm={() => criarOuAlterarContrato(contrato)}
                 onCancel={() =>
                     cancelarContrato(contrato.id, () => removerContrato(contrato))

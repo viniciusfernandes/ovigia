@@ -90,14 +90,17 @@ export default props => {
 
     const getPosition = async () => {
         const position = await RNLocation.getLatestLocation({ timeout: 100 })
-        const lastPosition = {
-            latitude: position.latitude,
-            longitude: position.longitude,
-            latitudeDelta: 0.002,
-            longitudeDelta: 0.002,
-            speed: position.speed
+        console.info('position='+position)
+        if (position !== null) {
+            const lastPosition = {
+                latitude: position.latitude,
+                longitude: position.longitude,
+                latitudeDelta: 0.002,
+                longitudeDelta: 0.002,
+                speed: position.speed
+            }
+            state.positions.push(lastPosition)
         }
-        state.positions.push(lastPosition)
     }
 
 
