@@ -61,6 +61,7 @@ export default props => {
                     title={pinTitle}
                 />
                 <Marker key='endMarker'
+                
                     coordinate={endPosition}
                     title={'Você está aqui!'}
                 />

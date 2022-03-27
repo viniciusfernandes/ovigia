@@ -36,8 +36,10 @@ export const AuthContextProvider = ({ children }) => {
                 signOn(
                     credential,
                     usuario => {
-                        habilitarHome(usuario, false)
-                        onSuccess()
+                        habilitarHome(usuario, true)
+                        if (onSuccess !== undefined) {
+                            onSuccess()
+                        }
                     },
                     error => setUsuario(null)
                 )
@@ -49,7 +51,6 @@ export const AuthContextProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={{
-            habilitarHome: () => habilitarHome(usuario, true),
             isVigia: !!usuario && isVigia(usuario.tipoUsuario),
             idUsuario: !!usuario ? usuario.id : null,
             nomeUsuario: !!usuario ? usuario.nome : null,

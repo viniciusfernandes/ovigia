@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const axiosInstance = axios.create({
     baseURL: 'http://10.0.2.2:8080/ovigia',
-    //baseURL: 'http://167.114.185.231:8080/ovigia',
+   // baseURL: 'http://167.114.185.231:8080/ovigia',
     headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',

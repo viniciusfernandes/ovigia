@@ -1,5 +1,5 @@
 import WebClient from '../api'
-const BATCH_SIZE = 20000
+const BATCH_SIZE = 2000
 const clonarRonda = (ronda, localizacoes) => {
     return {
         idVigia: ronda.idVigia,

@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import Input from '../../components/Input';
 
 export default props => {
-  const [credencial, setCredencial] = useState({ email: 'vigia1@gmail.com', password: '1234' })
+  const [credencial, setCredencial] = useState({ email: 'vigia@gmail.com', password: '1234' })
   //const [credencial, setCredencial] = useState({ email: 'cliente1@gmail.com', password: '1234' })
   const { signIn } = useContext(AuthContext)
   const [usuarioInvalido, setUsuarioInvalido] = useState(false)

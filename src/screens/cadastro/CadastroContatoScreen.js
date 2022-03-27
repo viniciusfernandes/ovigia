@@ -43,7 +43,7 @@ export default (props) => {
                     onPress={() => props.navigation.goBack()} />
                 <TouchableButton title='Salvar' style={styles.botaoLaranja}
                     styleText={[styles.textoBotao, , styles.textoBotaoLaranja]}
-                    onPress={() => signOn(usuario, () => props.navigation.navigate('cadastroSucesso'))} />
+                    onPress={() => signOn(usuario)} />
 
             </View>
         </Container>
