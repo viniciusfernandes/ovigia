@@ -54,14 +54,20 @@ export default props => {
     const pinTitle = props.titlePin ? props.titlePin : 'Você partiu daqui.'
     return (
         <View key={props.id} style={[containerStyle, props.style]}>
-            <MapView style={mapaStyle} initialRegion={endPosition} region={endPosition} loadingEnabled={true}>
+            <MapView provider={'google'}
+                showUserLocation
+                followUserLocation
+                loadingEnabled 
+                style={mapaStyle}
+                initialRegion={endPosition}
+                region={endPosition} >
                 <Marker key='startMarker'
                     coordinate={startPosition}
                     pinColor={'yellow'}
                     title={pinTitle}
                 />
                 <Marker key='endMarker'
-                
+
                     coordinate={endPosition}
                     title={'Você está aqui!'}
                 />
@@ -69,7 +75,7 @@ export default props => {
                     coordinates={coordinates}
                     strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
                     strokeColors={['#7F0000']}
-                    strokeWidth={2}
+                    strokeWidth={5}
                 />
             </MapView>
         </View>

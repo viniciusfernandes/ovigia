@@ -26,8 +26,6 @@ import haversine from "haversine";
 import Geolocation from "@react-native-community/geolocation";
 import TouchableButton from "../../components/TouchableButton";
 import matisse from "../../style/matisse";
-import { useContext } from "react/cjs/react.production.min";
-import AuthContext from "../../contexts/AuthContext";
 
 // const LATITUDE = 29.95539;
 // const LONGITUDE = 78.07513;
@@ -56,10 +54,9 @@ class AnimatedMarkers extends React.Component {
         };
     }
 
-    componentDidMount() {
+    iniciarRonda = () => {
         const idUsuario = 'asdf'//useContext(AuthContext)
         const { coordinate } = this.state;
-        let marker
         this.watchID = Geolocation.watchPosition(
             position => {
                 const { routeCoordinates, distanceTravelled } = this.state;
@@ -85,8 +82,8 @@ class AnimatedMarkers extends React.Component {
                 this.setState({
                     idVigia: idUsuario,
                     dataInicioRonda: new Date(),
-                    latitude: null,
-                    longitude: null,
+                    latitude: LATITUDE,
+                    longitude: LONGITUDE,
                     routeCoordinates: routeCoordinates.concat([newCoordinate]),
                     distanceTravelled:
                         distanceTravelled + this.calcDistance(newCoordinate),
@@ -179,9 +176,9 @@ class AnimatedMarkers extends React.Component {
                         title={this.state.rondaIniciada ? 'Pausar Ronda' : 'Iniciar Ronda'}
                         onPress={() => {
                             if (this.state.rondaIniciada) {
-                                pausarRonda()
+                        this.        pausarRonda()
                             } else {
-                                iniciarRonda()
+                                this.iniciarRonda()
                             }
                         }}
                     />
@@ -195,7 +192,7 @@ class AnimatedMarkers extends React.Component {
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={[styles.bubble, styles.button]}>
                         <Text style={styles.bottomBarContent}>
-                            {parseFloat(state.distanceTravelled).toFixed(2)} km
+                            {parseFloat(this.state.distanceTravelled).toFixed(2)} km
                         </Text>
                     </TouchableOpacity>
                 </View>

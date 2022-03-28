@@ -81,6 +81,7 @@ export default props => {
         const { coordinate } = state;
         let watchID = Geolocation.watchPosition(
             position => {
+                console.info(JSON.stringify(position))
                 const { coordinates, distanceTravelled } = state;
                 const newCoordinate = {
                     latitude: position.coords.latitude,
@@ -134,15 +135,15 @@ export default props => {
         })
     }
 
-    const concluirRonda = () => {
+    const encerrarRonda = () => {
         const ronda = {
             idVigia: idUsuario,
             localizacoes: state.coordinates,
             inicio: state.dataInicioRonda,
             fim: new Date()
         }
+        pausarRonda()
         criarRonda(ronda, response => {
-            Geolocation.clearWatch(state.watchID)
             setState({
                 rondaIniciada: false,
                 coordinates: [],
@@ -156,7 +157,7 @@ export default props => {
                 iniciarRondaTitulo: INICIAR_RONDA
 
             })
-            //props.navigation.navigate('homeVigia')
+            props.navigation.navigate('homeVigia')
         })
     }
     return (
@@ -175,8 +176,8 @@ export default props => {
                 />
                 <TouchableButton style={styles.concluirButton} styleText={{ fontSize: 20 }}
                     title='Concluir Ronda' onPress={() => {
-                        //  pausarRonda()
-                        concluirRonda()
+                        pausarRonda()
+                        encerrarRonda()
                     }}
                 />
 
