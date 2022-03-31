@@ -1,129 +1,156 @@
-import React, { useContext } from 'react';
-import { useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import _BackgroundTimer from 'react-native-background-timer';
-import MapBox from '../../components/MapBox';
-import TouchableButton from '../../components/TouchableButton';
-import AuthContext from '../../contexts/AuthContext';
-import { criarRonda } from '../../services/ronda/ronda.service';
-import matisse from '../../style/matisse';
-import haversine from 'haversine';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Geolocation from '@react-native-community/geolocation';
-
+import Geolocation from '@react-native-community/geolocation'
+import haversine from 'haversine'
+import React, { useContext, useState, useEffect } from 'react'
+import { StyleSheet, Text, Image } from 'react-native'
+import Container from '../../components/Container'
+import TouchableButton from '../../components/TouchableButton'
+import { larguraPercentual } from '../../constantes/medidas/Medidas'
+import AuthContext from '../../contexts/AuthContext'
+import { criarRonda } from '../../services/ronda/ronda.service'
+import matisse from '../../style/matisse'
 const styles = StyleSheet.create({
-    botoesContainer: {
-        alignItems: 'center',
-        position: 'absolute',
-        top: '70%',
-        width: '100%',
-        zIndex: 1,
+    botao: {
+        backgroundColor: 'white',
+        width: larguraPercentual(45),
     },
-    mapaContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    mapa: {
-
-        width: '100%',
-        height: '100%',
+    boxIcon: {
+        marginTop: '20%',
+        width: '30%',
+        resizeMode: 'contain',
     },
     iniciarButton: {
         backgroundColor: matisse.verde,
+        fontSize: 20,
         width: '45%'
     },
     pausarButton: {
         backgroundColor: matisse.laranjaAvermelhado,
+        fontSize: 20,
         width: '45%'
     },
     concluirButton: {
         marginTop: '2%',
+        fontSize: 20,
         width: '45%',
     },
-    distanciaContainer: {
-        backgroundColor: matisse.laranjaTransparente,
-        borderRadius: 20,
-        borderColor: matisse.laranja,
-        borderWidth: 1,
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginTop: '5%',
-        paddingVertical: 10,
-        textAlign: 'center',
-        width: '80%',
-
+    textoBotao: {
+        color: matisse.laranja,
+        fontSize: 20,
+        textAlign: 'center'
     },
+    textoHoras: {
+        color: 'black',
+        fontSize: 60,
+        fontWeight: 'bold',
+        marginBottom: '10%'
+    },
+    textoDistancia: {
+        color: 'black',
+        fontSize: 50,
+        fontWeight: 'bold',
+        marginBottom: '20%'
+    },
+    titulo: {
+        color: matisse.laranja,
+        fontSize: 45,
+        fontWeight: 'bold',
+        marginBottom: '10%'
+    }
 })
-const LATITUDE_DELTA = 0.001;
-const LONGITUDE_DELTA = 0.001;
+
 const INICIAR_RONDA = 'Iniciar Ronda'
 const PAUSAR_RONDA = 'Pausar Ronda'
+const DEFAULT_STATE = {
+    coordinates: [],
+    iniciarRondaStyle: styles.iniciarButton,
+    iniciarRondaTitulo: INICIAR_RONDA,
+    inicio: null,
+    distancia: 0.00,
+    watchID: null
+}
+const calcularDistancia = (prevCoordinate, newCoordinate) => {
+    if (!prevCoordinate || !newCoordinate) {
+        return 0.00
+    }
+    return haversine(prevCoordinate, newCoordinate) || 0.00;
+}
+
 export default props => {
     const { idUsuario } = useContext(AuthContext)
-    const [state, setState] = useState({
-        rondaIniciada: false,
-        coordinates: [],
-        modalVisible: false,
-        modalLoadVisible: false,
-        watchID: null,
-        locationPermited: false,
-        dataInicioRonda: null,
-        distanceTravelled: 0.00,
-        iniciarRondaStyle: styles.iniciarButton,
-        iniciarRondaTitulo: INICIAR_RONDA
+    const [state, setState] = useState(DEFAULT_STATE)
+    const [tempoRonda, setTempoRonda] = useState({
+        horas: 0,
+        minutos: 0,
+        segundos: 0,
+        tempoFormatado: '',
+        iniciado: false
     })
 
-    const calcDistance = (prevLatLng, newLatLng) => {
-        return haversine(prevLatLng, newLatLng) || 0;
-    }
+    const [inicioRonda, setInicioRonda] = useState(false)
+    console.info('executando=' + JSON.stringify(tempoRonda))
+
+    const segs = tempoRonda.segundos
+    useEffect(() => {
+        if (inicioRonda) {
+            setInterval(() => {
+
+                let horas = tempoRonda.horas
+                let minutos = tempoRonda.minutos
+                let segundos = segs + 1
+                console.info('segs=' + segundos)
+                if (segundos >= 60) {
+                    minutos++
+                    segundos = 0
+                }
+
+                if (minutos >= 60) {
+                    horas++
+                    minutos = 0
+                }
+                let tempoFormatado = ''
+                tempoFormatado = horas <= 9 ? '0' + horas : horas
+                tempoFormatado += ':'
+                tempoFormatado += minutos <= 9 ? '0' + minutos : minutos
+                tempoFormatado += ':'
+                tempoFormatado += segundos <= 9 ? '0' + segundos : segundos
+
+                setTempoRonda({ horas:  222, minutos: minutos, segundos: segundos, tempoFormatado: tempoFormatado })
+            }, 1000)
+        }
+    }, [inicioRonda])
 
     const iniciarRonda = () => {
-        const { coordinate } = state;
-        let watchID = Geolocation.watchPosition(
-            position => {
-                const { coordinates, distanceTravelled } = state;
-                const newCoordinate = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    latitudeDelta: LATITUDE_DELTA,
-                    longitudeDelta: LONGITUDE_DELTA,
-                    timestamp: position.timestamp,
-                    velocidade: position.coords.speed
-                };
-                const prevCoordinate = coordinates.length <= 1 ? newCoordinate : coordinates[coordinates.length - 1]
-                setState({
-                    ...state,
-                    idVigia: idUsuario,
-                    dataInicioRonda: new Date(),
-                    coordinates: coordinates.concat([newCoordinate]),
-                    distanceTravelled:
-                        distanceTravelled + calcDistance(prevCoordinate, newCoordinate),
-                    prevLatLng: newCoordinate,
-                    iniciarRondaStyle: styles.pausarButton,
-                    iniciarRondaTitulo: PAUSAR_RONDA,
-                    rondaIniciada: true
-                });
-            },
-            error => console.log(error),
-            {
-                enableHighAccuracy: true,
-                timeout: 20000,
-                maximumAge: 1000,
-                distanceFilter: 1
-            }
-        )
+        setInicioRonda(true)
+        // const watchID = Geolocation.watchPosition(
+        //     position => {
+        //         const newCoordinate = {
+        //             latitude: position.coords.latitude,
+        //             longitude: position.coords.longitude,
+        //             timestamp: position.timestamp,
+        //             velocidade: position.coords.speed
+        //         }
+        //         state.coordinates.push(newCoordinate)
+        //         console.warn('new coordinate=' + JSON.stringify(newCoordinate))
+        //     },
+        //     error => console.log(error),
+        //     {
+        //         enableHighAccuracy: true,
+        //         timeout: 20000,
+        //         maximumAge: 1000,
+        //         distanceFilter: 1
+        //     }
+        // )
 
-        setState({
-            ...state,
-            rondaIniciada: true,
-            dataInicioRonda: new Date(),
-            watchID: watchID,
-            modalLoadVisible: true,
-            watchID: watchID,
-            iniciarRondaStyle: styles.pausarButton,
-            iniciarRondaTitulo: PAUSAR_RONDA
-        })
+        // setState({
+        //     ...state,
+        //     iniciarRondaStyle: styles.pausarButton,
+        //     iniciarRondaTitulo: PAUSAR_RONDA,
+        //     inicio: new Date(),
+        //     distancia: 0.00,
+        //     watchID: watchID
+        // })
     }
+
 
     const pausarRonda = () => {
         Geolocation.clearWatch(state.watchID);
@@ -134,6 +161,7 @@ export default props => {
         })
     }
 
+
     const concluirRonda = () => {
         const ronda = {
             idVigia: idUsuario,
@@ -141,62 +169,31 @@ export default props => {
             inicio: state.dataInicioRonda,
             fim: new Date()
         }
-        criarRonda(ronda, response => {
-            Geolocation.clearWatch(state.watchID)
-            setState({
-                rondaIniciada: false,
-                coordinates: [],
-                modalVisible: false,
-                modalLoadVisible: false,
-                watchID: null,
-                locationPermited: true,
-                dataInicioRonda: null,
-                distanceTravelled: 0.00,
-                iniciarRondaStyle: styles.iniciarButton,
-                iniciarRondaTitulo: INICIAR_RONDA
 
-            })
-            //props.navigation.navigate('homeVigia')
+        criarRonda(ronda, response => {
+            setState(DEFAULT_STATE)
+            props.navigation.navigate('homeVigia')
         })
     }
+
     return (
-        <>
-
-            <View style={styles.botoesContainer}>
-                <TouchableButton style={state.iniciarRondaStyle} styleText={{ color: 'white', fontSize: 20 }}
-                    title={state.iniciarRondaTitulo}
-                    onPress={() => {
-                        if (state.rondaIniciada) {
-                            pausarRonda()
-                        } else {
-                            iniciarRonda()
-                        }
-                    }}
-                />
-                <TouchableButton style={styles.concluirButton} styleText={{ fontSize: 20 }}
-                    title='Concluir Ronda' onPress={() => {
-                        //  pausarRonda()
-                        concluirRonda()
-                    }}
-                />
-
-                <Text style={[styles.distanciaContainer, styles.bubble, styles.button]}>
-                    {parseFloat(state.distanceTravelled).toFixed(2)} km
-                </Text>
-
-
-
-            </View>
-
-            <View style={styles.mapaContainer}>
-                <MapBox id='rondaScreen' coordinates={state.coordinates.slice()} fullScreen drawLines />
-                {/* <ConfirmacaoModalBox visible={state.modalVisible}
-                    onClose={() => setState({ ...state, modalVisible: false })}
-                    onConfirm={() => {
-                        encerrarRonda()
-                    }} /> */}
-                {/* <LoadingModalBox visible={state.modalLoadVisible} message="LOCALIZANDO...!" /> */}
-            </View>
-        </>
-    );
+        <Container backgroundColor='white'>
+            <Image
+                style={styles.boxIcon}
+                source={require('../../../images/check_branco_75.png')}
+            />
+            <Text style={styles.titulo}>Ronda Iniciada...</Text>
+            <Text style={styles.textoHoras}>{tempoRonda.tempoFormatado} hs</Text>
+            <Text style={styles.textoDistancia}>12.3 km</Text>
+            <TouchableButton title={state.inicio ? PAUSAR_RONDA : INICIAR_RONDA}
+                style={styles.iniciarButton}
+                styleText={{ fontSize: 20, color: 'white', }}
+                onPress={state.inicio ? pausarRonda : iniciarRonda}
+            />
+            <TouchableButton title='Concluir Ronda' style={styles.concluirButton}
+                styleText={{ fontSize: 20 }}
+                onPress={concluirRonda}
+            />
+        </Container>
+    )
 }

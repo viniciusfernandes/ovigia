@@ -11,6 +11,7 @@ import AuthContext from '../contexts/AuthContext';
 import BuscarVigiaScreen from '../screens/cliente/BuscarVigiaScreen';
 import SolicitacoesVisitasScreen from '../screens/vigia/SolicitacoesVisitasScreen';
 import HomeClienteScreen from '../screens/cliente/HomeClienteScreen';
+import RondaVigiaScreen_updated from '../screens/ronda/RondaVigiaScreen_updated';
 
 function getIcon(focused, screenName) {
     if ('homeVigia' === screenName || 'homeCliente' === screenName) {

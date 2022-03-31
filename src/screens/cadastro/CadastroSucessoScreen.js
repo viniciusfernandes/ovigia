@@ -39,7 +39,7 @@ export default (props) => {
                 style={styles.boxIcon}
                 source={require('../../../images/check_branco_75.png')}
             />
-            <Text style={[styles.texto, styles.textoTitulo]}>Parabéns!</Text>
+            <Text style={[styles.texto, styles.textoTitulo]}>Ronda Iniciada!</Text>
             <Text style={[styles.texto, styles.textoMenor]}>Sua conta foi criada com</Text>
             <Text style={[styles.texto, styles.textoMenor]}>sucesso e agora é só</Text>
             <Text style={[styles.texto, styles.textoMenor]}>esperar pela validação</Text>

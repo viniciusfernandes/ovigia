@@ -57,7 +57,7 @@ export default props => {
             <MapView provider={'google'}
                 showUserLocation
                 followUserLocation
-                loadingEnabled 
+                loadingEnabled
                 style={mapaStyle}
                 initialRegion={endPosition}
                 region={endPosition} >
