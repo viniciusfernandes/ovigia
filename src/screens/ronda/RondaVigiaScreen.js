@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     },
     titulo: {
         color: matisse.laranja,
-        fontSize: 45,
+        fontSize: 40,
         fontWeight: 'bold',
         marginBottom: '10%'
     }
@@ -62,103 +62,126 @@ const INICIAR_RONDA = 'Iniciar Ronda'
 const PAUSAR_RONDA = 'Pausar Ronda'
 const DEFAULT_STATE = {
     coordinates: [],
+    titulo: 'Vamos Começar?',
     iniciarRondaStyle: styles.iniciarButton,
     iniciarRondaTitulo: INICIAR_RONDA,
     inicio: null,
     distancia: 0.00,
     watchID: null
 }
-const calcularDistancia = (prevCoordinate, newCoordinate) => {
-    if (!prevCoordinate || !newCoordinate) {
+const DEFAULT_TEMPO = {
+    horas: 0,
+    minutos: 0,
+    segundos: 0,
+    tempoFormatado: '00:00:00'
+}
+const calcularDistancia = (prevCoord, currCoord) => {
+    if (!prevCoord || !currCoord) {
         return 0.00
     }
-    return haversine(prevCoordinate, newCoordinate) || 0.00;
+    return haversine(prevCoord, currCoord) || 0.00;
+}
+
+
+const atualizarTempo = tempoRonda => {
+    let horas = tempoRonda.horas
+    let minutos = tempoRonda.minutos
+    let segundos = tempoRonda.segundos + 1
+
+    if (segundos >= 60) {
+        minutos++
+        segundos = 0
+    }
+
+    if (minutos >= 60) {
+        horas++
+        minutos = 0
+    }
+    let tempoFormatado = ''
+    tempoFormatado = horas <= 9 ? '0' + horas : horas
+    tempoFormatado += ':'
+    tempoFormatado += minutos <= 9 ? '0' + minutos : minutos
+    tempoFormatado += ':'
+    tempoFormatado += segundos <= 9 ? '0' + segundos : segundos
+    return { horas: horas, minutos: minutos, segundos: segundos, tempoFormatado: tempoFormatado }
 }
 
 export default props => {
     const { idUsuario } = useContext(AuthContext)
     const [state, setState] = useState(DEFAULT_STATE)
-    const [tempoRonda, setTempoRonda] = useState({
-        horas: 0,
-        minutos: 0,
-        segundos: 0,
-        tempoFormatado: '',
-        iniciado: false
-    })
+    const [rondaEmAndamento, setRondaEmAndamento] = useState(false)
+    const [tempoRonda, setTempoRonda] = useState(DEFAULT_TEMPO)
+    const [distancia, setDistancia] = useState(0.00)
 
-    const [inicioRonda, setInicioRonda] = useState(false)
-    console.info('executando=' + JSON.stringify(tempoRonda))
-
-    const segs = tempoRonda.segundos
     useEffect(() => {
-        if (inicioRonda) {
-            setInterval(() => {
-
-                let horas = tempoRonda.horas
-                let minutos = tempoRonda.minutos
-                let segundos = segs + 1
-                console.info('segs=' + segundos)
-                if (segundos >= 60) {
-                    minutos++
-                    segundos = 0
-                }
-
-                if (minutos >= 60) {
-                    horas++
-                    minutos = 0
-                }
-                let tempoFormatado = ''
-                tempoFormatado = horas <= 9 ? '0' + horas : horas
-                tempoFormatado += ':'
-                tempoFormatado += minutos <= 9 ? '0' + minutos : minutos
-                tempoFormatado += ':'
-                tempoFormatado += segundos <= 9 ? '0' + segundos : segundos
-
-                setTempoRonda({ horas:  222, minutos: minutos, segundos: segundos, tempoFormatado: tempoFormatado })
+        if (rondaEmAndamento) {
+            const interval = setInterval(() => {
+                setTempoRonda(tempoRonda => atualizarTempo(tempoRonda))
             }, 1000)
+            setState({ ...state, interval: interval })
         }
-    }, [inicioRonda])
+    }, [rondaEmAndamento])
+
+    const atualizarDistancia = coordinates => {
+        if (coordinates.length <= 1) {
+            return
+        }
+        const prevCoord = coordinates[coordinates.length - 2]
+        const currCoord = coordinates[coordinates.length - 1]
+        const dist = calcularDistancia(prevCoord, currCoord)
+        if (dist >= 0) {
+            setDistancia(distancia => distancia + 10)
+        }
+    }
 
     const iniciarRonda = () => {
-        setInicioRonda(true)
-        // const watchID = Geolocation.watchPosition(
-        //     position => {
-        //         const newCoordinate = {
-        //             latitude: position.coords.latitude,
-        //             longitude: position.coords.longitude,
-        //             timestamp: position.timestamp,
-        //             velocidade: position.coords.speed
-        //         }
-        //         state.coordinates.push(newCoordinate)
-        //         console.warn('new coordinate=' + JSON.stringify(newCoordinate))
-        //     },
-        //     error => console.log(error),
-        //     {
-        //         enableHighAccuracy: true,
-        //         timeout: 20000,
-        //         maximumAge: 1000,
-        //         distanceFilter: 1
-        //     }
-        // )
+        setRondaEmAndamento(true)
+        const watchID = Geolocation.watchPosition(
+            position => {
+                const currCoord = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    timestamp: position.timestamp,
+                    velocidade: position.coords.speed
+                }
+                state.coordinates.push(currCoord)
+                console.warn(state.coordinates.length)
+                atualizarDistancia(state.coordinates)
+            },
+            error => console.log(error),
+            {
+                enableHighAccuracy: true,
+                timeout: 20000,
+                maximumAge: 1000,
+                distanceFilter: 1
+            }
+        )
 
-        // setState({
-        //     ...state,
-        //     iniciarRondaStyle: styles.pausarButton,
-        //     iniciarRondaTitulo: PAUSAR_RONDA,
-        //     inicio: new Date(),
-        //     distancia: 0.00,
-        //     watchID: watchID
-        // })
+        setState({
+            ...state,
+            iniciarRondaStyle: styles.pausarButton,
+            iniciarRondaTitulo: PAUSAR_RONDA,
+            titulo: 'Ronda Iniciada...',
+            inicio: new Date(),
+            distancia: 0.00,
+            watchID: watchID
+        })
     }
 
 
     const pausarRonda = () => {
         Geolocation.clearWatch(state.watchID);
+        clearInterval(state.interval)
+        //setRondaEmAndamento(false)
         setState({
-            ...state, rondaIniciada: false, watchID: null,
+            ...state, rondaIniciada: false,
+            interval: null,
+            watchID: null,
             iniciarRondaStyle: styles.iniciarButton,
-            iniciarRondaTitulo: INICIAR_RONDA
+            iniciarRondaTitulo: INICIAR_RONDA,
+            titulo: 'Ronda Pausada!'
         })
+
     }
 
 
@@ -166,12 +189,15 @@ export default props => {
         const ronda = {
             idVigia: idUsuario,
             localizacoes: state.coordinates,
-            inicio: state.dataInicioRonda,
+            inicio: state.inicio,
             fim: new Date()
         }
-
         criarRonda(ronda, response => {
+            Geolocation.clearWatch(state.watchID);
+            clearInterval(state.interval)
             setState(DEFAULT_STATE)
+            setRondaEmAndamento(false)
+            setTempoRonda(DEFAULT_TEMPO)
             props.navigation.navigate('homeVigia')
         })
     }
@@ -182,11 +208,11 @@ export default props => {
                 style={styles.boxIcon}
                 source={require('../../../images/check_branco_75.png')}
             />
-            <Text style={styles.titulo}>Ronda Iniciada...</Text>
+            <Text style={styles.titulo}> {state.titulo}</Text>
             <Text style={styles.textoHoras}>{tempoRonda.tempoFormatado} hs</Text>
-            <Text style={styles.textoDistancia}>12.3 km</Text>
-            <TouchableButton title={state.inicio ? PAUSAR_RONDA : INICIAR_RONDA}
-                style={styles.iniciarButton}
+            <Text style={styles.textoDistancia}>{state.distancia} km</Text>
+            <TouchableButton title={state.iniciarRondaTitulo}
+                style={state.iniciarRondaStyle}
                 styleText={{ fontSize: 20, color: 'white', }}
                 onPress={state.inicio ? pausarRonda : iniciarRonda}
             />
