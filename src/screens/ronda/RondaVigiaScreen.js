@@ -67,7 +67,9 @@ const DEFAULT_STATE = {
     iniciarRondaTitulo: INICIAR_RONDA,
     inicio: null,
     distancia: 0.00,
-    watchID: null
+    watchID: null,
+    iniciarTempo: false,
+    rondaIniciada: false
 }
 const DEFAULT_TEMPO = {
     horas: 0,
@@ -109,18 +111,15 @@ const atualizarTempo = tempoRonda => {
 export default props => {
     const { idUsuario } = useContext(AuthContext)
     const [state, setState] = useState(DEFAULT_STATE)
-    const [rondaEmAndamento, setRondaEmAndamento] = useState(false)
     const [tempoRonda, setTempoRonda] = useState(DEFAULT_TEMPO)
     const [distancia, setDistancia] = useState(0.00)
 
-    useEffect(() => {
-        if (rondaEmAndamento) {
-            const interval = setInterval(() => {
-                setTempoRonda(tempoRonda => atualizarTempo(tempoRonda))
-            }, 1000)
-            setState({ ...state, interval: interval })
-        }
-    }, [rondaEmAndamento])
+    if (state.iniciarTempo) {
+        const interval = setInterval(() => {
+            setTempoRonda(tempoRonda => atualizarTempo(tempoRonda))
+        }, 1000)
+        setState({ ...state, interval: interval, iniciarTempo: false })
+    }
 
     const atualizarDistancia = coordinates => {
         if (coordinates.length <= 1) {
@@ -135,7 +134,6 @@ export default props => {
     }
 
     const iniciarRonda = () => {
-        setRondaEmAndamento(true)
         const watchID = Geolocation.watchPosition(
             position => {
                 const currCoord = {
@@ -156,36 +154,39 @@ export default props => {
                 distanceFilter: 1
             }
         )
-
-        setState({
+        setState(state => ({
             ...state,
             iniciarRondaStyle: styles.pausarButton,
             iniciarRondaTitulo: PAUSAR_RONDA,
             titulo: 'Ronda Iniciada...',
-            inicio: new Date(),
-            distancia: 0.00,
-            watchID: watchID
-        })
+            inicio: state.inicio ? state.inicio : new Date(),
+            distancia: state.inicio ? state.distancia : 0.00,
+            watchID: watchID,
+            iniciarTempo: true,
+            rondaIniciada: true
+        }))
     }
-
+    console.info('ESTADO=' + new Date() + ' => ' + JSON.stringify(state))
 
     const pausarRonda = () => {
         Geolocation.clearWatch(state.watchID);
         clearInterval(state.interval)
-        //setRondaEmAndamento(false)
         setState({
             ...state, rondaIniciada: false,
             interval: null,
             watchID: null,
             iniciarRondaStyle: styles.iniciarButton,
             iniciarRondaTitulo: INICIAR_RONDA,
-            titulo: 'Ronda Pausada!'
+            titulo: 'Ronda Pausada!',
+            rondaIniciada: false
         })
 
     }
 
-
     const concluirRonda = () => {
+        if (!state.inicio) {
+            return
+        }
         const ronda = {
             idVigia: idUsuario,
             localizacoes: state.coordinates,
@@ -193,10 +194,13 @@ export default props => {
             fim: new Date()
         }
         criarRonda(ronda, response => {
-            Geolocation.clearWatch(state.watchID);
-            clearInterval(state.interval)
+            if (state.watchID) {
+                Geolocation.clearWatch(state.watchID)
+            }
+            if (state.interval) {
+                clearInterval(state.interval)
+            }
             setState(DEFAULT_STATE)
-            setRondaEmAndamento(false)
             setTempoRonda(DEFAULT_TEMPO)
             props.navigation.navigate('homeVigia')
         })
@@ -214,7 +218,7 @@ export default props => {
             <TouchableButton title={state.iniciarRondaTitulo}
                 style={state.iniciarRondaStyle}
                 styleText={{ fontSize: 20, color: 'white', }}
-                onPress={state.inicio ? pausarRonda : iniciarRonda}
+                onPress={state.rondaIniciada ? pausarRonda : iniciarRonda}
             />
             <TouchableButton title='Concluir Ronda' style={styles.concluirButton}
                 styleText={{ fontSize: 20 }}
