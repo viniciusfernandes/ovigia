@@ -31,21 +31,28 @@ const gerarBatchsRonda = ronda => {
     }
     return rondas
 }
-export const criarRonda = (ronda, onSuccess) => {
+export const criarRondaComBatch = (ronda, onSuccess, onError) => {
     const rondas = gerarBatchsRonda(ronda)
     const ULTIMO = rondas.length - 1
     let batchIdx = 0;
+    alert('total de rondas: ' + rondas.length)
     function criarRondasEmBatch() {
         setTimeout(() => {
-            WebClient.post(`/vigias/${ronda.idVigia}/rondas`, rondas[batchIdx], batchIdx == ULTIMO ? onSuccess : reponse => { })
+            WebClient.post(`/vigias/${ronda.idVigia}/rondas`, rondas[batchIdx],
+                batchIdx == ULTIMO ? onSuccess : reponse => { },
+                onError)
             batchIdx++;
             if (batchIdx < rondas.length) {
                 criarRondasEmBatch();
             }
-        }, 600)
+        }, 6000)
     }
 
     criarRondasEmBatch();
+}
+
+export const criarRonda = (ronda, onSuccess, onError) => {
+    WebClient.post(`/vigias/${ronda.idVigia}/rondas`, ronda, onSuccess, onError)
 }
 
 export const obterResumoRonda = (idVigia, onSuccess, onError) => {

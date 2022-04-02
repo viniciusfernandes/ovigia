@@ -6,7 +6,7 @@ import Container from '../../components/Container'
 import TouchableButton from '../../components/TouchableButton'
 import { larguraPercentual } from '../../constantes/medidas/Medidas'
 import AuthContext from '../../contexts/AuthContext'
-import { criarRonda } from '../../services/ronda/ronda.service'
+import { criarRonda, criarRondaComBatch } from '../../services/ronda/ronda.service'
 import matisse from '../../style/matisse'
 const styles = StyleSheet.create({
     botao: {
@@ -108,6 +108,16 @@ const atualizarTempo = tempoRonda => {
     return { horas: horas, minutos: minutos, segundos: segundos, tempoFormatado: tempoFormatado }
 }
 
+const gerarRonda = (idVigia, state) => {
+    return ({
+        idVigia: idVigia,
+        localizacoes: state.coordinates,
+        inicio: state.inicio,
+        fim: new Date()
+    })
+
+}
+
 export default props => {
     const { idUsuario } = useContext(AuthContext)
     const [state, setState] = useState(DEFAULT_STATE)
@@ -122,16 +132,25 @@ export default props => {
     }
 
     const atualizarDistancia = coordinates => {
-        if (coordinates.length <= 1) {
-            return
-        }
         const prevCoord = coordinates[coordinates.length - 2]
         const currCoord = coordinates[coordinates.length - 1]
-        const dist = calcularDistancia(prevCoord, currCoord)
-        if (dist >= 0) {
-            setDistancia(distancia => distancia + 10)
+        let dist = calcularDistancia(prevCoord, currCoord)
+        dist = parseFloat(distancia + dist).toFixed(2)
+        setDistancia(distancia => dist)
+
+    }
+
+    const atualizarRonda = () => {
+        if (state.coordinates.length >= 10) {
+            alert('atualizando a ronda parcialmente=' + new Date() + 'Total=' + state.coordinates.length)
+            const ronda = gerarRonda(idUsuario, state)
+            criarRonda(ronda, () => {
+                console.warn('ATUALIZOU RONDA PARCIALMENTE')
+                setState(state => ({ ...state, coordinates: [] }))
+            }, () => console.warn('Erro ao enviar as coordenadas da ronda!'))
         }
     }
+
 
     const iniciarRonda = () => {
         const watchID = Geolocation.watchPosition(
@@ -143,8 +162,13 @@ export default props => {
                     velocidade: position.coords.speed
                 }
                 state.coordinates.push(currCoord)
-                console.warn(state.coordinates.length)
+                state.coordinates.push(currCoord)
+                state.coordinates.push(currCoord)
+                state.coordinates.push(currCoord)
+                state.coordinates.push(currCoord)
+                alert('coords atual=' + state.coordinates.length)
                 atualizarDistancia(state.coordinates)
+                atualizarRonda()
             },
             error => console.log(error),
             {
@@ -166,7 +190,6 @@ export default props => {
             rondaIniciada: true
         }))
     }
-    console.info('ESTADO=' + new Date() + ' => ' + JSON.stringify(state))
 
     const pausarRonda = () => {
         Geolocation.clearWatch(state.watchID);
@@ -185,25 +208,41 @@ export default props => {
 
     const concluirRonda = () => {
         if (!state.inicio) {
+            alert('Vai retornar aqui: ' + JSON.stringify(tempoRonda))
             return
         }
-        const ronda = {
-            idVigia: idUsuario,
-            localizacoes: state.coordinates,
-            inicio: state.inicio,
-            fim: new Date()
-        }
+
+        const ronda = gerarRonda(idUsuario, state)
+
+        alert('concluindo ronda. Total coords=' + ronda.localizacoes.length)
+
         criarRonda(ronda, response => {
-            if (state.watchID) {
+            let log = 'concluiu a criacao da ronda com sucesso. Valor do whatchid=' + state.watchID
+            if (state.watchID !== null) {
+                log += ' => concluindo e limpando WATCHID'
                 Geolocation.clearWatch(state.watchID)
             }
-            if (state.interval) {
+            if (state.interval !== null) {
+                log += '=> concluindo e limpando INTERVAL'
                 clearInterval(state.interval)
             }
-            setState(DEFAULT_STATE)
+            alert(log)
+            setState({
+                coordinates: [],
+                titulo: 'Vamos Começar?',
+                iniciarRondaStyle: styles.iniciarButton,
+                iniciarRondaTitulo: INICIAR_RONDA,
+                inicio: null,
+                distancia: 0.00,
+                watchID: null,
+                iniciarTempo: false,
+                rondaIniciada: false
+            })
             setTempoRonda(DEFAULT_TEMPO)
             props.navigation.navigate('homeVigia')
-        })
+        },
+            () => console.error('Erro ao concluir a ronda. Tente novamente!'))
+
     }
 
     return (
@@ -214,7 +253,7 @@ export default props => {
             />
             <Text style={styles.titulo}> {state.titulo}</Text>
             <Text style={styles.textoHoras}>{tempoRonda.tempoFormatado} hs</Text>
-            <Text style={styles.textoDistancia}>{state.distancia} km</Text>
+            <Text style={styles.textoDistancia}>{distancia} km</Text>
             <TouchableButton title={state.iniciarRondaTitulo}
                 style={state.iniciarRondaStyle}
                 styleText={{ fontSize: 20, color: 'white', }}
