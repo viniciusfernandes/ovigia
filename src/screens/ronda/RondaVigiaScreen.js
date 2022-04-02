@@ -1,7 +1,7 @@
 
 import React, { useContext, useState, useEffect } from 'react'
 import haversine from 'haversine'
-import { StyleSheet, Text, Image } from 'react-native'
+import { StyleSheet, Text, Image, View } from 'react-native'
 import Geolocation from 'react-native-geolocation-service';
 import Container from '../../components/Container'
 import TouchableButton from '../../components/TouchableButton'
@@ -36,28 +36,44 @@ const styles = StyleSheet.create({
         fontSize: 20,
         width: '45%',
     },
-    textoBotao: {
-        color: matisse.laranja,
+    tempoFormatado: {
+        color: 'black',
+        fontSize: 40,
+        fontWeight: 'bold',
+        marginBottom: '1%'
+    },
+    textoMenor: {
+        color: 'black',
         fontSize: 20,
-        textAlign: 'center'
-    },
-    textoHoras: {
-        color: 'black',
-        fontSize: 60,
         fontWeight: 'bold',
-        marginBottom: '10%'
-    },
-    textoDistancia: {
-        color: 'black',
-        fontSize: 50,
-        fontWeight: 'bold',
-        marginBottom: '20%'
+        marginBottom: '5%'
     },
     titulo: {
         color: matisse.laranja,
         fontSize: 40,
         fontWeight: 'bold',
         marginBottom: '10%'
+    },
+    circulo: {
+        backgroundColor: matisse.laranjaClaro,
+        borderColor: matisse.laranja,
+        justifyContent: 'center',
+        borderWidth: 2,
+        borderRadius: 100,
+        alignItems: 'center',
+
+        height: 200,
+        width: 200
+    },
+    circuloMenor: {
+        backgroundColor: 'white',
+        borderColor: matisse.laranja,
+        justifyContent: 'center',
+        borderWidth: 5,
+        borderRadius: 90,
+        alignItems: 'center',
+        height: 180,
+        width: 180
     }
 })
 
@@ -78,7 +94,8 @@ const DEFAULT_TEMPO = {
     horas: 0,
     minutos: 0,
     segundos: 0,
-    tempoFormatado: '00:00:00'
+    tempoFormatado: '00:00',
+    segundosFormatado: '00'
 }
 const calcularDistancia = (prevCoord, currCoord) => {
     if (!prevCoord || !currCoord) {
@@ -106,9 +123,15 @@ const atualizarTempo = tempoRonda => {
     tempoFormatado = horas <= 9 ? '0' + horas : horas
     tempoFormatado += ':'
     tempoFormatado += minutos <= 9 ? '0' + minutos : minutos
-    tempoFormatado += ':'
-    tempoFormatado += segundos <= 9 ? '0' + segundos : segundos
-    return { horas: horas, minutos: minutos, segundos: segundos, tempoFormatado: tempoFormatado }
+
+    const segundosFormatado = segundos <= 9 ? '0' + segundos : segundos
+    return {
+        horas: horas,
+        minutos: minutos,
+        segundos: segundos,
+        tempoFormatado: tempoFormatado,
+        segundosFormatado: segundosFormatado
+    }
 }
 
 const gerarRonda = (idVigia, state) => {
@@ -148,7 +171,7 @@ export default props => {
             // alert('atualizando a ronda parcialmente=' + new Date() + 'Total=' + state.coordinates.length)
             const ronda = gerarRonda(idUsuario, state)
             criarRonda(ronda, () => {
-               // console.warn('ATUALIZOU RONDA PARCIALMENTE')
+                // console.warn('ATUALIZOU RONDA PARCIALMENTE')
                 setState(state => ({ ...state, coordinates: [] }))
             }, () => console.warn('Erro ao enviar as coordenadas da ronda!'))
         }
@@ -284,8 +307,17 @@ export default props => {
                 source={require('../../../images/check_branco_75.png')}
             />
             <Text style={styles.titulo}> {state.titulo}</Text>
-            <Text style={styles.textoHoras}>{tempoRonda.tempoFormatado} hs</Text>
-            <Text style={styles.textoDistancia}>{distancia} km</Text>
+            <View style={[styles.circulo, { marginBottom: 50 }]}>
+                <View style={styles.circuloMenor}>
+                    <Text style={[styles.textoMenor, { marginTop: 20 }]}>Tempo Ronda</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={styles.tempoFormatado}>{tempoRonda.tempoFormatado}</Text>
+                        <Text style={[styles.tempoFormatado, { fontSize: 25 }]}>: {tempoRonda.segundosFormatado}</Text>
+                    </View>
+                    <Text style={styles.textoMenor}>{distancia} km</Text>
+                </View>
+
+            </View>
             <TouchableButton title={state.iniciarRondaTitulo}
                 style={state.iniciarRondaStyle}
                 styleText={{ fontSize: 20, color: 'white', }}
