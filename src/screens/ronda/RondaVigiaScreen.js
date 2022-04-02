@@ -1,13 +1,16 @@
-import Geolocation from '@react-native-community/geolocation'
-import haversine from 'haversine'
+
 import React, { useContext, useState, useEffect } from 'react'
+import haversine from 'haversine'
 import { StyleSheet, Text, Image } from 'react-native'
+import Geolocation from 'react-native-geolocation-service';
 import Container from '../../components/Container'
 import TouchableButton from '../../components/TouchableButton'
 import { larguraPercentual } from '../../constantes/medidas/Medidas'
 import AuthContext from '../../contexts/AuthContext'
-import { criarRonda, criarRondaComBatch } from '../../services/ronda/ronda.service'
+import { criarRonda } from '../../services/ronda/ronda.service'
 import matisse from '../../style/matisse'
+import { requestMultiple, PERMISSIONS } from 'react-native-permissions';
+
 const styles = StyleSheet.create({
     botao: {
         backgroundColor: 'white',
@@ -142,17 +145,50 @@ export default props => {
 
     const atualizarRonda = () => {
         if (state.coordinates.length >= 10) {
-            alert('atualizando a ronda parcialmente=' + new Date() + 'Total=' + state.coordinates.length)
+            // alert('atualizando a ronda parcialmente=' + new Date() + 'Total=' + state.coordinates.length)
             const ronda = gerarRonda(idUsuario, state)
             criarRonda(ronda, () => {
-                console.warn('ATUALIZOU RONDA PARCIALMENTE')
+               // console.warn('ATUALIZOU RONDA PARCIALMENTE')
                 setState(state => ({ ...state, coordinates: [] }))
             }, () => console.warn('Erro ao enviar as coordenadas da ronda!'))
         }
     }
 
+    let locationPermited
+    useEffect(() => {
+        locationPermited = requestMultiple(
+            [
+                PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+                PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION
+            ]).then(
+                (statuses) => {
+                    //statuses é um vetor que contém as respostas escolhidas pelo usuário em cada uma das autorizações solicitadas.
+                    const statusFine = statuses[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION];  //pegamos a autorização que o usuário selecionou para uso do GPS e para obter localização em primeiro plano
+                    const statusBack = statuses[PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION];
+                    //pegamos a autorização que o usuário selecionou para localização em background 
+                    if (Platform.Version < 29) {
+                        //Em APIs do Android abaixo da 29 não é necessário permissão para background location, apenas solicitar acesso ao GPS já oferece tudo que é necessário para utilizar a localização em primeiro e segundo plano. Nesse caso, apenas verificamos se a autorização do GPS é positiva
+                        if (statusFine == 'granted') {
+                            return true;
+                        } else {
+                            setErrorMsg('Usuário não aceitou solicitação de uso do GPS');
+                        }
+                    }
+                    // Caso a API seja > 29, é necessário verificar se ambas as autorizações foram positivas. 
+                    if (statusFine == 'granted' && statusBack == 'granted') {
+                        return true;
+                    } else {
+                        setErrorMsg('Usuário não aceitou solicitação de uso do GPS');
+                    }
+                },
+            )
+    }, [])
+
 
     const iniciarRonda = () => {
+        if (!locationPermited) {
+            alert('Localizacao nao permitida!!!')
+        }
         const watchID = Geolocation.watchPosition(
             position => {
                 const currCoord = {
@@ -162,15 +198,11 @@ export default props => {
                     velocidade: position.coords.speed
                 }
                 state.coordinates.push(currCoord)
-                state.coordinates.push(currCoord)
-                state.coordinates.push(currCoord)
-                state.coordinates.push(currCoord)
-                state.coordinates.push(currCoord)
-                alert('coords atual=' + state.coordinates.length)
+                // alert('coords atual=' + state.coordinates.length)
                 atualizarDistancia(state.coordinates)
                 atualizarRonda()
             },
-            error => console.log(error),
+            error => console.error(error),
             {
                 enableHighAccuracy: true,
                 timeout: 20000,
@@ -208,13 +240,13 @@ export default props => {
 
     const concluirRonda = () => {
         if (!state.inicio) {
-            alert('Vai retornar aqui: ' + JSON.stringify(tempoRonda))
+            // alert('Vai retornar aqui: ' + JSON.stringify(tempoRonda))
             return
         }
 
         const ronda = gerarRonda(idUsuario, state)
 
-        alert('concluindo ronda. Total coords=' + ronda.localizacoes.length)
+        // alert('concluindo ronda. Total coords=' + ronda.localizacoes.length)
 
         criarRonda(ronda, response => {
             let log = 'concluiu a criacao da ronda com sucesso. Valor do whatchid=' + state.watchID
@@ -226,7 +258,7 @@ export default props => {
                 log += '=> concluindo e limpando INTERVAL'
                 clearInterval(state.interval)
             }
-            alert(log)
+            // alert(log)
             setState({
                 coordinates: [],
                 titulo: 'Vamos Começar?',
