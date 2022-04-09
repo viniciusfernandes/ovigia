@@ -59,9 +59,8 @@ const styles = StyleSheet.create({
         borderColor: matisse.laranja,
         justifyContent: 'center',
         borderWidth: 2,
-        borderRadius: 100,
+        borderRadius: 120,
         alignItems: 'center',
-
         height: 200,
         width: 200
     },
@@ -85,7 +84,6 @@ const DEFAULT_STATE = {
     iniciarRondaStyle: styles.iniciarButton,
     iniciarRondaTitulo: INICIAR_RONDA,
     inicio: null,
-    distancia: 0.00,
     watchID: null,
     iniciarTempo: false,
     rondaIniciada: false
@@ -148,7 +146,7 @@ export default props => {
     const { idUsuario } = useContext(AuthContext)
     const [state, setState] = useState(DEFAULT_STATE)
     const [tempoRonda, setTempoRonda] = useState(DEFAULT_TEMPO)
-    const [distancia, setDistancia] = useState(0.00)
+    const [distancia, setDistancia] = useState(11.00)
 
     if (state.iniciarTempo) {
         const interval = setInterval(() => {
@@ -161,8 +159,7 @@ export default props => {
         const prevCoord = coordinates[coordinates.length - 2]
         const currCoord = coordinates[coordinates.length - 1]
         let dist = calcularDistancia(prevCoord, currCoord)
-        dist = parseFloat(distancia + dist).toFixed(2)
-        setDistancia(distancia => dist)
+        setDistancia(distTotal => (parseFloat(distTotal) + dist).toFixed(2))
 
     }
 
@@ -179,11 +176,8 @@ export default props => {
 
     let locationPermited
     useEffect(() => {
-        locationPermited = requestMultiple(
-            [
-                PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-                PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION
-            ]).then(
+        locationPermited = requestMultiple([PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION, PERMISSIONS.ANDROID.ACCESS_BACKGROUND_LOCATION])
+            .then(
                 (statuses) => {
                     //statuses é um vetor que contém as respostas escolhidas pelo usuário em cada uma das autorizações solicitadas.
                     const statusFine = statuses[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION];  //pegamos a autorização que o usuário selecionou para uso do GPS e para obter localização em primeiro plano
@@ -205,13 +199,13 @@ export default props => {
                     }
                 },
             )
+        if (!locationPermited) {
+            alert('Localizacao nao permitida!!!')
+        }
     }, [])
 
 
     const iniciarRonda = () => {
-        if (!locationPermited) {
-            alert('Localizacao nao permitida!!!')
-        }
         const watchID = Geolocation.watchPosition(
             position => {
                 const currCoord = {
@@ -237,10 +231,9 @@ export default props => {
             ...state,
             iniciarRondaStyle: styles.pausarButton,
             iniciarRondaTitulo: PAUSAR_RONDA,
-            titulo: 'Ronda Iniciada...',
+            titulo: 'Ronda Iniciada',
             inicio: state.inicio ? state.inicio : new Date(),
-            distancia: state.inicio ? state.distancia : 0.00,
-            watchID: watchID,
+            // watchID: watchID,
             iniciarTempo: true,
             rondaIniciada: true
         }))
@@ -288,12 +281,12 @@ export default props => {
                 iniciarRondaStyle: styles.iniciarButton,
                 iniciarRondaTitulo: INICIAR_RONDA,
                 inicio: null,
-                distancia: 0.00,
                 watchID: null,
                 iniciarTempo: false,
                 rondaIniciada: false
             })
             setTempoRonda(DEFAULT_TEMPO)
+            setDistancia(0.00)
             props.navigation.navigate('homeVigia')
         },
             () => console.error('Erro ao concluir a ronda. Tente novamente!'))
